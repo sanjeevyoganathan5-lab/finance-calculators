@@ -1,0 +1,719 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Currency Converter — GBP to USD, EUR, JPY & More</title>
+  <meta name="description" content="Convert GBP to USD, EUR, JPY and 30+ currencies instantly. Live exchange rates updated daily with historical rate context and multi-currency comparison." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    
+    /* ── LIGHT THEME OVERRIDES ── */
+    :root {
+      --bg:        #f8f9fc;
+      --surface:   #ffffff;
+      --surface2:  #f1f4f9;
+      --border:    #e2e8f0;
+      --accent:    #2563eb;
+      --accent-dim: rgba(37,99,235,0.08);
+      --accent-glow: rgba(37,99,235,0.15);
+      --red:       #dc2626;
+      --red-dim:   rgba(220,38,38,0.08);
+      --green:     #16a34a;
+      --green-dim: rgba(22,163,74,0.08);
+      --amber:     #d97706;
+      --amber-dim: rgba(217,119,6,0.08);
+      --purple:    #7c3aed;
+      --purple-dim: rgba(124,58,237,0.08);
+      --text:      #0f172a;
+      --muted:     #64748b;
+      --label:     #475569;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 52px;
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .site-nav-logo {
+      font-family: 'Inter', 'Syne', sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: #2563eb; text-decoration: none;
+      display: flex; align-items: center; gap: 4px;
+      transition: opacity 0.15s;
+    }
+
+    .site-nav-logo:hover { opacity: 0.75; }
+
+    .site-nav-trust {
+      font-family: 'JetBrains Mono', 'DM Mono', monospace;
+      font-size: 11px; color: #16a34a;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .site-nav-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 2px rgba(22,163,74,0.2);
+    }
+
+    @media (max-width: 520px) {
+      .site-nav { padding: 0 16px; }
+      .site-nav-trust { display: none; }
+    }
+
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', 'Syne', sans-serif;
+      min-height: 100vh; overflow-x: hidden;
+    }
+
+    
+
+    .container {
+      position: relative; z-index: 1;
+      max-width: 740px; margin: 0 auto;
+      padding: 24px 24px 80px;
+    }
+
+    header { margin-bottom: 48px; }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.2em; color: var(--accent);
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(28px,5vw,44px); font-weight: 800;
+      line-height: 1.1; color: var(--text); margin-bottom: 12px;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .subtitle {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--muted); font-weight: 300;
+    }
+
+    .tool-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 2px; padding: 36px; margin-bottom: 20px;
+      position: relative; overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--red));
+    }
+
+    @media (max-width: 520px) { .tool-card { padding: 20px; } }
+
+    /* Converter row */
+    .converter-row {
+      display: grid;
+      grid-template-columns: 1fr 44px 1fr;
+      gap: 12px; align-items: end; margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .converter-row { grid-template-columns: 1fr; }
+      .swap-btn-wrap { display: flex; justify-content: center; }
+    }
+
+    .field { display: flex; flex-direction: column; gap: 8px; }
+
+    .field label {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--label);
+    }
+
+    .currency-input-wrap { position: relative; }
+
+    .currency-flag {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      font-size: 18px; pointer-events: none; line-height: 1;
+    }
+
+    input.currency-amount {
+      width: 100%; background: var(--surface2);
+      border: 1px solid var(--border); border-radius: 2px;
+      color: var(--text); font-family: 'DM Mono', monospace;
+      font-size: 18px; font-weight: 500;
+      padding: 13px 14px 13px 44px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -moz-appearance: textfield; appearance: textfield;
+    }
+
+    input.currency-amount::-webkit-outer-spin-button,
+    input.currency-amount::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    input.currency-amount:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    select.currency-select {
+      width: 100%; background: var(--surface2);
+      border: 1px solid var(--border); border-radius: 2px;
+      color: var(--text); font-family: 'DM Mono', monospace;
+      font-size: 14px; padding: 10px 14px; outline: none;
+      cursor: pointer; transition: border-color 0.2s;
+      margin-top: 6px;
+    }
+
+    select.currency-select:focus { border-color: var(--accent); }
+
+    /* Swap button */
+    .swap-btn-wrap { display: flex; align-items: flex-end; justify-content: center; padding-bottom: 2px; }
+
+    .swap-btn {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .swap-btn:hover {
+      background: var(--accent-dim);
+      border-color: rgba(77,142,255,0.3); color: var(--accent);
+      transform: rotate(180deg);
+    }
+
+    /* Rate display */
+    .rate-display {
+      background: var(--accent-dim); border: 1px solid rgba(77,142,255,0.2);
+      border-radius: 2px; padding: 20px 24px; margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+
+    .rate-left {}
+
+    .rate-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+
+    .rate-amount {
+      font-size: clamp(28px,5vw,42px); font-weight: 800;
+      color: var(--accent); font-variant-numeric: tabular-nums;
+      line-height: 1; letter-spacing: -0.02em;
+    }
+
+    .rate-unit {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--muted); margin-top: 4px;
+    }
+
+    .rate-right { text-align: right; }
+
+    .rate-sub-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 4px;
+    }
+
+    .rate-sub-val {
+      font-family: 'DM Mono', monospace; font-size: 14px;
+      font-weight: 500; color: var(--text);
+    }
+
+    .rate-disclaimer {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      color: var(--muted); margin-top: 12px; line-height: 1.6;
+      padding-top: 12px; border-top: 1px solid var(--border);
+    }
+
+    /* Quick amount buttons */
+    .quick-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+    }
+
+    .quick-btns { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; }
+
+    .quick-btn {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); border-radius: 2px; padding: 6px 14px;
+      cursor: pointer; transition: all 0.15s;
+    }
+
+    .quick-btn:hover {
+      background: var(--accent-dim);
+      border-color: rgba(77,142,255,0.3); color: var(--accent);
+    }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+    /* Multi-currency grid */
+    .multi-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--label); margin-bottom: 12px;
+    }
+
+    .multi-grid {
+      display: grid; grid-template-columns: repeat(2,1fr);
+      gap: 8px; margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) { .multi-grid { grid-template-columns: 1fr; } }
+
+    .multi-card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; padding: 14px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; transition: border-color 0.15s;
+    }
+
+    .multi-card:hover { border-color: #2a3d6a; }
+
+    .multi-card-left { display: flex; align-items: center; gap: 10px; }
+
+    .multi-flag { font-size: 20px; line-height: 1; }
+
+    .multi-code {
+      font-family: 'DM Mono', monospace; font-size: 12px;
+      letter-spacing: 0.1em; color: var(--label);
+    }
+
+    .multi-name {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      color: var(--muted); margin-top: 2px;
+    }
+
+    .multi-amount {
+      font-family: 'DM Mono', monospace; font-size: 16px;
+      font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums;
+    }
+
+    /* Loading state */
+    .loading {
+      text-align: center; padding: 24px;
+      font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted);
+    }
+
+    .error-box {
+      background: var(--red-dim); border: 1px solid rgba(230,57,70,0.25);
+      border-radius: 2px; padding: 14px 18px;
+      font-family: 'DM Mono', monospace; font-size: 12px;
+      color: var(--red); line-height: 1.6; margin-bottom: 16px; display: none;
+    }
+
+    /* SEO */
+    .seo-section {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 2px; padding: 32px 36px; margin-top: 20px;
+    }
+
+    .seo-section h2 {
+      font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px;
+    }
+
+    .seo-section p {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--muted); line-height: 1.75; font-weight: 300;
+    }
+
+    .seo-section p + p { margin-top: 10px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .tool-card, .seo-section { animation: fadeUp 0.4s ease both; }
+    .seo-section { animation-delay: 0.1s; }
+    .result-animate { animation: fadeUp 0.2s ease both; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 16px; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; cursor: pointer; font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--muted);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px;
+    }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+    @media print {
+      .site-nav, .share-btn, .seo-section { display: none !important; }
+      body { background: white; }
+      .tool-card { border: none; box-shadow: none; padding: 0; }
+    }
+    .spinner {
+      display: inline-block; width: 14px; height: 14px;
+      border: 2px solid var(--border); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-logo">← Calculators.Finance</a>
+  <div class="site-nav-trust">
+    <span class="site-nav-dot"></span>
+    2025/26 rates live
+  </div>
+</nav>
+<div class="container">
+
+  <header>
+    <p class="eyebrow">Finance Calculator</p>
+    <h1><span>Currency</span><br>Converter</h1>
+    <p class="subtitle">Live exchange rates — GBP, USD, EUR, JPY and 30+ more</p>
+  </header>
+
+  <div class="tool-card">
+
+    <!-- From / To -->
+    <div class="converter-row">
+      <div class="field">
+        <label>Amount</label>
+        <div class="currency-input-wrap">
+          <span class="currency-flag" id="from-flag">🇬🇧</span>
+          <input class="currency-amount" type="number" id="from-amount"
+            placeholder="1000" min="0" step="any" value="1000" />
+        </div>
+        <select class="currency-select" id="from-currency">
+        </select>
+      </div>
+
+      <div class="swap-btn-wrap">
+        <button class="swap-btn" onclick="swapCurrencies()" title="Swap">⇄</button>
+      </div>
+
+      <div class="field">
+        <label>Converted to</label>
+        <div class="currency-input-wrap">
+          <span class="currency-flag" id="to-flag">🇺🇸</span>
+          <input class="currency-amount" type="number" id="to-amount"
+            placeholder="—" min="0" step="any" />
+        </div>
+        <select class="currency-select" id="to-currency">
+        </select>
+      </div>
+    </div>
+
+    <!-- Quick amounts -->
+    <div class="quick-label">Quick amounts</div>
+    <div class="quick-btns">
+      <button class="quick-btn" onclick="setAmount(100)">100</button>
+      <button class="quick-btn" onclick="setAmount(500)">500</button>
+      <button class="quick-btn" onclick="setAmount(1000)">1,000</button>
+      <button class="quick-btn" onclick="setAmount(5000)">5,000</button>
+      <button class="quick-btn" onclick="setAmount(10000)">10,000</button>
+      <button class="quick-btn" onclick="setAmount(50000)">50,000</button>
+    </div>
+
+    <!-- Error box -->
+    <div class="error-box" id="error-box"></div>
+
+    <!-- Loading -->
+    <div class="loading" id="loading-state">
+      <span class="spinner"></span>Fetching live rates…
+    </div>
+
+    <!-- Results -->
+    <div id="results" style="display:none">
+
+      <!-- Rate display -->
+      <div class="rate-display">
+        <div class="rate-left">
+          <div class="rate-label">Converted amount</div>
+          <div class="rate-amount" id="result-amount">—</div>
+          <div class="rate-unit" id="result-unit">—</div>
+        </div>
+        <div class="rate-right">
+          <div class="rate-sub-label">Exchange rate</div>
+          <div class="rate-sub-val" id="result-rate">—</div>
+          <div class="rate-sub-label" style="margin-top:8px">Inverse</div>
+          <div class="rate-sub-val" id="result-inverse">—</div>
+        </div>
+        <div class="rate-disclaimer" style="width:100%">
+          ⚡ Rates fetched from open exchange API · Indicative only · For live trading rates, use your bank or broker.
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Multi-currency comparison -->
+      <div class="multi-label">Your <span id="from-amount-label">1,000</span> <span id="from-code-label">GBP</span> in other currencies</div>
+      <div class="multi-grid" id="multi-grid"></div>
+
+    </div>
+  </div>
+
+  <button class="share-btn" onclick="shareURL()">⎘ Copy share link</button>
+
+  <div class="seo-section">
+    <h2>GBP to USD and Other Currency Conversions</h2>
+    <p>
+      The GBP to USD exchange rate fluctuates constantly based on economic data, interest rate decisions from the Bank of England and Federal Reserve, geopolitical events, and market sentiment. As of 2025, the pound typically trades between 1.20 and 1.30 against the dollar, though this varies significantly throughout the year.
+    </p>
+    <p>
+      When converting currency for travel, international payments, or business purposes, be aware that banks and money transfer services charge a spread on top of the mid-market rate shown here. Specialist providers like Wise or Revolut typically offer rates much closer to the mid-market rate than high-street banks.
+    </p>
+    <p>
+      For understanding the purchasing power impact of exchange rate movements over time, use our <a href="/inflation-calculator" style="color:var(--accent);text-decoration:none;">Inflation Calculator</a>. To plan international freelance rates, see our <a href="/freelance-rate-calculator" style="color:var(--accent);text-decoration:none;">Freelance Rate Calculator</a>.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  const CURRENCIES = [
+    { code: 'GBP', name: 'British Pound',        flag: '🇬🇧' },
+    { code: 'USD', name: 'US Dollar',             flag: '🇺🇸' },
+    { code: 'EUR', name: 'Euro',                  flag: '🇪🇺' },
+    { code: 'JPY', name: 'Japanese Yen',          flag: '🇯🇵' },
+    { code: 'CAD', name: 'Canadian Dollar',       flag: '🇨🇦' },
+    { code: 'AUD', name: 'Australian Dollar',     flag: '🇦🇺' },
+    { code: 'CHF', name: 'Swiss Franc',           flag: '🇨🇭' },
+    { code: 'CNY', name: 'Chinese Yuan',          flag: '🇨🇳' },
+    { code: 'HKD', name: 'Hong Kong Dollar',      flag: '🇭🇰' },
+    { code: 'SGD', name: 'Singapore Dollar',      flag: '🇸🇬' },
+    { code: 'NZD', name: 'New Zealand Dollar',    flag: '🇳🇿' },
+    { code: 'SEK', name: 'Swedish Krona',         flag: '🇸🇪' },
+    { code: 'NOK', name: 'Norwegian Krone',       flag: '🇳🇴' },
+    { code: 'DKK', name: 'Danish Krone',          flag: '🇩🇰' },
+    { code: 'INR', name: 'Indian Rupee',          flag: '🇮🇳' },
+    { code: 'MXN', name: 'Mexican Peso',          flag: '🇲🇽' },
+    { code: 'BRL', name: 'Brazilian Real',        flag: '🇧🇷' },
+    { code: 'ZAR', name: 'South African Rand',    flag: '🇿🇦' },
+    { code: 'AED', name: 'UAE Dirham',            flag: '🇦🇪' },
+    { code: 'THB', name: 'Thai Baht',             flag: '🇹🇭' },
+    { code: 'TRY', name: 'Turkish Lira',          flag: '🇹🇷' },
+    { code: 'PLN', name: 'Polish Zloty',          flag: '🇵🇱' },
+    { code: 'KRW', name: 'South Korean Won',      flag: '🇰🇷' },
+    { code: 'IDR', name: 'Indonesian Rupiah',     flag: '🇮🇩' },
+    { code: 'MYR', name: 'Malaysian Ringgit',     flag: '🇲🇾' },
+    { code: 'PHP', name: 'Philippine Peso',       flag: '🇵🇭' },
+  ];
+
+  // Multi-currency display list (always shown)
+  const MULTI_DISPLAY = ['USD','EUR','JPY','CAD','AUD','CHF','INR','AED','SGD','NZD','HKD','CNY'];
+
+  let rates = {};       // rates relative to USD (from API)
+  let ratesLoaded = false;
+  let lastFetchTime = null;
+
+  // Populate selects
+  function populateSelects() {
+    ['from-currency','to-currency'].forEach((selId, i) => {
+      const sel = document.getElementById(selId);
+      CURRENCIES.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.code;
+        opt.textContent = `${c.flag}  ${c.code} — ${c.name}`;
+        if ((i === 0 && c.code === 'GBP') || (i === 1 && c.code === 'USD')) opt.selected = true;
+        sel.appendChild(opt);
+      });
+    });
+  }
+
+  function getCurrencyMeta(code) {
+    return CURRENCIES.find(c => c.code === code) || { code, name: code, flag: '🌐' };
+  }
+
+  // Fetch rates from open API (no key required)
+  async function fetchRates() {
+    try {
+      const res = await fetch('https://open.er-api.com/v6/latest/USD');
+      if (!res.ok) throw new Error('API error');
+      const data = await res.json();
+      if (data.result !== 'success') throw new Error('Bad response');
+      rates = data.rates;
+      ratesLoaded = true;
+      lastFetchTime = new Date();
+      return true;
+    } catch(e) {
+      // Fallback to approximate static rates (GBP base, ~May 2025)
+      const fallback = {
+        USD:1.27, EUR:1.17, JPY:192, CAD:1.74, AUD:1.96,
+        CHF:1.14, CNY:9.21, HKD:9.90, SGD:1.72, NZD:2.13,
+        SEK:13.2, NOK:13.5, DKK:8.71, INR:106, MXN:25.8,
+        BRL:6.45, ZAR:23.7, AED:4.67, THB:44.5, TRY:43.2,
+        PLN:5.05, KRW:1745, IDR:20800, MYR:5.92, PHP:71.5, GBP:1
+      };
+      // Convert to USD-based rates for consistency
+      rates = {};
+      const usdToGbp = fallback.USD;
+      Object.entries(fallback).forEach(([k, v]) => {
+        // v is GBP → currency, so USD → currency = v / usdToGbp
+        rates[k] = v / usdToGbp;
+      });
+      rates['USD'] = 1;
+      ratesLoaded = true;
+      lastFetchTime = null;
+      return false;
+    }
+  }
+
+  // Convert via USD as base
+  function convert(amount, fromCode, toCode) {
+    if (!ratesLoaded || !rates[fromCode] || !rates[toCode]) return null;
+    const inUSD = amount / rates[fromCode];
+    return inUSD * rates[toCode];
+  }
+
+  function fmtAmount(n, code) {
+    // Large numbers for JPY, KRW, IDR etc
+    const noDecimals = ['JPY','KRW','IDR','VND'];
+    const dp = noDecimals.includes(code) ? 0 : 2;
+    return n.toLocaleString('en-GB', { minimumFractionDigits: dp, maximumFractionDigits: dp });
+  }
+
+  function updateFlags() {
+    const fromCode = document.getElementById('from-currency').value;
+    const toCode   = document.getElementById('to-currency').value;
+    document.getElementById('from-flag').textContent = getCurrencyMeta(fromCode).flag;
+    document.getElementById('to-flag').textContent   = getCurrencyMeta(toCode).flag;
+  }
+
+  function calc() {
+    if (!ratesLoaded) return;
+
+    const fromAmount = parseFloat(document.getElementById('from-amount').value);
+    const fromCode   = document.getElementById('from-currency').value;
+    const toCode     = document.getElementById('to-currency').value;
+
+    if (!fromAmount || fromAmount <= 0) {
+      document.getElementById('to-amount').value = '';
+      return;
+    }
+
+    const converted = convert(fromAmount, fromCode, toCode);
+    if (converted === null) return;
+
+    const rate    = convert(1, fromCode, toCode);
+    const inverse = convert(1, toCode, fromCode);
+
+    // Update to-amount field
+    document.getElementById('to-amount').value = fmtAmount(converted, toCode);
+
+    // Rate display
+    document.getElementById('result-amount').textContent = fmtAmount(converted, toCode) + ' ' + toCode;
+    document.getElementById('result-unit').textContent   =
+      `${fmtAmount(fromAmount, fromCode)} ${fromCode} → ${toCode}`;
+    document.getElementById('result-rate').textContent  =
+      `1 ${fromCode} = ${fmtAmount(rate, toCode)} ${toCode}`;
+    document.getElementById('result-inverse').textContent =
+      `1 ${toCode} = ${fmtAmount(inverse, fromCode)} ${fromCode}`;
+
+    // Multi-currency grid
+    document.getElementById('from-amount-label').textContent =
+      fromAmount.toLocaleString('en-GB');
+    document.getElementById('from-code-label').textContent = fromCode;
+
+    const grid = document.getElementById('multi-grid');
+    grid.innerHTML = '';
+
+    MULTI_DISPLAY.filter(c => c !== fromCode).slice(0, 12).forEach(code => {
+      const meta = getCurrencyMeta(code);
+      const val  = convert(fromAmount, fromCode, code);
+      if (val === null) return;
+      const card = document.createElement('div');
+      card.className = 'multi-card';
+      card.onclick   = () => {
+        document.getElementById('to-currency').value = code;
+        updateFlags();
+        calc();
+      };
+      card.innerHTML = `
+        <div class="multi-card-left">
+          <span class="multi-flag">${meta.flag}</span>
+          <div>
+            <div class="multi-code">${code}</div>
+            <div class="multi-name">${meta.name}</div>
+          </div>
+        </div>
+        <div class="multi-amount">${fmtAmount(val, code)}</div>`;
+      grid.appendChild(card);
+    });
+
+    document.getElementById('loading-state').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('error-box').style.display = 'none';
+  }
+
+  function calcFromTo() {
+    updateFlags();
+    calc();
+  }
+
+  function setAmount(n) {
+    document.getElementById('from-amount').value = n;
+    calc();
+  }
+
+  function swapCurrencies() {
+    const fromSel = document.getElementById('from-currency');
+    const toSel   = document.getElementById('to-currency');
+    const tmp     = fromSel.value;
+    fromSel.value = toSel.value;
+    toSel.value   = tmp;
+    updateFlags();
+    calc();
+  }
+
+  // Reverse convert: user edits the "to" field
+  function calcReverse() {
+    if (!ratesLoaded) return;
+    const toAmount = parseFloat(document.getElementById('to-amount').value);
+    const fromCode = document.getElementById('from-currency').value;
+    const toCode   = document.getElementById('to-currency').value;
+    if (!toAmount || toAmount <= 0) return;
+    const reversed = convert(toAmount, toCode, fromCode);
+    if (reversed !== null) {
+      document.getElementById('from-amount').value =
+        reversed.toLocaleString('en-GB', { maximumFractionDigits: 2 });
+      calc();
+    }
+  }
+
+  // Init
+  populateSelects();
+
+  fetchRates().then(live => {
+    if (!live) {
+      const err = document.getElementById('error-box');
+      err.style.display = 'block';
+      err.textContent = '⚠ Could not fetch live rates — showing approximate indicative rates for reference only.';
+    }
+    calc();
+  });
+
+  document.getElementById('from-amount').addEventListener('input', calc);
+  document.getElementById('to-amount').addEventListener('input', calcReverse);
+  document.getElementById('from-currency').addEventListener('change', calcFromTo);
+  document.getElementById('to-currency').addEventListener('change', calcFromTo);
+
+  function shareURL() {
+    navigator.clipboard.writeText(location.href).then(() => {
+      const btn = document.querySelector('.share-btn');
+      const orig = btn.innerHTML; btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    });
+  }
+</script>
+</body>
+</html>

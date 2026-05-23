@@ -1,0 +1,1024 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rent vs Buy Calculator UK — Is It Cheaper to Rent or Buy?</title>
+  <meta name="description" content="Calculate whether it's cheaper to rent or buy a home in the UK. Compare the true 5, 10 and 20-year cost of renting versus buying including all fees, maintenance and equity." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    
+    /* ── LIGHT THEME OVERRIDES ── */
+    :root {
+      --bg:        #f8f9fc;
+      --surface:   #ffffff;
+      --surface2:  #f1f4f9;
+      --border:    #e2e8f0;
+      --accent:    #2563eb;
+      --accent-dim: rgba(37,99,235,0.08);
+      --accent-glow: rgba(37,99,235,0.15);
+      --red:       #dc2626;
+      --red-dim:   rgba(220,38,38,0.08);
+      --green:     #16a34a;
+      --green-dim: rgba(22,163,74,0.08);
+      --amber:     #d97706;
+      --amber-dim: rgba(217,119,6,0.08);
+      --purple:    #7c3aed;
+      --purple-dim: rgba(124,58,237,0.08);
+      --text:      #0f172a;
+      --muted:     #64748b;
+      --label:     #475569;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 52px;
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .site-nav-logo {
+      font-family: 'Inter', 'Syne', sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: #2563eb; text-decoration: none;
+      display: flex; align-items: center; gap: 4px;
+      transition: opacity 0.15s;
+    }
+
+    .site-nav-logo:hover { opacity: 0.75; }
+
+    .site-nav-trust {
+      font-family: 'JetBrains Mono', 'DM Mono', monospace;
+      font-size: 11px; color: #16a34a;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .site-nav-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 2px rgba(22,163,74,0.2);
+    }
+
+    @media (max-width: 520px) {
+      .site-nav { padding: 0 16px; }
+      .site-nav-trust { display: none; }
+    }
+
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 24px 24px 80px;
+    }
+
+    header { margin-bottom: 48px; }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 36px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--red));
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--label);
+      margin-bottom: 14px;
+    }
+
+    /* Two-column input layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 560px) {
+      .two-col { grid-template-columns: 1fr; }
+      .tool-card { padding: 24px; }
+    }
+
+    .col-block {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .col-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      border-radius: 2px 2px 0 0;
+    }
+
+    .col-block.rent-col::before  { background: var(--red); }
+    .col-block.buy-col::before   { background: var(--accent); }
+
+    .col-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      font-weight: 500;
+    }
+
+    .col-title.rent { color: var(--red); }
+    .col-title.buy  { color: var(--accent); }
+
+    .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+    .field:last-child { margin-bottom: 0; }
+
+    .field label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--label);
+    }
+
+    .input-wrap { position: relative; }
+
+    .input-prefix {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--accent);
+      font-weight: 500;
+      pointer-events: none;
+    }
+
+    .input-suffix {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      font-weight: 400;
+      padding: 10px 12px 10px 28px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    /* Shared assumptions */
+    .assumptions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 520px) { .assumptions-grid { grid-template-columns: 1fr 1fr; } }
+
+    .assumption-field { display: flex; flex-direction: column; gap: 7px; }
+
+    .assumption-field label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--label);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 28px 0;
+    }
+
+    /* Period tabs */
+    .period-tabs { display: flex; gap: 6px; margin-bottom: 20px; }
+
+    .period-tab {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 2px;
+      padding: 7px 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex: 1;
+      text-align: center;
+    }
+
+    .period-tab.active {
+      background: var(--accent-dim);
+      border-color: rgba(77,142,255,0.3);
+      color: var(--accent);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 0;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+    }
+
+    /* Verdict banner */
+    .verdict {
+      border-radius: 2px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .verdict.rent-wins {
+      background: var(--red-dim);
+      border: 1px solid rgba(230,57,70,0.25);
+    }
+
+    .verdict.buy-wins {
+      background: var(--green-dim);
+      border: 1px solid rgba(78,203,113,0.25);
+    }
+
+    .verdict.neutral {
+      background: var(--accent-dim);
+      border: 1px solid rgba(77,142,255,0.2);
+    }
+
+    .verdict-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .verdict-text {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .verdict-text.rent { color: var(--red); }
+    .verdict-text.buy  { color: var(--green); }
+    .verdict-text.tie  { color: var(--accent); }
+
+    .verdict-saving {
+      text-align: right;
+    }
+
+    .verdict-saving-amount {
+      font-size: 28px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .verdict-saving-amount.green { color: var(--green); }
+    .verdict-saving-amount.red   { color: var(--red); }
+
+    .verdict-saving-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Side-by-side cost breakdown */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 480px) { .compare-grid { grid-template-columns: 1fr; } }
+
+    .compare-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 18px 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .compare-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+
+    .compare-card.rent-card::before { background: var(--red); }
+    .compare-card.buy-card::before  { background: var(--green); }
+
+    .compare-card-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .compare-card.rent-card .compare-card-title { color: var(--red); }
+    .compare-card.buy-card  .compare-card-title { color: var(--green); }
+
+    .compare-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(30,45,80,0.6);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+    }
+
+    .compare-row:last-child { border-bottom: none; font-weight: 600; }
+
+    .compare-row-label { color: var(--muted); }
+    .compare-row-val   { color: var(--text); font-variant-numeric: tabular-nums; }
+    .compare-row-val.green { color: var(--green); }
+    .compare-row-val.red   { color: var(--red); }
+
+    /* Crossover chart */
+    .chart-section { margin-top: 4px; }
+
+    .chart-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--label);
+      margin-bottom: 12px;
+    }
+
+    .chart-canvas-wrap {
+      position: relative;
+      height: 140px;
+      width: 100%;
+    }
+
+    canvas { width: 100%; height: 100%; display: block; }
+
+    /* SEO */
+    .seo-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 32px 36px;
+      margin-top: 20px;
+    }
+
+    .seo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .seo-section p {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    .seo-section p + p { margin-top: 10px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .tool-card, .seo-section { animation: fadeUp 0.4s ease both; }
+    .seo-section { animation-delay: 0.1s; }
+    .result-animate { animation: fadeUp 0.2s ease both; }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 16px; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; cursor: pointer; font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--muted);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px;
+    }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+    @media print {
+      .site-nav, .share-btn, .seo-section { display: none !important; }
+      body { background: white; }
+      .tool-card { border: none; box-shadow: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-logo">← Calculators.Finance</a>
+  <div class="site-nav-trust">
+    <span class="site-nav-dot"></span>
+    2025/26 rates live
+  </div>
+</nav>
+<div class="container">
+
+  <header>
+    <p class="eyebrow">Finance Calculator · UK</p>
+    <h1>Rent vs <span>Buy</span><br>Calculator</h1>
+    <p class="subtitle">True 5, 10 and 20-year cost comparison — including equity, fees and house price growth</p>
+  </header>
+
+  <div class="tool-card">
+
+    <!-- Rent vs Buy inputs side by side -->
+    <div class="two-col">
+      <div class="col-block rent-col">
+        <div class="col-title rent">Renting</div>
+        <div class="field">
+          <label for="monthly-rent">Monthly Rent</label>
+          <div class="input-wrap">
+            <span class="input-prefix">£</span>
+            <input type="number" inputmode="decimal" id="monthly-rent" placeholder="1400" min="0" step="50" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="rent-rise">Annual Rent Increase</label>
+          <div class="input-wrap">
+            <input type="number" inputmode="decimal" id="rent-rise" placeholder="3" min="0" max="20" step="0.5"
+              style="padding-left:12px;padding-right:28px" />
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="renters-insurance">Renters Insurance / mo</label>
+          <div class="input-wrap">
+            <span class="input-prefix">£</span>
+            <input type="number" inputmode="decimal" id="renters-insurance" placeholder="15" min="0" step="5" />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-block buy-col">
+        <div class="col-title buy">Buying</div>
+        <div class="field">
+          <label for="property-price">Property Price</label>
+          <div class="input-wrap">
+            <span class="input-prefix">£</span>
+            <input type="number" inputmode="decimal" id="property-price" placeholder="350000" min="0" step="5000" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="buy-deposit">Deposit</label>
+          <div class="input-wrap">
+            <span class="input-prefix">£</span>
+            <input type="number" inputmode="decimal" id="buy-deposit" placeholder="35000" min="0" step="1000" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="buy-rate">Mortgage Rate</label>
+          <div class="input-wrap">
+            <input type="number" inputmode="decimal" id="buy-rate" placeholder="4.5" min="0" max="20" step="0.1"
+              style="padding-left:12px;padding-right:28px" />
+            <span class="input-suffix">%</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="buy-term">Mortgage Term (yrs)</label>
+          <div class="input-wrap">
+            <input type="number" inputmode="decimal" id="buy-term" placeholder="25" min="5" max="40" step="1"
+              style="padding-left:12px" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shared assumptions -->
+    <div class="section-label">Assumptions</div>
+    <div class="assumptions-grid">
+      <div class="assumption-field">
+        <label for="house-growth">House Price Growth /yr</label>
+        <div class="input-wrap" style="position:relative">
+          <input type="number" inputmode="decimal" id="house-growth" placeholder="3" min="-5" max="15" step="0.5"
+            style="padding-left:12px;padding-right:28px;background:var(--surface2);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;padding-top:10px;padding-bottom:10px;width:100%;outline:none;-moz-appearance:textfield;appearance:textfield" />
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+      <div class="assumption-field">
+        <label for="maintenance">Maintenance /yr (% of value)</label>
+        <div class="input-wrap" style="position:relative">
+          <input type="number" inputmode="decimal" id="maintenance" placeholder="1" min="0" max="5" step="0.25"
+            style="padding-left:12px;padding-right:28px;background:var(--surface2);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;padding-top:10px;padding-bottom:10px;width:100%;outline:none;-moz-appearance:textfield;appearance:textfield" />
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+      <div class="assumption-field">
+        <label for="investment-return">Alt. Investment Return /yr</label>
+        <div class="input-wrap" style="position:relative">
+          <input type="number" inputmode="decimal" id="investment-return" placeholder="5" min="0" max="20" step="0.5"
+            style="padding-left:12px;padding-right:28px;background:var(--surface2);border:1px solid var(--border);border-radius:2px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;padding-top:10px;padding-bottom:10px;width:100%;outline:none;-moz-appearance:textfield;appearance:textfield" />
+          <span class="input-suffix">%</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Period selector -->
+    <div class="period-tabs">
+      <button class="period-tab" onclick="setYears(5)">5 years</button>
+      <button class="period-tab active" onclick="setYears(10)">10 years</button>
+      <button class="period-tab" onclick="setYears(20)">20 years</button>
+    </div>
+
+    <div class="empty-state" id="empty-state">Enter your rent and property details above →</div>
+
+    <div id="results" style="display:none">
+
+      <!-- Verdict -->
+      <div class="verdict" id="verdict">
+        <div>
+          <div class="verdict-label">After <span id="verdict-years">10</span> years</div>
+          <div class="verdict-text" id="verdict-text">—</div>
+        </div>
+        <div class="verdict-saving">
+          <div class="verdict-saving-amount" id="verdict-amount">—</div>
+          <div class="verdict-saving-label" id="verdict-label">cheaper overall</div>
+        </div>
+      </div>
+
+      <!-- Side by side -->
+      <div class="compare-grid">
+        <div class="compare-card rent-card">
+          <div class="compare-card-title">Renting costs</div>
+          <div class="compare-row">
+            <span class="compare-row-label">Total rent paid</span>
+            <span class="compare-row-val red" id="r-rent">—</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-row-label">Insurance</span>
+            <span class="compare-row-val" id="r-insurance">—</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-row-label">Deposit invested</span>
+            <span class="compare-row-val green" id="r-invested">—</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-row-label">Net cost</span>
+            <span class="compare-row-val red" id="r-net">—</span>
+          </div>
+        </div>
+
+        <div class="compare-card buy-card">
+          <div class="compare-card-title">Buying costs</div>
+          <div class="compare-row">
+            <span class="compare-row-label">Mortgage paid</span>
+            <span class="compare-row-val" id="b-mortgage">—</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-row-label">Upfront costs</span>
+            <span class="compare-row-val red" id="b-upfront">—</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-row-label">Maintenance</span>
+            <span class="compare-row-val red" id="b-maintenance">—</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-row-label">Equity gained</span>
+            <span class="compare-row-val green" id="b-equity">—</span>
+          </div>
+          <div class="compare-row">
+            <span class="compare-row-label">Net cost</span>
+            <span class="compare-row-val" id="b-net">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cumulative cost chart -->
+      <div class="chart-section">
+        <div class="chart-label">Cumulative net cost over time</div>
+        <div class="chart-canvas-wrap">
+          <canvas id="rvb-chart"></canvas>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:8px">
+          <div style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block"></span>Renting
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block"></span>Buying
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <button class="share-btn" onclick="shareURL()">⎘ Copy share link</button>
+
+  <div class="seo-section">
+    <h2>Is It Cheaper to Rent or Buy in the UK?</h2>
+    <p>
+      The rent vs buy decision depends on more than just comparing your monthly rent to a mortgage payment. Buying involves upfront costs (stamp duty, solicitor fees, survey), ongoing maintenance (typically 1% of property value per year), and the opportunity cost of tying up your deposit. Renting keeps your capital free to invest elsewhere, but you build no equity and face annual rent increases.
+    </p>
+    <p>
+      Over short periods (under 5 years), renting is often cheaper once you account for buying costs. Over longer periods (10–20 years), buying typically wins as you build equity and your mortgage payment stays fixed while rents rise. The break-even point varies by location, house price growth and your mortgage rate.
+    </p>
+    <p>
+      To calculate your maximum mortgage borrowing, use our <a href="/mortgage-affordability-calculator" style="color:var(--accent);text-decoration:none;">Mortgage Affordability Calculator</a>. To see what stamp duty you'd pay, see our <a href="/stamp-duty-calculator" style="color:var(--accent);text-decoration:none;">Stamp Duty Calculator</a>.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  let years = 10;
+
+  function setYears(y) {
+    years = y;
+    document.querySelectorAll('.period-tab').forEach(t => {
+      t.classList.toggle('active', t.textContent.trim() === y + ' years');
+    });
+    calc();
+  }
+
+  function fmt(n) {
+    return '£' + Math.abs(Math.round(n)).toLocaleString('en-GB');
+  }
+
+  function calcStampDuty(price) {
+    let duty = 0;
+    if (price > 1500000) duty += (price - 1500000) * 0.12;
+    if (price > 925000)  duty += (Math.min(price, 1500000) - 925000) * 0.10;
+    if (price > 250000)  duty += (Math.min(price, 925000) - 250000) * 0.05;
+    return duty;
+  }
+
+  function calcMonthly(principal, annualRate, termYears) {
+    const r = annualRate / 100 / 12;
+    const n = termYears * 12;
+    if (r === 0) return principal / n;
+    return principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  // Returns remaining balance after k months
+  function remainingBalance(principal, annualRate, termYears, months) {
+    const r = annualRate / 100 / 12;
+    const n = termYears * 12;
+    if (r === 0) return principal - (principal / n) * months;
+    const M = calcMonthly(principal, annualRate, termYears);
+    return principal * Math.pow(1 + r, months) - M * ((Math.pow(1 + r, months) - 1) / r);
+  }
+
+  function simulate(yrs) {
+    const monthlyRent     = parseFloat(document.getElementById('monthly-rent').value) || 0;
+    const rentRise        = parseFloat(document.getElementById('rent-rise').value) / 100 || 0.03;
+    const rentersIns      = parseFloat(document.getElementById('renters-insurance').value) || 0;
+    const propPrice       = parseFloat(document.getElementById('property-price').value) || 0;
+    const deposit         = parseFloat(document.getElementById('buy-deposit').value) || 0;
+    const buyRate         = parseFloat(document.getElementById('buy-rate').value) || 0;
+    const buyTerm         = parseFloat(document.getElementById('buy-term').value) || 25;
+    const houseGrowth     = parseFloat(document.getElementById('house-growth').value) / 100 || 0.03;
+    const maintenancePct  = parseFloat(document.getElementById('maintenance').value) / 100 || 0.01;
+    const investReturn    = parseFloat(document.getElementById('investment-return').value) / 100 || 0.05;
+
+    const mortgage = propPrice - deposit;
+    const monthly  = calcMonthly(mortgage, buyRate, buyTerm);
+
+    // --- RENT path ---
+    let totalRent = 0, totalInsurance = 0;
+    let currentRent = monthlyRent;
+    for (let y = 0; y < yrs; y++) {
+      totalRent += currentRent * 12;
+      totalInsurance += rentersIns * 12;
+      currentRent *= (1 + rentRise);
+    }
+    // Deposit invested at alternative return
+    const depositInvested = deposit * Math.pow(1 + investReturn, yrs);
+    const investmentGain  = depositInvested - deposit;
+    const rentNetCost     = totalRent + totalInsurance - investmentGain;
+
+    // --- BUY path ---
+    const stampDuty    = calcStampDuty(propPrice);
+    const legalFees    = 2000;
+    const upfrontCosts = deposit + stampDuty + legalFees;
+
+    const mortgageMonths = Math.min(yrs * 12, buyTerm * 12);
+    const totalMortgagePaid = monthly * mortgageMonths;
+
+    // Remaining balance
+    const remBalance = Math.max(0, remainingBalance(mortgage, buyRate, buyTerm, yrs * 12));
+
+    // House value
+    const houseValue = propPrice * Math.pow(1 + houseGrowth, yrs);
+
+    // Equity = house value - remaining balance
+    const equity = houseValue - remBalance;
+
+    // Maintenance total
+    let totalMaintenance = 0;
+    let currentVal = propPrice;
+    for (let y = 0; y < yrs; y++) {
+      totalMaintenance += currentVal * maintenancePct;
+      currentVal *= (1 + houseGrowth);
+    }
+
+    // Net cost of buying = mortgage paid + upfront + maintenance - equity gained
+    const equityGained = equity - deposit; // equity over initial deposit
+    const buyNetCost = totalMortgagePaid + stampDuty + legalFees + totalMaintenance - equityGained;
+
+    return {
+      rent: { totalRent, totalInsurance, investmentGain, netCost: rentNetCost },
+      buy:  { totalMortgagePaid, upfrontCosts: stampDuty + legalFees, totalMaintenance, equityGained, netCost: buyNetCost }
+    };
+  }
+
+  function drawChart() {
+    const canvas = document.getElementById('rvb-chart');
+    const dpr    = window.devicePixelRatio || 1;
+    const rect   = canvas.parentElement.getBoundingClientRect();
+    canvas.width  = rect.width * dpr;
+    canvas.height = 140 * dpr;
+    canvas.style.width  = rect.width + 'px';
+    canvas.style.height = '140px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    const W = rect.width, H = 140;
+    const pad = { top: 10, right: 10, bottom: 24, left: 52 };
+    const cW = W - pad.left - pad.right;
+    const cH = H - pad.top - pad.bottom;
+
+    // Simulate year by year for chart
+    const maxYr = Math.max(years, 20);
+    const rentPoints = [], buyPoints = [];
+    for (let y = 1; y <= maxYr; y++) {
+      const s = simulate(y);
+      rentPoints.push(s.rent.netCost);
+      buyPoints.push(s.buy.netCost);
+    }
+
+    const allVals = [...rentPoints, ...buyPoints];
+    const maxVal  = Math.max(...allVals);
+    const minVal  = Math.min(...allVals, 0);
+    const range   = maxVal - minVal || 1;
+
+    function xPos(i) { return pad.left + (i / (maxYr - 1)) * cW; }
+    function yPos(v) { return pad.top + cH - ((v - minVal) / range) * cH; }
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Zero line
+    if (minVal < 0 && maxVal > 0) {
+      ctx.strokeStyle = 'rgba(30,45,80,0.8)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, yPos(0));
+      ctx.lineTo(pad.left + cW, yPos(0));
+      ctx.stroke();
+    }
+
+    // Grid
+    ctx.strokeStyle = 'rgba(30,45,80,0.6)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 3; i++) {
+      const y = pad.top + (cH / 3) * i;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y);
+      ctx.lineTo(pad.left + cW, y);
+      ctx.stroke();
+      const val = maxVal - (range / 3) * i;
+      ctx.fillStyle = '#4a5880';
+      ctx.font = `9px 'DM Mono', monospace`;
+      ctx.textAlign = 'right';
+      const label = Math.abs(val) >= 1000 ? (val < 0 ? '-£' : '£') + Math.round(Math.abs(val) / 1000) + 'k'
+                                           : (val < 0 ? '-£' : '£') + Math.round(Math.abs(val));
+      ctx.fillText(label, pad.left - 4, y + 3);
+    }
+
+    // Rent line
+    ctx.beginPath();
+    rentPoints.forEach((v, i) => i === 0 ? ctx.moveTo(xPos(i), yPos(v)) : ctx.lineTo(xPos(i), yPos(v)));
+    ctx.strokeStyle = '#e63946';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Buy line
+    ctx.beginPath();
+    buyPoints.forEach((v, i) => i === 0 ? ctx.moveTo(xPos(i), yPos(v)) : ctx.lineTo(xPos(i), yPos(v)));
+    ctx.strokeStyle = '#4ecb71';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Current year marker
+    const markerX = xPos(years - 1);
+    ctx.strokeStyle = 'rgba(77,142,255,0.4)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(markerX, pad.top);
+    ctx.lineTo(markerX, pad.top + cH);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // X labels
+    ctx.fillStyle = '#4a5880';
+    ctx.font = `9px 'DM Mono', monospace`;
+    ctx.textAlign = 'center';
+    [1, 5, 10, 15, 20].filter(y => y <= maxYr).forEach(y => {
+      ctx.fillText(y + 'y', xPos(y - 1), H - 4);
+    });
+  }
+
+  function calc() {
+    const monthlyRent  = parseFloat(document.getElementById('monthly-rent').value) || 0;
+    const propPrice    = parseFloat(document.getElementById('property-price').value) || 0;
+    const deposit      = parseFloat(document.getElementById('buy-deposit').value) || 0;
+    const buyRate      = parseFloat(document.getElementById('buy-rate').value) || 0;
+
+    const emptyEl   = document.getElementById('empty-state');
+    const resultsEl = document.getElementById('results');
+
+    if (!monthlyRent || !propPrice || !deposit || !buyRate) {
+      emptyEl.style.display   = 'block';
+      resultsEl.style.display = 'none';
+      return;
+    }
+
+    const s = simulate(years);
+    const diff = s.rent.netCost - s.buy.netCost;
+
+    // Verdict
+    const verdictEl = document.getElementById('verdict');
+    const verdictText = document.getElementById('verdict-text');
+    const verdictAmount = document.getElementById('verdict-amount');
+    const verdictLabel = document.getElementById('verdict-label');
+
+    document.getElementById('verdict-years').textContent = years;
+
+    if (Math.abs(diff) < 1000) {
+      verdictEl.className = 'verdict neutral';
+      verdictText.className = 'verdict-text tie';
+      verdictText.textContent = 'Roughly equal';
+      verdictAmount.className = 'verdict-saving-amount';
+      verdictAmount.textContent = '≈ same';
+      verdictLabel.textContent = 'cost over ' + years + ' years';
+    } else if (diff > 0) {
+      verdictEl.className = 'verdict buy-wins';
+      verdictText.className = 'verdict-text buy';
+      verdictText.textContent = 'Buying is cheaper';
+      verdictAmount.className = 'verdict-saving-amount green';
+      verdictAmount.textContent = fmt(diff);
+      verdictLabel.textContent = 'cheaper to buy over ' + years + ' yrs';
+    } else {
+      verdictEl.className = 'verdict rent-wins';
+      verdictText.className = 'verdict-text rent';
+      verdictText.textContent = 'Renting is cheaper';
+      verdictAmount.className = 'verdict-saving-amount red';
+      verdictAmount.textContent = fmt(Math.abs(diff));
+      verdictLabel.textContent = 'cheaper to rent over ' + years + ' yrs';
+    }
+
+    // Rent breakdown
+    document.getElementById('r-rent').textContent      = fmt(s.rent.totalRent);
+    document.getElementById('r-insurance').textContent = fmt(s.rent.totalInsurance);
+    document.getElementById('r-invested').textContent  = '+' + fmt(s.rent.investmentGain);
+    document.getElementById('r-net').textContent       = fmt(s.rent.netCost);
+
+    // Buy breakdown
+    document.getElementById('b-mortgage').textContent    = fmt(s.buy.totalMortgagePaid);
+    document.getElementById('b-upfront').textContent     = fmt(s.buy.upfrontCosts);
+    document.getElementById('b-maintenance').textContent = fmt(s.buy.totalMaintenance);
+    document.getElementById('b-equity').textContent      = '+' + fmt(s.buy.equityGained);
+    document.getElementById('b-net').textContent         = fmt(s.buy.netCost);
+
+    emptyEl.style.display   = 'none';
+    resultsEl.style.display = 'block';
+    resultsEl.classList.remove('result-animate');
+    void resultsEl.offsetWidth;
+    resultsEl.classList.add('result-animate');
+
+    requestAnimationFrame(drawChart);
+  }
+
+  const ids = ['monthly-rent','rent-rise','renters-insurance','property-price','buy-deposit',
+                'buy-rate','buy-term','house-growth','maintenance','investment-return'];
+  ids.forEach(id => document.getElementById(id).addEventListener('input', calc));
+
+  window.addEventListener('resize', () => {
+    if (document.getElementById('results').style.display !== 'none') drawChart();
+  });
+
+  function shareURL() {
+    const params = new URLSearchParams();
+    ['monthly-rent','rent-rise','renters-insurance','property-price','buy-deposit',
+     'buy-rate','buy-term','house-growth','maintenance','investment-return'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.value) params.set(id, el.value);
+    });
+    const url = location.origin + location.pathname + '?' + params.toString();
+    navigator.clipboard.writeText(url).then(() => {
+      const btn = document.querySelector('.share-btn');
+      const orig = btn.innerHTML; btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    });
+  }
+
+  function loadFromURL() {
+    const p = new URLSearchParams(location.search);
+    ['monthly-rent','rent-rise','renters-insurance','property-price','buy-deposit',
+     'buy-rate','buy-term','house-growth','maintenance','investment-return'].forEach(id => {
+      if (p.has(id)) { const el = document.getElementById(id); if (el) el.value = p.get(id); }
+    });
+    calc();
+  }
+  loadFromURL();
+</script>
+</body>
+</html>

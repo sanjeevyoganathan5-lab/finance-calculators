@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UK Take-Home Pay Calculator 2025/26 — Net Salary After Tax &amp; NI</title>
+  <meta name="description" content="The most complete UK take-home pay calculator. Exact net pay after income tax, National Insurance, pension, student loan, salary sacrifice and more. Scottish rates, all NI letters, 2025/26." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #f8f9fc;
+      --surface:    #ffffff;
+      --surface2:   #f1f4f9;
+      --border:     #e2e8f0;
+      --accent:     #2563eb;
+      --accent-dim: rgba(37,99,235,0.08);
+      --accent-glow:rgba(37,99,235,0.15);
+      --red:        #dc2626;
+      --red-dim:    rgba(220,38,38,0.08);
+      --green:      #16a34a;
+      --green-dim:  rgba(22,163,74,0.08);
+      --amber:      #d97706;
+      --amber-dim:  rgba(217,119,6,0.08);
+      --purple:     #7c3aed;
+      --purple-dim: rgba(124,58,237,0.08);
+      --text:       #0f172a;
+      --muted:      #64748b;
+      --label:      #475569;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; overflow-x: hidden; }
+
+    /* ── NAV ── */
+    .site-nav {
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 0 32px; display: flex; align-items: center; justify-content: space-between;
+      height: 52px; position: sticky; top: 0; z-index: 100;
+    }
+    .site-nav-logo {
+      font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600;
+      color: var(--accent); text-decoration: none;
+      display: flex; align-items: center; gap: 4px; transition: opacity .15s;
+    }
+    .site-nav-logo:hover { opacity: .75; }
+    .site-nav-trust {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .site-nav-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+      box-shadow: 0 0 0 2px rgba(22,163,74,.2);
+    }
+    @media (max-width: 520px) { .site-nav { padding: 0 16px; } .site-nav-trust { display: none; } }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 820px; margin: 0 auto; padding: 28px 20px 80px; }
+
+    header { margin-bottom: 32px; }
+    .eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+    }
+    h1 { font-size: clamp(26px,4.5vw,40px); font-weight: 800; line-height: 1.1; margin-bottom: 8px; }
+    h1 span { color: var(--accent); }
+    .subtitle { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--muted); font-weight: 300; }
+    .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .badge {
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 2px; border-width: 1px; border-style: solid;
+    }
+    .badge-red   { background: var(--red-dim);    border-color: rgba(220,38,38,.3);   color: var(--red);   }
+    .badge-green { background: var(--green-dim);  border-color: rgba(22,163,74,.3);   color: var(--green); }
+    .badge-blue  { background: var(--accent-dim); border-color: rgba(37,99,235,.3);   color: var(--accent);}
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 4px;
+      padding: 32px; margin-bottom: 16px; position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--purple));
+    }
+    .card-title {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--label); margin-bottom: 20px;
+    }
+
+    /* ── FORM GRID ── */
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    @media (max-width: 580px) { .grid2, .grid3 { grid-template-columns: 1fr; } .card { padding: 20px; } }
+
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .field label {
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--label);
+    }
+    .input-wrap { position: relative; }
+    .input-prefix {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      font-family: 'DM Mono', monospace; font-size: 13px; color: var(--accent);
+      font-weight: 500; pointer-events: none;
+    }
+    .input-suffix {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted);
+      pointer-events: none;
+    }
+    input[type="text"], input[type="number"], select {
+      width: 100%; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 3px; color: var(--text); font-family: 'DM Mono', monospace;
+      font-size: 15px; font-weight: 400; padding: 11px 12px; outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      -moz-appearance: textfield; appearance: textfield;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .has-prefix input, .has-prefix select { padding-left: 28px; }
+    .has-suffix input { padding-right: 36px; }
+    select { padding-left: 12px; cursor: pointer; }
+    input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+    input.err { border-color: var(--red); }
+
+    /* ── TOGGLE BUTTONS ── */
+    .toggle-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .tbtn {
+      font-family: 'DM Mono', monospace; font-size: 11px; background: var(--surface2);
+      border: 1px solid var(--border); color: var(--muted); border-radius: 2px;
+      padding: 7px 12px; cursor: pointer; transition: all .15s; white-space: nowrap;
+    }
+    .tbtn:hover { border-color: #94a3b8; color: var(--label); }
+    .tbtn.active { background: var(--accent-dim); border-color: rgba(77,142,255,.35); color: var(--accent); font-weight: 500; }
+    .tbtn.active-green { background: var(--green-dim); border-color: rgba(22,163,74,.35); color: var(--green); }
+    .tbtn.active-red   { background: var(--red-dim);   border-color: rgba(220,38,38,.35); color: var(--red); }
+
+    /* ── SECTION DIVIDER ── */
+    .sdiv { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+    /* ── COLLAPSIBLE SECTION ── */
+    .collapsible-head {
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; padding: 10px 0; user-select: none;
+    }
+    .collapsible-head .ch-title {
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--label);
+    }
+    .collapsible-head .ch-arrow {
+      font-size: 10px; color: var(--muted); transition: transform .2s;
+    }
+    .collapsible-head.open .ch-arrow { transform: rotate(180deg); }
+    .collapsible-body { display: none; padding-top: 8px; }
+    .collapsible-body.open { display: block; }
+
+    /* ── PENSION TOGGLE ── */
+    .pension-mode-toggle {
+      display: flex; border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 16px;
+    }
+    .pmt-btn {
+      flex: 1; padding: 8px 4px; font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: .1em; text-transform: uppercase; border: none; background: var(--surface2);
+      color: var(--muted); cursor: pointer; transition: all .15s; text-align: center;
+    }
+    .pmt-btn.active { background: var(--accent); color: #fff; }
+
+    /* ── RESULTS ── */
+    .empty-state {
+      text-align: center; padding: 40px 0; color: var(--muted);
+      font-family: 'DM Mono', monospace; font-size: 13px;
+    }
+
+    .hero-block {
+      background: var(--accent-dim); border: 1px solid rgba(37,99,235,.2);
+      border-radius: 4px; padding: 24px 28px; margin-bottom: 20px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    .hero-amount {
+      font-size: clamp(40px,7vw,60px); font-weight: 800; color: var(--accent);
+      font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: -.03em;
+    }
+    .hero-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .hero-right { text-align: right; }
+    .hero-secondary { font-size: 13px; font-family: 'DM Mono', monospace; color: var(--muted); margin-bottom: 2px; }
+    .hero-annual { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    /* Period switcher */
+    .period-switcher { display: flex; gap: 4px; margin-bottom: 16px; }
+    .pstab {
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .08em;
+      text-transform: uppercase; padding: 6px 12px; border: 1px solid var(--border);
+      background: var(--surface2); color: var(--muted); border-radius: 2px;
+      cursor: pointer; transition: all .15s;
+    }
+    .pstab.active { background: var(--accent-dim); border-color: rgba(37,99,235,.3); color: var(--accent); }
+
+    /* Breakdown table */
+    .breakdown-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-variant-numeric: tabular-nums; }
+    .breakdown-table th {
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); padding: 6px 10px;
+      text-align: right; border-bottom: 1px solid var(--border); white-space: nowrap;
+    }
+    .breakdown-table th:first-child { text-align: left; }
+    .breakdown-table td {
+      padding: 9px 10px; font-family: 'DM Mono', monospace; font-size: 13px;
+      text-align: right; border-bottom: 1px solid var(--border);
+    }
+    .breakdown-table td:first-child { text-align: left; font-size: 12px; color: var(--label); }
+    .breakdown-table tr.total td { font-weight: 700; font-size: 14px; color: var(--accent); border-top: 2px solid var(--border); border-bottom: none; }
+    .breakdown-table tr.total td:first-child { color: var(--accent); }
+    .breakdown-table .neg { color: var(--red); }
+    .breakdown-table tr:hover td { background: var(--surface2); }
+
+    /* Tax band breakdown */
+    .bands-section { margin-bottom: 20px; }
+    .bands-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--label); margin-bottom: 12px; }
+    .band-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .band-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+    .band-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--label); flex: 1; }
+    .band-amount { font-family: 'DM Mono', monospace; font-size: 12px; font-variant-numeric: tabular-nums; }
+    .band-tax { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); }
+    .band-bar-wrap { height: 6px; background: var(--surface2); border-radius: 2px; margin-bottom: 12px; overflow: hidden; display: flex; }
+    .band-bar-seg { height: 100%; border-radius: 0; transition: width .4s ease; }
+
+    /* Rates block */
+    .rates-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px; }
+    @media (max-width: 500px) { .rates-grid { grid-template-columns: 1fr 1fr; } }
+    .rate-box { background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; padding: 14px; }
+    .rate-box-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .rate-box-val { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+    /* Warning / info boxes */
+    .warning-box {
+      border-radius: 3px; padding: 14px 16px; margin-bottom: 12px;
+      font-family: 'DM Mono', monospace; font-size: 12px; line-height: 1.6;
+      border-width: 1px; border-style: solid;
+    }
+    .warning-box strong { display: block; margin-bottom: 4px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    .warning-amber { background: var(--amber-dim); border-color: rgba(217,119,6,.3); color: #92400e; }
+    .warning-red   { background: var(--red-dim);   border-color: rgba(220,38,38,.3); color: #991b1b; }
+    .warning-blue  { background: var(--accent-dim);border-color: rgba(37,99,235,.3); color: #1e3a8a; }
+    .warning-green { background: var(--green-dim); border-color: rgba(22,163,74,.3); color: #14532d; }
+
+    /* Employer NI box */
+    .employer-block {
+      background: var(--purple-dim); border: 1px solid rgba(124,58,237,.2);
+      border-radius: 3px; padding: 18px 20px; margin-bottom: 16px;
+    }
+    .employer-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--purple); margin-bottom: 12px; }
+    .employer-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+    .employer-row-label { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--label); }
+    .employer-row-val { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .employer-row.total .employer-row-val { color: var(--purple); font-size: 18px; }
+
+    /* Compare block */
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    @media (max-width: 500px) { .compare-grid { grid-template-columns: 1fr; } }
+    .compare-col { background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; padding: 16px; }
+    .compare-col-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .compare-row { display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: 12px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+    .compare-row:last-child { border-bottom: none; font-weight: 700; font-size: 14px; color: var(--accent); }
+    .compare-diff {
+      background: var(--green-dim); border: 1px solid rgba(22,163,74,.25); border-radius: 3px;
+      padding: 12px 16px; font-family: 'DM Mono', monospace; font-size: 13px; color: var(--green); text-align: center;
+    }
+    .compare-diff.negative { background: var(--red-dim); border-color: rgba(220,38,38,.25); color: var(--red); }
+
+    /* Share button */
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+      background: var(--surface2); border: 1px solid var(--border); color: var(--label);
+      padding: 9px 16px; border-radius: 2px; cursor: pointer; transition: all .15s;
+      text-decoration: none;
+    }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* SEO */
+    .seo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 28px 32px; margin-top: 16px; }
+    .seo-card h2 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .seo-card p { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted); line-height: 1.8; font-weight: 300; }
+    .seo-card p + p { margin-top: 8px; }
+
+    /* Print */
+    @media print {
+      .site-nav, .share-btn, .collapsible-head, .pstab, .badge-row { display: none !important; }
+      body { background: white; }
+      .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+      .hero-amount { font-size: 36px; }
+    }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeUp .3s ease both; }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-logo">← Calculators.Finance</a>
+  <div class="site-nav-trust">
+    <span class="site-nav-dot"></span>
+    2025/26 rates live
+  </div>
+</nav>
+
+<div class="container">
+  <header>
+    <p class="eyebrow">UK Finance Calculator</p>
+    <h1>Take-Home Pay<br><span>After Tax</span> Calculator</h1>
+    <p class="subtitle">Every deduction. Every scenario. Exact figures for 2025/26.</p>
+    <div class="badge-row">
+      <span class="badge badge-red">2025/26 HMRC rates</span>
+      <span class="badge badge-green">Scottish bands included</span>
+      <span class="badge badge-blue">Salary sacrifice · BIK · Rental</span>
+    </div>
+  </header>
+
+  <!-- ═══ INPUTS CARD ═══ -->
+  <div class="card">
+    <div class="card-title">Your Details</div>
+
+    <!-- Core salary -->
+    <div class="grid2">
+      <div class="field">
+        <label for="gross">Gross Salary</label>
+        <div class="input-wrap has-prefix">
+          <span class="input-prefix">£</span>
+          <input type="number" id="gross" inputmode="decimal" placeholder="50000" min="0" step="100" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="period">Salary Period</label>
+        <div class="input-wrap">
+          <select id="period">
+            <option value="annual" selected>Annual</option>
+            <option value="monthly">Monthly</option>
+            <option value="weekly">Weekly</option>
+            <option value="daily">Daily (÷ 260 days)</option>
+            <option value="hourly">Hourly (÷ 40h week)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid3">
+      <div class="field">
+        <label for="taxyear">Tax Year</label>
+        <select id="taxyear">
+          <option value="2025" selected>2025/26</option>
+          <option value="2024">2024/25</option>
+          <option value="2023">2023/24</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tax Region</label>
+        <div class="toggle-row" style="margin-bottom:0">
+          <button class="tbtn active" id="region-uk" onclick="setRegion('uk')">England / NI / Wales</button>
+          <button class="tbtn" id="region-scot" onclick="setRegion('scot')">Scotland</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="niLetter">NI Category Letter</label>
+        <select id="niLetter">
+          <option value="A" selected>A — Standard</option>
+          <option value="B">B — Married women (reduced)</option>
+          <option value="C">C — Over pension age (no NI)</option>
+          <option value="H">H — Apprentice under 25</option>
+          <option value="M">M — Under 21</option>
+          <option value="Z">Z — Under 21 deferred</option>
+          <option value="X">X — Exempt</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="sdiv" />
+
+    <!-- Pension -->
+    <div class="card-title" style="margin-bottom:10px">Pension</div>
+    <div class="pension-mode-toggle">
+      <button class="pmt-btn active" id="pm-sacrifice" onclick="setPensionMode('sacrifice')">Salary Sacrifice</button>
+      <button class="pmt-btn" id="pm-ras" onclick="setPensionMode('ras')">Relief at Source</button>
+      <button class="pmt-btn" id="pm-none" onclick="setPensionMode('none')">None</button>
+    </div>
+
+    <div id="pension-inputs" class="grid2">
+      <div class="field">
+        <label for="pensionVal">Contribution</label>
+        <div class="input-wrap has-suffix">
+          <input type="number" id="pensionVal" inputmode="decimal" placeholder="5" min="0" />
+          <span class="input-suffix" id="pension-unit">%</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Amount Type</label>
+        <div class="toggle-row" style="margin-bottom:0">
+          <button class="tbtn active" id="pct-btn" onclick="setPensionUnit('pct')">% of gross</button>
+          <button class="tbtn" id="fixed-btn" onclick="setPensionUnit('fixed')">Fixed £</button>
+        </div>
+      </div>
+    </div>
+
+    <hr class="sdiv" />
+
+    <!-- Student loan -->
+    <div class="grid2">
+      <div class="field">
+        <label for="student">Student Loan</label>
+        <select id="student">
+          <option value="none" selected>None</option>
+          <option value="plan1">Plan 1 — 9% above £24,990</option>
+          <option value="plan2">Plan 2 — 9% above £27,295</option>
+          <option value="plan4">Plan 4 (Scotland) — 9% above £32,745</option>
+          <option value="plan5">Plan 5 — 9% above £25,000</option>
+          <option value="pg">Postgraduate — 6% above £21,000</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="sacrificeOther">Other Salary Sacrifice £/yr</label>
+        <div class="input-wrap has-prefix">
+          <span class="input-prefix">£</span>
+          <input type="number" id="sacrificeOther" inputmode="decimal" placeholder="0" min="0" />
+        </div>
+      </div>
+    </div>
+
+    <hr class="sdiv" />
+
+    <!-- Quick toggles -->
+    <div class="toggle-row">
+      <button class="tbtn" id="btn-marriage" onclick="toggle('marriage')">Marriage Allowance</button>
+      <button class="tbtn" id="btn-blind" onclick="toggle('blind')">Blind Person's Allowance</button>
+      <button class="tbtn" id="btn-hicbc" onclick="toggle('hicbc')">Child Benefit (HICBC)</button>
+      <button class="tbtn" id="btn-compare" onclick="toggle('compare')">Compare Scenarios</button>
+    </div>
+
+    <!-- Marriage -->
+    <div id="section-marriage" style="display:none">
+      <div class="warning-box warning-blue">
+        <strong>Marriage Allowance</strong>
+        Transfer £1,260 of personal allowance from a non-earning / low-earning partner. Saves £252/year for a basic-rate taxpayer. Cannot be claimed if you or your partner pay higher-rate tax.
+      </div>
+      <div class="grid2" style="margin-bottom:16px">
+        <div class="field">
+          <label for="partnerIncome">Partner's Annual Income £</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">£</span>
+            <input type="number" id="partnerIncome" inputmode="decimal" placeholder="10000" min="0" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HICBC -->
+    <div id="section-hicbc" style="display:none">
+      <div class="grid2" style="margin-bottom:16px">
+        <div class="field">
+          <label for="numChildren">Number of Children Claiming</label>
+          <select id="numChildren">
+            <option value="1">1 child</option>
+            <option value="2">2 children</option>
+            <option value="3">3 children</option>
+            <option value="4">4 children</option>
+            <option value="5">5+ children</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compare -->
+    <div id="section-compare" style="display:none">
+      <div class="grid2" style="margin-bottom:16px">
+        <div class="field">
+          <label for="compareGross">Scenario B — Gross Salary</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">£</span>
+            <input type="number" id="compareGross" inputmode="decimal" placeholder="55000" min="0" step="100" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="compareLabel">Label (optional)</label>
+          <input type="text" id="compareLabel" placeholder="Job offer / Pay rise" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Advanced collapsible -->
+    <div class="sdiv" style="margin-bottom:0"></div>
+    <div class="collapsible-head" onclick="colToggle('advanced')">
+      <span class="ch-title">Advanced Options — Bonus, BIK, Rental, Tax Code</span>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body" id="col-advanced">
+      <div class="grid2">
+        <div class="field">
+          <label for="bonus">Annual Bonus £</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">£</span>
+            <input type="number" id="bonus" inputmode="decimal" placeholder="0" min="0" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="taxCode">Tax Code Override</label>
+          <input type="text" id="taxCode" placeholder="e.g. 1257L, BR, K500, NT" style="text-transform:uppercase" />
+        </div>
+      </div>
+      <div class="grid3">
+        <div class="field">
+          <label for="bikCar">Company Car BIK £/yr</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">£</span>
+            <input type="number" id="bikCar" inputmode="decimal" placeholder="0" min="0" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="bikMedical">Private Medical BIK £/yr</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">£</span>
+            <input type="number" id="bikMedical" inputmode="decimal" placeholder="0" min="0" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="bikOther">Other BIK £/yr</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">£</span>
+            <input type="number" id="bikOther" inputmode="decimal" placeholder="0" min="0" />
+          </div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label for="rentalIncome">Gross Rental Income £/yr</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">£</span>
+            <input type="number" id="rentalIncome" inputmode="decimal" placeholder="0" min="0" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="rentalExpenses">Allowable Rental Expenses £/yr</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">£</span>
+            <input type="number" id="rentalExpenses" inputmode="decimal" placeholder="0" min="0" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end inputs card -->
+
+  <!-- ═══ RESULTS CARD ═══ -->
+  <div class="card fade-up" id="results-card" style="display:none">
+
+    <div class="empty-state" id="empty-state" style="display:none">Enter your salary above →</div>
+
+    <div id="results-inner">
+      <div class="card-title" id="results-title">Take-Home Pay — 2025/26</div>
+
+      <!-- Hero -->
+      <div class="hero-block">
+        <div>
+          <div class="hero-amount" id="hero-amount">£0</div>
+          <div class="hero-label" id="hero-label">per month take-home</div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-secondary" id="hero-secondary-label">Annual net</div>
+          <div class="hero-annual" id="hero-annual">£0</div>
+        </div>
+      </div>
+
+      <!-- Period switcher -->
+      <div class="period-switcher">
+        <button class="pstab" onclick="setViewPeriod('annual')">Annual</button>
+        <button class="pstab active" onclick="setViewPeriod('monthly')">Monthly</button>
+        <button class="pstab" onclick="setViewPeriod('weekly')">Weekly</button>
+        <button class="pstab" onclick="setViewPeriod('daily')">Daily</button>
+        <button class="pstab" onclick="setViewPeriod('hourly')">Hourly</button>
+      </div>
+
+      <!-- Breakdown table -->
+      <table class="breakdown-table" id="breakdown-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Annual</th>
+            <th>Monthly</th>
+            <th>Weekly</th>
+            <th>Daily</th>
+            <th>Hourly</th>
+          </tr>
+        </thead>
+        <tbody id="breakdown-tbody"></tbody>
+      </table>
+
+      <!-- Tax band breakdown -->
+      <div class="bands-section">
+        <div class="bands-title">Income Tax Band Breakdown</div>
+        <div class="band-bar-wrap" id="band-bar-wrap"></div>
+        <div id="band-breakdown-rows"></div>
+      </div>
+
+      <!-- Rates -->
+      <div class="rates-grid">
+        <div class="rate-box">
+          <div class="rate-box-label">Effective Tax Rate</div>
+          <div class="rate-box-val" id="rate-effective" style="color:var(--red)">0%</div>
+        </div>
+        <div class="rate-box">
+          <div class="rate-box-label">Marginal Rate (income+NI)</div>
+          <div class="rate-box-val" id="rate-marginal" style="color:var(--amber)">0%</div>
+        </div>
+        <div class="rate-box">
+          <div class="rate-box-label">Personal Allowance Used</div>
+          <div class="rate-box-val" id="pa-used" style="color:var(--green)">£0</div>
+        </div>
+      </div>
+
+      <!-- Warnings -->
+      <div id="warnings-section"></div>
+
+      <!-- Employer NI -->
+      <div class="employer-block" id="employer-block">
+        <div class="employer-title">Employer Cost (Class 1 Secondary NI)</div>
+        <div class="employer-row">
+          <span class="employer-row-label">Your gross salary</span>
+          <span class="employer-row-val" id="emp-gross">£0</span>
+        </div>
+        <div class="employer-row">
+          <span class="employer-row-label">Employer's NI (15% above £5,000)</span>
+          <span class="employer-row-val" id="emp-ni">£0</span>
+        </div>
+        <div class="employer-row total">
+          <span class="employer-row-label">Total cost to employer</span>
+          <span class="employer-row-val" id="emp-total">£0</span>
+        </div>
+      </div>
+
+      <!-- Compare results -->
+      <div id="compare-results" style="display:none">
+        <div class="card-title">Scenario Comparison</div>
+        <div class="compare-grid">
+          <div class="compare-col" id="cmp-col-a"></div>
+          <div class="compare-col" id="cmp-col-b"></div>
+        </div>
+        <div class="compare-diff" id="cmp-diff"></div>
+      </div>
+
+      <!-- Share -->
+      <div style="margin-top:16px; display:flex; gap:8px; flex-wrap:wrap">
+        <button class="share-btn" onclick="shareURL()">🔗 Share this calculation</button>
+        <button class="share-btn" onclick="window.print()">🖨 Print</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SEO -->
+  <div class="seo-card">
+    <h2>How is UK take-home pay calculated in 2025/26?</h2>
+    <p>Your take-home pay is your gross salary minus income tax, National Insurance (NI), pension contributions, and student loan repayments. For 2025/26, the personal allowance is £12,570 — you pay no income tax on the first £12,570 of earnings. Above that, the basic rate of 20% applies up to £50,270, then the higher rate of 40% up to £125,140, and the additional rate of 45% above that.</p>
+    <p>National Insurance (employee, Class 1) is 8% on earnings between £12,570 and £50,270, and 2% on earnings above £50,270. If your income exceeds £100,000, your personal allowance tapers at £1 for every £2, creating a 60% effective marginal rate between £100,000 and £125,140. Scottish taxpayers pay different rates set by the Scottish Parliament.</p>
+    <p>Salary sacrifice contributions (pension, cycle-to-work, EV lease) reduce your gross for both income tax and NI. Relief-at-source pension contributions only reduce income tax. Benefits in kind (company car, private medical insurance) are added to your taxable income but are not subject to NI. Rental profit is also taxed as income but not NI.</p>
+  </div>
+
+</div>
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════════════════════════
+// TAX DATA — HMRC published rates
+// ═══════════════════════════════════════════════════════════
+const TD = {
+  2025: {
+    pa: 12570, blind: 3070, marriageTransfer: 1260, marriageCredit: 252,
+    paStart: 100000, paEnd: 125140,
+    ukBands: [
+      { n: 'Personal Allowance (0%)', w: 0,     r: 0.00 }, // handled via pa
+      { n: 'Basic rate (20%)',        w: 37700,  r: 0.20 },
+      { n: 'Higher rate (40%)',       w: 74870,  r: 0.40 },
+      { n: 'Additional rate (45%)',   w: Infinity,r: 0.45 },
+    ],
+    scotBands: [
+      { n: 'Starter rate (19%)',      w: 2827,   r: 0.19 },
+      { n: 'Basic rate (20%)',        w: 12094,  r: 0.20 },
+      { n: 'Intermediate rate (21%)', w: 16171,  r: 0.21 },
+      { n: 'Higher rate (42%)',       w: 31338,  r: 0.42 },
+      { n: 'Advanced rate (45%)',     w: 50140,  r: 0.45 },
+      { n: 'Top rate (48%)',          w: Infinity,r: 0.48 },
+    ],
+    niPT: 12570, niUEL: 50270,
+    niRates: {
+      A: { main: 0.08,   upper: 0.02   },
+      B: { main: 0.0385, upper: 0.0205 },
+      C: { main: 0,      upper: 0      },
+      H: { main: 0,      upper: 0.02   }, // zero to UEL
+      M: { main: 0,      upper: 0.02   },
+      Z: { main: 0,      upper: 0      },
+      X: { main: 0,      upper: 0      },
+    },
+    niEmplRate: 0.15, niEmplST: 5000,
+    sl: {
+      plan1: { t: 24990, r: 0.09 }, plan2: { t: 27295, r: 0.09 },
+      plan4: { t: 32745, r: 0.09 }, plan5: { t: 25000, r: 0.09 },
+      pg:    { t: 21000, r: 0.06 },
+    },
+    hicbcStart: 60000, hicbcEnd: 80000,
+    cbFirst: 1331.20, cbExtra: 881.40,
+  },
+  2024: {
+    pa: 12570, blind: 3070, marriageTransfer: 1260, marriageCredit: 252,
+    paStart: 100000, paEnd: 125140,
+    ukBands: [
+      { n: 'Basic rate (20%)',      w: 37700,   r: 0.20 },
+      { n: 'Higher rate (40%)',     w: 74870,   r: 0.40 },
+      { n: 'Additional rate (45%)', w: Infinity, r: 0.45 },
+    ],
+    scotBands: [
+      { n: 'Starter rate (19%)',      w: 2306,   r: 0.19 },
+      { n: 'Basic rate (20%)',        w: 11685,  r: 0.20 },
+      { n: 'Intermediate rate (21%)', w: 17101,  r: 0.21 },
+      { n: 'Higher rate (42%)',       w: 31338,  r: 0.42 },
+      { n: 'Advanced rate (45%)',     w: 50140,  r: 0.45 },
+      { n: 'Top rate (48%)',          w: Infinity,r: 0.48 },
+    ],
+    niPT: 12570, niUEL: 50270,
+    niRates: {
+      A: { main: 0.08,   upper: 0.02   },
+      B: { main: 0.0385, upper: 0.0205 },
+      C: { main: 0, upper: 0 }, H: { main: 0, upper: 0.02 },
+      M: { main: 0, upper: 0.02 }, Z: { main: 0, upper: 0 }, X: { main: 0, upper: 0 },
+    },
+    niEmplRate: 0.138, niEmplST: 9100,
+    sl: {
+      plan1: { t: 24990, r: 0.09 }, plan2: { t: 27295, r: 0.09 },
+      plan4: { t: 31395, r: 0.09 }, plan5: { t: 25000, r: 0.09 },
+      pg:    { t: 21000, r: 0.06 },
+    },
+    hicbcStart: 60000, hicbcEnd: 80000,
+    cbFirst: 1331.20, cbExtra: 881.40,
+  },
+  2023: {
+    pa: 12570, blind: 2600, marriageTransfer: 1260, marriageCredit: 252,
+    paStart: 100000, paEnd: 125140,
+    ukBands: [
+      { n: 'Basic rate (20%)',      w: 37700,   r: 0.20 },
+      { n: 'Higher rate (40%)',     w: 74870,   r: 0.40 },
+      { n: 'Additional rate (45%)', w: Infinity, r: 0.45 },
+    ],
+    scotBands: [
+      { n: 'Starter rate (19%)',      w: 2162,   r: 0.19 },
+      { n: 'Basic rate (20%)',        w: 10956,  r: 0.20 },
+      { n: 'Intermediate rate (21%)', w: 17974,  r: 0.21 },
+      { n: 'Higher rate (42%)',       w: 81478,  r: 0.42 },
+      { n: 'Top rate (47%)',          w: Infinity,r: 0.47 },
+    ],
+    niPT: 12570, niUEL: 50270,
+    niRates: {
+      A: { main: 0.12,   upper: 0.02   }, // 10% from Jan 6 2024; full-year shown as 12%
+      B: { main: 0.0585, upper: 0.0205 },
+      C: { main: 0, upper: 0 }, H: { main: 0, upper: 0.02 },
+      M: { main: 0, upper: 0.02 }, Z: { main: 0, upper: 0 }, X: { main: 0, upper: 0 },
+    },
+    niEmplRate: 0.138, niEmplST: 9100,
+    sl: {
+      plan1: { t: 22015, r: 0.09 }, plan2: { t: 27295, r: 0.09 },
+      plan4: { t: 27660, r: 0.09 }, plan5: { t: 25000, r: 0.09 },
+      pg:    { t: 21000, r: 0.06 },
+    },
+    hicbcStart: 50000, hicbcEnd: 60000,
+    cbFirst: 1269.80, cbExtra: 838.80,
+  },
+};
+
+// BAND COLOURS for visualisation
+const BAND_COLORS = ['#94a3b8','#3b82f6','#2563eb','#1d4ed8','#7c3aed','#dc2626','#ef4444'];
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+let region = 'uk';
+let pensionMode = 'sacrifice'; // sacrifice | ras | none
+let pensionUnit = 'pct';       // pct | fixed
+let viewPeriod = 'monthly';
+let flags = { marriage: false, blind: false, hicbc: false, compare: false };
+
+// ═══════════════════════════════════════════════════════════
+// CORE CALCULATION ENGINE
+// ═══════════════════════════════════════════════════════════
+
+function calcIncomeTax(taxableIncome, bands) {
+  // taxableIncome = gross - PA (already subtracted)
+  let remaining = Math.max(0, taxableIncome);
+  let total = 0;
+  const bds = [];
+  for (const b of bands) {
+    if (b.r === 0) continue; // skip 0% band (PA band)
+    const w = b.w === Infinity ? remaining : Math.min(remaining, b.w);
+    if (w <= 0) break;
+    const tax = w * b.r;
+    total += tax;
+    bds.push({ n: b.n, amount: w, rate: b.r, tax });
+    remaining -= w;
+    if (remaining <= 0) break;
+  }
+  return { tax: total, bands: bds };
+}
+
+function calcPA(income, ty, extraPA) {
+  let pa = ty.pa + extraPA;
+  if (income > ty.paStart) {
+    pa = Math.max(0, pa - Math.floor((income - ty.paStart) / 2));
+  }
+  return pa;
+}
+
+function calcNI(income, letter, ty) {
+  const nr = ty.niRates[letter] || ty.niRates['A'];
+  const pt = ty.niPT, uel = ty.niUEL;
+  if (income <= pt) return 0;
+  if (letter === 'H' || letter === 'M') {
+    // zero rate to UEL, 2% above
+    return Math.max(0, income - uel) * nr.upper;
+  }
+  const lower = (Math.min(income, uel) - pt) * nr.main;
+  const upper = Math.max(0, income - uel) * nr.upper;
+  return lower + upper;
+}
+
+function calcStudentLoan(income, plan, ty) {
+  if (!plan || plan === 'none') return 0;
+  const s = ty.sl[plan];
+  if (!s) return 0;
+  return Math.max(0, income - s.t) * s.r;
+}
+
+function parseTaxCode(code) {
+  if (!code) return null;
+  const c = code.toUpperCase().trim();
+  if (c === 'NT')  return { type: 'nt' };
+  if (c === 'BR')  return { type: 'br' };
+  if (c === '0T')  return { type: '0t' };
+  if (c === 'D0')  return { type: 'd0' };
+  if (c === 'D1')  return { type: 'd1' };
+  const kMatch = c.match(/^K(\d+)$/);
+  if (kMatch) return { type: 'k', kAmt: parseInt(kMatch[1]) * 10 };
+  const numMatch = c.match(/^S?C?(\d+)[LNTMW]?$/);
+  if (numMatch) return { type: 'numeric', pa: parseInt(numMatch[1]) * 10 };
+  return null;
+}
+
+function runCalc(grossRaw, periodVal, tyKey, regKey, niLetter,
+                 pensionVal, penMode, penUnit,
+                 studentPlan, sacrificeOther,
+                 marriage, partnerIncome,
+                 blind, hicbc, numChildren,
+                 bonus, taxCodeStr,
+                 bikCar, bikMedical, bikOther,
+                 rentalIncome, rentalExpenses) {
+
+  const ty = TD[tyKey];
+  if (!ty || !grossRaw || grossRaw <= 0) return null;
+
+  // Convert to annual
+  const DIVS = { annual: 1, monthly: 12, weekly: 52, daily: 260, hourly: 2080 };
+  const annualSalary = grossRaw * DIVS[periodVal];
+
+  const bonusAmt = Math.max(0, bonus || 0);
+  const annualWithBonus = annualSalary + bonusAmt;
+
+  // Pension amount
+  let pensionAmt = 0;
+  if (penMode !== 'none') {
+    pensionAmt = penUnit === 'pct'
+      ? annualSalary * ((pensionVal || 0) / 100)
+      : (pensionVal || 0);
+    pensionAmt = Math.max(0, pensionAmt);
+  }
+
+  // Salary sacrifice breakdown
+  const sacrificePension = penMode === 'sacrifice' ? pensionAmt : 0;
+  const rasPension       = penMode === 'ras'       ? pensionAmt : 0;
+  const sacrificeOtherAmt = Math.max(0, sacrificeOther || 0);
+  const totalSacrifice   = sacrificePension + sacrificeOtherAmt;
+
+  // Effective gross for NI (after sacrifice)
+  const niGross = annualWithBonus - totalSacrifice;
+
+  // BIK totals
+  const bikTotal = Math.max(0, (bikCar||0) + (bikMedical||0) + (bikOther||0));
+
+  // Rental profit (taxed as income, not NI)
+  const rentalProfit = Math.max(0, (rentalIncome||0) - (rentalExpenses||0));
+
+  // Total income for tax purposes
+  const incomeForTax = niGross - rasPension + bikTotal + rentalProfit;
+
+  // Personal allowance
+  let extraPA = 0;
+  if (blind) extraPA += ty.blind;
+
+  // Tax code override
+  const taxCode = parseTaxCode(taxCodeStr);
+  let pa;
+  let forceRate = null;
+  let kAddition = 0;
+
+  if (taxCode) {
+    switch (taxCode.type) {
+      case 'numeric': pa = taxCode.pa + extraPA; break;
+      case 'nt':      pa = 0; forceRate = 'nt'; break;
+      case 'br':      pa = 0; forceRate = 'br'; break;
+      case '0t':      pa = 0; break;
+      case 'd0':      pa = 0; forceRate = 'd0'; break;
+      case 'd1':      pa = 0; forceRate = 'd1'; break;
+      case 'k':       pa = 0; kAddition = taxCode.kAmt; break;
+      default:        pa = calcPA(incomeForTax, ty, extraPA);
+    }
+    // Still taper PA for numeric code
+    if (taxCode.type === 'numeric') {
+      if (incomeForTax > ty.paStart) {
+        pa = Math.max(0, pa - Math.floor((incomeForTax - ty.paStart) / 2));
+      }
+    }
+  } else {
+    pa = calcPA(incomeForTax, ty, extraPA);
+  }
+
+  // Marriage allowance (recipient view — earner receives £1,260 PA transfer)
+  // Implemented as £252 tax credit (equivalent to 20% relief on £1,260)
+  // Only valid if earner is basic-rate, partner below PA
+  let marriageCredit = 0;
+  if (marriage && !taxCode) {
+    const partnerInc = partnerIncome || 0;
+    if (partnerInc < ty.pa) {
+      // Earner must pay basic rate (income ≤ 50270 for UK or first higher-rate threshold)
+      const isBasicRate = incomeForTax <= (regKey === 'scot' ? ty.pa + ty.scotBands.slice(0,3).reduce((a,b)=>a+b.w,0) : 50270);
+      if (isBasicRate) marriageCredit = ty.marriageCredit; // £252
+    }
+  }
+
+  // Income tax
+  let incomeTax = 0;
+  let bandBreakdown = [];
+  const taxable = Math.max(0, incomeForTax + kAddition - pa);
+  const bands = regKey === 'scot' ? ty.scotBands : ty.ukBands;
+
+  if (forceRate === 'nt') {
+    incomeTax = 0;
+  } else if (forceRate === 'br') {
+    incomeTax = (incomeForTax + kAddition) * 0.20;
+    bandBreakdown = [{ n: 'Basic rate (BR)', amount: incomeForTax + kAddition, rate: 0.20, tax: incomeTax }];
+  } else if (forceRate === 'd0') {
+    incomeTax = (incomeForTax + kAddition) * 0.40;
+    bandBreakdown = [{ n: 'Higher rate (D0)', amount: incomeForTax + kAddition, rate: 0.40, tax: incomeTax }];
+  } else if (forceRate === 'd1') {
+    incomeTax = (incomeForTax + kAddition) * 0.45;
+    bandBreakdown = [{ n: 'Additional rate (D1)', amount: incomeForTax + kAddition, rate: 0.45, tax: incomeTax }];
+  } else {
+    const r = calcIncomeTax(taxable, bands);
+    incomeTax = r.tax;
+    bandBreakdown = r.bands;
+  }
+
+  incomeTax = Math.max(0, incomeTax - marriageCredit);
+
+  // NI
+  const ni = calcNI(niGross, niLetter, ty);
+
+  // Student loan (on employment income, post sacrifice)
+  const studentLoan = calcStudentLoan(niGross, studentPlan, ty);
+
+  // Net
+  const net = annualWithBonus - incomeTax - ni - studentLoan - pensionAmt - sacrificeOtherAmt;
+
+  // Employer NI
+  const empNI = Math.max(0, niGross - ty.niEmplST) * ty.niEmplRate;
+
+  // HICBC
+  let hicbcAmount = 0;
+  if (hicbc && numChildren > 0) {
+    const n = parseInt(numChildren);
+    const cbAnnual = ty.cbFirst + Math.max(0, n - 1) * ty.cbExtra;
+    const ani = incomeForTax; // simplified ANI
+    if (ani > ty.hicbcStart) {
+      const pct = Math.min(1, (ani - ty.hicbcStart) / (ty.hicbcEnd - ty.hicbcStart));
+      hicbcAmount = cbAnnual * pct;
+    }
+  }
+
+  // Effective and marginal rates
+  const effectiveRate = annualWithBonus > 0 ? (incomeTax + ni) / annualWithBonus : 0;
+
+  // Marginal rate: compute on next £100 of employment income
+  const d = 100;
+  const marginalPA = calcPA(incomeForTax + d, ty, extraPA);
+  const marginalTax2 = calcIncomeTax(Math.max(0, incomeForTax + d - marginalPA), bands).tax;
+  const marginalNI2  = calcNI(niGross + d, niLetter, ty);
+  const marginalTax1 = calcIncomeTax(taxable, bands).tax;
+  const marginalRate = (marginalTax2 + marginalNI2 - marginalTax1 - ni) / d;
+
+  // PA used
+  const paUsed = Math.min(pa, incomeForTax);
+
+  return {
+    annualSalary, annualWithBonus, bonusAmt,
+    totalSacrifice, sacrificePension, rasPension, sacrificeOtherAmt,
+    niGross, bikTotal, rentalProfit, incomeForTax,
+    pa, paUsed, marriageCredit,
+    incomeTax, ni, studentLoan, pensionAmt,
+    net, empNI, hicbcAmount,
+    effectiveRate, marginalRate, bandBreakdown,
+    niLetter, penMode, regKey, tyKey,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════
+// UI STATE HELPERS
+// ═══════════════════════════════════════════════════════════
+
+function setRegion(r) {
+  region = r;
+  document.getElementById('region-uk').classList.toggle('active', r === 'uk');
+  document.getElementById('region-scot').classList.toggle('active', r === 'scot');
+  calc();
+}
+
+function setPensionMode(m) {
+  pensionMode = m;
+  ['sacrifice','ras','none'].forEach(x => document.getElementById('pm-'+x).classList.toggle('active', x===m));
+  document.getElementById('pension-inputs').style.display = m === 'none' ? 'none' : '';
+  calc();
+}
+
+function setPensionUnit(u) {
+  pensionUnit = u;
+  document.getElementById('pct-btn').classList.toggle('active', u==='pct');
+  document.getElementById('fixed-btn').classList.toggle('active', u==='fixed');
+  document.getElementById('pension-unit').textContent = u === 'pct' ? '%' : '£/yr';
+  document.getElementById('pensionVal').placeholder = u === 'pct' ? '5' : '2000';
+  calc();
+}
+
+function toggle(key) {
+  flags[key] = !flags[key];
+  document.getElementById('btn-'+key).classList.toggle('active', flags[key]);
+  const sec = document.getElementById('section-'+key);
+  if (sec) sec.style.display = flags[key] ? '' : 'none';
+  if (key === 'compare') document.getElementById('compare-results').style.display = flags[key] ? '' : 'none';
+  calc();
+}
+
+function colToggle(id) {
+  const body = document.getElementById('col-'+id);
+  const head = body.previousElementSibling;
+  const open = body.classList.toggle('open');
+  head.classList.toggle('open', open);
+}
+
+function setViewPeriod(p) {
+  viewPeriod = p;
+  document.querySelectorAll('.pstab').forEach(t => t.classList.toggle('active', t.textContent.toLowerCase() === p));
+  renderViewPeriod();
+}
+
+// ═══════════════════════════════════════════════════════════
+// FORMATTING
+// ═══════════════════════════════════════════════════════════
+
+function fmt(n, decimals = 0) {
+  return '£' + Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+}
+
+function fmtPct(r) { return (r * 100).toFixed(1) + '%'; }
+
+const PERIODS = { annual: 1, monthly: 12, weekly: 52, daily: 260, hourly: 2080 };
+const PLABELS = { annual: 'per year', monthly: 'per month', weekly: 'per week', daily: 'per day', hourly: 'per hour' };
+
+function forPeriod(annual, p) { return annual / (PERIODS[p] || 1); }
+
+// ═══════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════
+
+let lastResult = null;
+
+function renderResult(r) {
+  if (!r) {
+    document.getElementById('results-card').style.display = 'none';
+    return;
+  }
+  document.getElementById('results-card').style.display = '';
+
+  const tyLabels = { 2025: '2025/26', 2024: '2024/25', 2023: '2023/24' };
+  document.getElementById('results-title').textContent =
+    `Take-Home Pay — ${tyLabels[r.tyKey]} · ${r.regKey === 'scot' ? 'Scotland' : 'England / NI / Wales'}`;
+
+  // Hero (monthly by default)
+  document.getElementById('hero-amount').textContent = fmt(forPeriod(r.net, 'monthly'));
+  document.getElementById('hero-label').textContent = `per month take-home`;
+  document.getElementById('hero-annual').textContent = fmt(r.net);
+
+  // Breakdown table
+  const rows = [
+    { label: 'Gross salary',        val: r.annualSalary, cls: '' },
+    r.bonusAmt > 0 ? { label: 'Annual bonus', val: r.bonusAmt, cls: '' } : null,
+    r.totalSacrifice > 0 ? { label: 'Salary sacrifice', val: -r.totalSacrifice, cls: 'neg' } : null,
+    r.bikTotal > 0 ? { label: 'Benefits in kind', val: r.bikTotal, cls: '' } : null,
+    r.rentalProfit > 0 ? { label: 'Rental profit', val: r.rentalProfit, cls: '' } : null,
+    { label: 'Income Tax', val: -r.incomeTax, cls: 'neg' },
+    { label: 'National Insurance', val: -r.ni, cls: 'neg' },
+    r.pensionAmt > 0 ? { label: `Pension (${r.penMode === 'sacrifice' ? 'sacrifice' : 'RAS'})`, val: -r.pensionAmt, cls: 'neg' } : null,
+    r.studentLoan > 0 ? { label: 'Student loan', val: -r.studentLoan, cls: 'neg' } : null,
+    r.hicbcAmount > 0 ? { label: 'HICBC repayment', val: -r.hicbcAmount, cls: 'neg' } : null,
+  ].filter(Boolean);
+
+  const thead = document.querySelector('#breakdown-table thead tr');
+  const theadCols = ['', 'Annual','Monthly','Weekly','Daily','Hourly'];
+  thead.innerHTML = theadCols.map((c,i) => `<th${i===0?' style="text-align:left"':''}>${c}</th>`).join('');
+
+  const tbody = document.getElementById('breakdown-tbody');
+  tbody.innerHTML = rows.map(row => {
+    const annual = row.val;
+    const cols = [annual, annual/12, annual/52, annual/260, annual/2080];
+    const isNeg = annual < 0;
+    return `<tr>
+      <td>${row.label}</td>
+      ${cols.map(v => `<td class="${row.cls}">${isNeg ? '−' : ''}${fmt(Math.abs(v))}</td>`).join('')}
+    </tr>`;
+  }).join('') + `<tr class="total">
+    <td>Net Take-Home</td>
+    ${[1,12,52,260,2080].map(d => `<td>${fmt(r.net/d)}</td>`).join('')}
+  </tr>`;
+
+  // Tax band breakdown
+  renderBands(r);
+
+  // Rates
+  document.getElementById('rate-effective').textContent = fmtPct(r.effectiveRate);
+  document.getElementById('rate-marginal').textContent  = fmtPct(r.marginalRate);
+  document.getElementById('pa-used').textContent = fmt(r.paUsed);
+
+  // Employer NI
+  const tyRaw = parseInt(r.tyKey);
+  const ty = TD[tyRaw];
+  document.getElementById('emp-gross').textContent = fmt(r.annualWithBonus);
+  document.getElementById('emp-ni').textContent    = fmt(r.empNI);
+  document.getElementById('emp-total').textContent = fmt(r.annualWithBonus + r.empNI);
+  document.getElementById('employer-block').querySelector('.employer-title').textContent =
+    `Employer Cost — Class 1 Secondary NI (${(ty.niEmplRate*100).toFixed(1)}% above £${ty.niEmplST.toLocaleString()})`;
+
+  // Warnings
+  renderWarnings(r);
+
+  // Compare
+  if (flags.compare) renderCompare(r);
+
+  // Update hero for current view period
+  document.getElementById('hero-amount').textContent = fmt(forPeriod(r.net, viewPeriod));
+  document.getElementById('hero-label').textContent  = `${PLABELS[viewPeriod]} take-home`;
+}
+
+function renderBands(r) {
+  const totalIncome = r.incomeForTax;
+  const paAmount = r.pa;
+  const allSegments = [];
+
+  // PA band first
+  if (paAmount > 0 && totalIncome > 0) {
+    allSegments.push({ n: 'Personal Allowance (0%)', amount: Math.min(paAmount, totalIncome), rate: 0, tax: 0, color: '#94a3b8' });
+  }
+
+  const bandColors = ['#3b82f6','#2563eb','#1d4ed8','#7c3aed','#a855f7','#dc2626'];
+  r.bandBreakdown.forEach((b, i) => {
+    allSegments.push({ ...b, color: bandColors[i % bandColors.length] });
+  });
+
+  const totalForBar = totalIncome > 0 ? totalIncome : 1;
+
+  // Bar
+  const barWrap = document.getElementById('band-bar-wrap');
+  barWrap.innerHTML = allSegments.map(s =>
+    `<div class="band-bar-seg" style="width:${(s.amount/totalForBar*100).toFixed(2)}%;background:${s.color}"></div>`
+  ).join('');
+
+  // Rows
+  const rowsEl = document.getElementById('band-breakdown-rows');
+  rowsEl.innerHTML = allSegments.map(s => `
+    <div class="band-row">
+      <span class="band-swatch" style="background:${s.color}"></span>
+      <span class="band-label">${s.n}</span>
+      <span class="band-amount">${fmt(s.amount)}</span>
+      <span class="band-tax">&nbsp;→ ${s.rate === 0 ? '£0 tax' : `${fmt(s.tax)} tax`}</span>
+    </div>`
+  ).join('');
+}
+
+function renderWarnings(r) {
+  const ws = document.getElementById('warnings-section');
+  let html = '';
+
+  // 60% tax trap
+  if (r.incomeForTax > 100000 && r.incomeForTax < 125140 && r.regKey !== 'scot') {
+    html += `<div class="warning-box warning-amber">
+      <strong>⚠ 60% effective marginal rate zone</strong>
+      Your income falls in the £100,000–£125,140 band where personal allowance tapers. Each £2 earned removes £1 of allowance, creating an effective income tax rate of 60%. Consider pension contributions to bring income below £100,000.
+    </div>`;
+  }
+
+  // HICBC
+  if (r.hicbcAmount > 0) {
+    const ty = TD[parseInt(r.tyKey)];
+    const retained = (flags.hicbc && document.getElementById('numChildren')) ?
+      ty.cbFirst + Math.max(0,(parseInt(document.getElementById('numChildren').value)||1)-1)*ty.cbExtra - r.hicbcAmount : 0;
+    html += `<div class="warning-box warning-red">
+      <strong>High Income Child Benefit Charge</strong>
+      You must repay ${fmt(r.hicbcAmount)}/year of Child Benefit via self assessment. You retain ${fmt(Math.max(0,retained))}/year net.
+    </div>`;
+  }
+
+  // PA fully tapered
+  if (r.pa === 0 && r.incomeForTax >= 125140) {
+    html += `<div class="warning-box warning-red">
+      <strong>Personal Allowance fully withdrawn</strong>
+      Your income exceeds £125,140. You have no personal allowance remaining.
+    </div>`;
+  }
+
+  // NI letter note for 2023/24
+  if (r.tyKey == 2023 && r.niLetter === 'A') {
+    html += `<div class="warning-box warning-blue">
+      <strong>2023/24 NI note</strong>
+      The employee NI rate was 12% from April 2023 and cut to 10% from 6 January 2024. This calculator uses 12% for a full-year estimate. Actual deductions from Jan–Mar 2024 were lower.
+    </div>`;
+  }
+
+  // Pension annual allowance check
+  if (r.pensionAmt > 60000) {
+    html += `<div class="warning-box warning-amber">
+      <strong>Annual Allowance warning</strong>
+      Your pension contributions (${fmt(r.pensionAmt)}/year) may exceed the annual allowance of £60,000 (or lower if tapered for income above £260,000). Excess contributions are charged at your marginal tax rate. Speak to a pension adviser.
+    </div>`;
+  }
+
+  ws.innerHTML = html;
+}
+
+function renderCompare(mainResult) {
+  const compareGross = parseFloat(document.getElementById('compareGross').value);
+  const label = document.getElementById('compareLabel').value || 'Scenario B';
+  if (!compareGross || compareGross <= 0) return;
+
+  const compareResult = runCalc(
+    compareGross, 'annual', mainResult.tyKey, mainResult.regKey, mainResult.niLetter,
+    parseFloat(document.getElementById('pensionVal').value)||0,
+    pensionMode, pensionUnit,
+    document.getElementById('student').value,
+    parseFloat(document.getElementById('sacrificeOther').value)||0,
+    flags.marriage, parseFloat(document.getElementById('partnerIncome').value)||0,
+    flags.blind, false, 0,
+    0, document.getElementById('taxCode').value,
+    0, 0, 0, 0, 0
+  );
+
+  if (!compareResult) return;
+
+  const colA = document.getElementById('cmp-col-a');
+  const colB = document.getElementById('cmp-col-b');
+  const diff = compareResult.net - mainResult.net;
+
+  function makeCol(label, r) {
+    return `<div class="compare-col-label">${label}</div>
+      <div class="compare-row"><span>Gross</span><span>${fmt(r.annualSalary)}</span></div>
+      <div class="compare-row"><span>Income Tax</span><span class="neg">−${fmt(r.incomeTax)}</span></div>
+      <div class="compare-row"><span>NI</span><span class="neg">−${fmt(r.ni)}</span></div>
+      ${r.studentLoan > 0 ? `<div class="compare-row"><span>Student Loan</span><span class="neg">−${fmt(r.studentLoan)}</span></div>` : ''}
+      ${r.pensionAmt > 0 ? `<div class="compare-row"><span>Pension</span><span class="neg">−${fmt(r.pensionAmt)}</span></div>` : ''}
+      <div class="compare-row"><span>Net Take-Home</span><span>${fmt(r.net)}</span></div>`;
+  }
+
+  colA.innerHTML = makeCol('Scenario A (current)', mainResult);
+  colB.innerHTML = makeCol(label, compareResult);
+
+  const diffEl = document.getElementById('cmp-diff');
+  diffEl.className = 'compare-diff' + (diff < 0 ? ' negative' : '');
+  diffEl.textContent = `Scenario B ${diff >= 0 ? 'pays' : 'costs'} ${fmt(Math.abs(diff))} more per year · ${fmt(Math.abs(diff/12))} per month`;
+}
+
+function renderViewPeriod() {
+  if (!lastResult) return;
+  document.getElementById('hero-amount').textContent = fmt(forPeriod(lastResult.net, viewPeriod));
+  document.getElementById('hero-label').textContent  = `${PLABELS[viewPeriod]} take-home`;
+}
+
+// ═══════════════════════════════════════════════════════════
+// MAIN CALC ENTRY POINT
+// ═══════════════════════════════════════════════════════════
+
+function calc() {
+  const gross = parseFloat(document.getElementById('gross').value);
+  const period = document.getElementById('period').value;
+  const tyKey  = parseInt(document.getElementById('taxyear').value);
+  const niLetter = document.getElementById('niLetter').value;
+  const pensionVal = parseFloat(document.getElementById('pensionVal').value) || 0;
+  const student = document.getElementById('student').value;
+  const sacrificeOther = parseFloat(document.getElementById('sacrificeOther').value) || 0;
+  const partnerIncome = parseFloat(document.getElementById('partnerIncome').value) || 0;
+  const numChildren = parseInt(document.getElementById('numChildren').value) || 1;
+  const bonus = parseFloat(document.getElementById('bonus').value) || 0;
+  const taxCode = document.getElementById('taxCode').value;
+  const bikCar     = parseFloat(document.getElementById('bikCar').value) || 0;
+  const bikMedical = parseFloat(document.getElementById('bikMedical').value) || 0;
+  const bikOther   = parseFloat(document.getElementById('bikOther').value) || 0;
+  const rentalIncome   = parseFloat(document.getElementById('rentalIncome').value) || 0;
+  const rentalExpenses = parseFloat(document.getElementById('rentalExpenses').value) || 0;
+
+  if (!gross || gross <= 0) {
+    document.getElementById('results-card').style.display = 'none';
+    return;
+  }
+
+  lastResult = runCalc(
+    gross, period, tyKey, region, niLetter,
+    pensionVal, pensionMode, pensionUnit,
+    student, sacrificeOther,
+    flags.marriage, partnerIncome,
+    flags.blind, flags.hicbc, numChildren,
+    bonus, taxCode,
+    bikCar, bikMedical, bikOther,
+    rentalIncome, rentalExpenses
+  );
+
+  renderResult(lastResult);
+  updateURL();
+}
+
+// ═══════════════════════════════════════════════════════════
+// URL SHARING
+// ═══════════════════════════════════════════════════════════
+
+function updateURL() {
+  const params = new URLSearchParams({
+    g: document.getElementById('gross').value || '',
+    p: document.getElementById('period').value,
+    y: document.getElementById('taxyear').value,
+    r: region,
+    ni: document.getElementById('niLetter').value,
+    pv: document.getElementById('pensionVal').value || '',
+    pm: pensionMode,
+    pu: pensionUnit,
+    sl: document.getElementById('student').value,
+    so: document.getElementById('sacrificeOther').value || '',
+    ma: flags.marriage ? '1' : '0',
+    pi: document.getElementById('partnerIncome').value || '',
+    bl: flags.blind ? '1' : '0',
+    hb: flags.hicbc ? '1' : '0',
+    nc: document.getElementById('numChildren').value,
+    bn: document.getElementById('bonus').value || '',
+    tc: document.getElementById('taxCode').value || '',
+    bc: document.getElementById('bikCar').value || '',
+    bm: document.getElementById('bikMedical').value || '',
+    bo: document.getElementById('bikOther').value || '',
+    ri: document.getElementById('rentalIncome').value || '',
+    re: document.getElementById('rentalExpenses').value || '',
+  });
+  history.replaceState(null, '', '?' + params.toString());
+}
+
+function shareURL() {
+  const url = window.location.href;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(url).then(() => alert('Link copied to clipboard!'));
+  } else {
+    prompt('Copy this link:', url);
+  }
+}
+
+function loadFromURL() {
+  const p = new URLSearchParams(location.search);
+  if (!p.get('g')) return;
+
+  if (p.get('g'))   { const el = document.getElementById('gross');         if (el) el.value = p.get('g'); }
+  if (p.get('p'))   { const el = document.getElementById('period');        if (el) el.value = p.get('p'); }
+  if (p.get('y'))   { const el = document.getElementById('taxyear');       if (el) el.value = p.get('y'); }
+  if (p.get('ni'))  { const el = document.getElementById('niLetter');      if (el) el.value = p.get('ni'); }
+  if (p.get('pv'))  { const el = document.getElementById('pensionVal');    if (el) el.value = p.get('pv'); }
+  if (p.get('sl'))  { const el = document.getElementById('student');       if (el) el.value = p.get('sl'); }
+  if (p.get('so'))  { const el = document.getElementById('sacrificeOther');if (el) el.value = p.get('so'); }
+  if (p.get('pi'))  { const el = document.getElementById('partnerIncome'); if (el) el.value = p.get('pi'); }
+  if (p.get('nc'))  { const el = document.getElementById('numChildren');   if (el) el.value = p.get('nc'); }
+  if (p.get('bn'))  { const el = document.getElementById('bonus');         if (el) el.value = p.get('bn'); }
+  if (p.get('tc'))  { const el = document.getElementById('taxCode');       if (el) el.value = p.get('tc'); }
+  if (p.get('bc'))  { const el = document.getElementById('bikCar');        if (el) el.value = p.get('bc'); }
+  if (p.get('bm'))  { const el = document.getElementById('bikMedical');    if (el) el.value = p.get('bm'); }
+  if (p.get('bo'))  { const el = document.getElementById('bikOther');      if (el) el.value = p.get('bo'); }
+  if (p.get('ri'))  { const el = document.getElementById('rentalIncome');  if (el) el.value = p.get('ri'); }
+  if (p.get('re'))  { const el = document.getElementById('rentalExpenses');if (el) el.value = p.get('re'); }
+
+  if (p.get('r'))   setRegion(p.get('r'));
+  if (p.get('pm'))  setPensionMode(p.get('pm'));
+  if (p.get('pu'))  setPensionUnit(p.get('pu'));
+  if (p.get('ma') === '1') toggle('marriage');
+  if (p.get('bl') === '1') toggle('blind');
+  if (p.get('hb') === '1') toggle('hicbc');
+}
+
+// ═══════════════════════════════════════════════════════════
+// EVENT LISTENERS
+// ═══════════════════════════════════════════════════════════
+
+const watchIds = [
+  'gross','period','taxyear','niLetter','pensionVal','student','sacrificeOther',
+  'partnerIncome','numChildren','bonus','taxCode','bikCar','bikMedical','bikOther',
+  'rentalIncome','rentalExpenses','compareGross','compareLabel'
+];
+
+watchIds.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', calc);
+});
+
+// Init
+loadFromURL();
+calc();
+</script>
+</body>
+</html>

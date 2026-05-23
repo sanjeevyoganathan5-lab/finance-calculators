@@ -1,0 +1,729 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VAT Calculator UK — Add or Remove VAT Instantly</title>
+  <meta name="description" content="Add or remove VAT from any price instantly. Calculate 20%, 5% and 0% UK VAT rates, see the net and gross breakdown, and work out your quarterly VAT return." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    
+    /* ── LIGHT THEME OVERRIDES ── */
+    :root {
+      --bg:        #f8f9fc;
+      --surface:   #ffffff;
+      --surface2:  #f1f4f9;
+      --border:    #e2e8f0;
+      --accent:    #2563eb;
+      --accent-dim: rgba(37,99,235,0.08);
+      --accent-glow: rgba(37,99,235,0.15);
+      --red:       #dc2626;
+      --red-dim:   rgba(220,38,38,0.08);
+      --green:     #16a34a;
+      --green-dim: rgba(22,163,74,0.08);
+      --amber:     #d97706;
+      --amber-dim: rgba(217,119,6,0.08);
+      --purple:    #7c3aed;
+      --purple-dim: rgba(124,58,237,0.08);
+      --text:      #0f172a;
+      --muted:     #64748b;
+      --label:     #475569;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 52px;
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .site-nav-logo {
+      font-family: 'Inter', 'Syne', sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: #2563eb; text-decoration: none;
+      display: flex; align-items: center; gap: 4px;
+      transition: opacity 0.15s;
+    }
+
+    .site-nav-logo:hover { opacity: 0.75; }
+
+    .site-nav-trust {
+      font-family: 'JetBrains Mono', 'DM Mono', monospace;
+      font-size: 11px; color: #16a34a;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .site-nav-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 2px rgba(22,163,74,0.2);
+    }
+
+    @media (max-width: 520px) {
+      .site-nav { padding: 0 16px; }
+      .site-nav-trust { display: none; }
+    }
+
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', 'Syne', sans-serif;
+      min-height: 100vh; overflow-x: hidden;
+    }
+
+    
+
+    .container {
+      position: relative; z-index: 1;
+      max-width: 740px; margin: 0 auto;
+      padding: 24px 24px 80px;
+    }
+
+    header { margin-bottom: 48px; }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.2em; color: var(--accent);
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(28px,5vw,44px); font-weight: 800;
+      line-height: 1.1; color: var(--text); margin-bottom: 12px;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .subtitle {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--muted); font-weight: 300;
+    }
+
+    .tool-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 2px; padding: 36px; margin-bottom: 20px;
+      position: relative; overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--red));
+    }
+
+    @media (max-width: 520px) { .tool-card { padding: 24px; } }
+
+    /* Mode tabs */
+    .mode-tabs { display: flex; gap: 6px; margin-bottom: 24px; }
+
+    .mode-tab {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); border-radius: 2px; padding: 8px 14px;
+      cursor: pointer; transition: all 0.15s; flex: 1; text-align: center;
+    }
+
+    .mode-tab.active {
+      background: var(--accent-dim);
+      border-color: rgba(77,142,255,0.35); color: var(--accent);
+    }
+
+    /* VAT rate selector */
+    .rate-selector { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+
+    .rate-btn {
+      font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 700;
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); border-radius: 2px; padding: 10px 20px;
+      cursor: pointer; transition: all 0.15s; flex: 1; text-align: center;
+    }
+
+    .rate-btn .rate-btn-sub {
+      display: block; font-size: 9px; font-weight: 400;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-top: 3px;
+    }
+
+    .rate-btn.active {
+      background: var(--accent-dim);
+      border-color: rgba(77,142,255,0.35); color: var(--accent);
+    }
+
+    .rate-btn.active .rate-btn-sub { color: var(--accent); opacity: 0.7; }
+
+    /* Input */
+    .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+
+    .field label {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--label);
+    }
+
+    .input-wrap { position: relative; }
+
+    .input-prefix {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      font-family: 'DM Mono', monospace; font-size: 16px;
+      color: var(--accent); font-weight: 500; pointer-events: none;
+    }
+
+    input[type="number"] {
+      width: 100%; background: var(--surface2);
+      border: 1px solid var(--border); border-radius: 2px;
+      color: var(--text); font-family: 'DM Mono', monospace;
+      font-size: 22px; font-weight: 600;
+      padding: 16px 14px 16px 36px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -moz-appearance: textfield; appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+    /* Result cards */
+    .result-pair {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px; margin-bottom: 16px;
+    }
+
+    @media (max-width: 480px) { .result-pair { grid-template-columns: 1fr; } }
+
+    .result-card {
+      border-radius: 2px; padding: 22px 20px; position: relative;
+    }
+
+    .result-card.net-card {
+      background: var(--accent-dim); border: 1px solid rgba(77,142,255,0.2);
+    }
+
+    .result-card.gross-card {
+      background: var(--green-dim); border: 1px solid rgba(78,203,113,0.2);
+    }
+
+    .result-card-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px;
+    }
+
+    .net-card .result-card-label  { color: var(--accent); }
+    .gross-card .result-card-label { color: var(--green); }
+
+    .result-card-amount {
+      font-size: clamp(24px,4.5vw,36px); font-weight: 800;
+      font-variant-numeric: tabular-nums; line-height: 1;
+    }
+
+    .net-card .result-card-amount  { color: var(--accent); }
+    .gross-card .result-card-amount { color: var(--green); }
+
+    .result-card-sub {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      color: var(--muted); margin-top: 6px;
+    }
+
+    /* VAT amount hero */
+    .vat-hero {
+      background: var(--red-dim); border: 1px solid rgba(230,57,70,0.2);
+      border-radius: 2px; padding: 20px 24px; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+
+    .vat-hero-label {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--red); margin-bottom: 6px;
+    }
+
+    .vat-hero-amount {
+      font-size: clamp(28px,5vw,40px); font-weight: 800;
+      color: var(--red); font-variant-numeric: tabular-nums; line-height: 1;
+    }
+
+    .vat-hero-right { text-align: right; }
+
+    .vat-hero-rate-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 4px;
+    }
+
+    .vat-hero-rate {
+      font-size: 28px; font-weight: 800; color: var(--text);
+    }
+
+    /* Bar */
+    .bar-wrap { margin-bottom: 20px; }
+
+    .bar-labels {
+      display: flex; justify-content: space-between; margin-bottom: 8px;
+    }
+
+    .bar-label-item {
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+    .bar-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    .bar-chart {
+      display: flex; height: 8px; border-radius: 2px; overflow: hidden; gap: 2px;
+    }
+
+    .bar-net   { height: 100%; background: var(--accent); transition: width 0.4s ease; }
+    .bar-vat   { height: 100%; background: var(--red);    transition: width 0.4s ease; }
+
+    /* VAT return planner */
+    .vat-return-card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; padding: 20px;
+    }
+
+    .vat-return-title {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--label); margin-bottom: 14px;
+    }
+
+    .return-inputs {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;
+    }
+
+    @media (max-width: 480px) { .return-inputs { grid-template-columns: 1fr; } }
+
+    .return-field { display: flex; flex-direction: column; gap: 6px; }
+
+    .return-field label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--label);
+    }
+
+    .return-input-wrap { position: relative; }
+
+    .return-prefix {
+      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+      font-family: 'DM Mono', monospace; font-size: 12px;
+      color: var(--muted); pointer-events: none;
+    }
+
+    input.return-input {
+      width: 100%; background: var(--bg);
+      border: 1px solid var(--border); border-radius: 2px;
+      color: var(--text); font-family: 'DM Mono', monospace;
+      font-size: 14px; padding: 9px 10px 9px 24px; outline: none;
+      transition: border-color 0.15s;
+      -moz-appearance: textfield; appearance: textfield;
+    }
+
+    input.return-input::-webkit-outer-spin-button,
+    input.return-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    input.return-input:focus { border-color: var(--accent); }
+
+    .return-result {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-top: 1px solid var(--border);
+    }
+
+    .return-result-label {
+      font-family: 'DM Mono', monospace; font-size: 12px; color: var(--muted);
+    }
+
+    .return-result-val {
+      font-family: 'DM Mono', monospace; font-size: 16px;
+      font-weight: 700; font-variant-numeric: tabular-nums;
+    }
+
+    .return-result-val.owe    { color: var(--red); }
+    .return-result-val.refund { color: var(--green); }
+
+    /* Rates info */
+    .rates-info {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; overflow: hidden; margin-top: 20px;
+    }
+
+    .rates-info-title {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--label); padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rates-info-row {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 12px 16px; border-bottom: 1px solid rgba(30,45,80,0.5);
+      gap: 16px;
+    }
+
+    .rates-info-row:last-child { border-bottom: none; }
+
+    .rates-info-rate {
+      font-family: 'DM Mono', monospace; font-size: 18px;
+      font-weight: 700; color: var(--accent); min-width: 48px;
+    }
+
+    .rates-info-desc {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      color: var(--muted); line-height: 1.6; flex: 1;
+    }
+
+    /* SEO */
+    .seo-section {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 2px; padding: 32px 36px; margin-top: 20px;
+    }
+
+    .seo-section h2 {
+      font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px;
+    }
+
+    .seo-section p {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--muted); line-height: 1.75; font-weight: 300;
+    }
+
+    .seo-section p + p { margin-top: 10px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .tool-card, .seo-section { animation: fadeUp 0.4s ease both; }
+    .seo-section { animation-delay: 0.1s; }
+    .result-animate { animation: fadeUp 0.2s ease both; }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 16px; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; cursor: pointer; font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--muted);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px;
+    }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+    @media print {
+      .site-nav, .share-btn, .seo-section { display: none !important; }
+      body { background: white; }
+      .tool-card { border: none; box-shadow: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-logo">← Calculators.Finance</a>
+  <div class="site-nav-trust">
+    <span class="site-nav-dot"></span>
+    2025/26 rates live
+  </div>
+</nav>
+<div class="container">
+
+  <header>
+    <p class="eyebrow">Finance Calculator · UK</p>
+    <h1><span>VAT</span><br>Calculator</h1>
+    <p class="subtitle">Add or remove UK VAT instantly — 20%, 5% and 0% rates</p>
+  </header>
+
+  <div class="tool-card">
+
+    <!-- Add / Remove tabs -->
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="tab-add"    onclick="setMode('add')">Add VAT to price</button>
+      <button class="mode-tab"        id="tab-remove" onclick="setMode('remove')">Remove VAT from price</button>
+    </div>
+
+    <!-- VAT rate selector -->
+    <div class="rate-selector">
+      <button class="rate-btn active" id="rate-20" onclick="setRate(20)">
+        20%
+        <span class="rate-btn-sub">Standard</span>
+      </button>
+      <button class="rate-btn" id="rate-5" onclick="setRate(5)">
+        5%
+        <span class="rate-btn-sub">Reduced</span>
+      </button>
+      <button class="rate-btn" id="rate-0" onclick="setRate(0)">
+        0%
+        <span class="rate-btn-sub">Zero rated</span>
+      </button>
+      <button class="rate-btn" id="rate-custom" onclick="setRate('custom')" style="min-width:80px;flex:0.6">
+        Custom
+        <span class="rate-btn-sub">enter %</span>
+      </button>
+    </div>
+
+    <!-- Custom rate input -->
+    <div class="field" id="custom-rate-field" style="display:none;margin-bottom:20px">
+      <label>Custom VAT Rate</label>
+      <div class="input-wrap">
+        <input type="number" inputmode="decimal" id="custom-rate" placeholder="15" min="0" max="100" step="0.1"
+          style="padding-left:14px;font-size:18px" />
+        <span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-family:'DM Mono',monospace;font-size:14px;color:var(--muted)">%</span>
+      </div>
+    </div>
+
+    <!-- Amount input -->
+    <div class="field">
+      <label for="price" id="price-label">Net price (ex. VAT)</label>
+      <div class="input-wrap">
+        <span class="input-prefix">£</span>
+        <input type="number" inputmode="decimal" id="price" placeholder="100.00" min="0" step="0.01" />
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Results always shown once price entered -->
+    <div id="results" style="display:none">
+
+      <!-- Net / Gross side by side -->
+      <div class="result-pair">
+        <div class="result-card net-card">
+          <div class="result-card-label">Net (ex. VAT)</div>
+          <div class="result-card-amount" id="net-amount">£0.00</div>
+          <div class="result-card-sub">before tax</div>
+        </div>
+        <div class="result-card gross-card">
+          <div class="result-card-label">Gross (inc. VAT)</div>
+          <div class="result-card-amount" id="gross-amount">£0.00</div>
+          <div class="result-card-sub">total payable</div>
+        </div>
+      </div>
+
+      <!-- VAT amount hero -->
+      <div class="vat-hero">
+        <div>
+          <div class="vat-hero-label">VAT amount</div>
+          <div class="vat-hero-amount" id="vat-amount">£0.00</div>
+        </div>
+        <div class="vat-hero-right">
+          <div class="vat-hero-rate-label">Rate applied</div>
+          <div class="vat-hero-rate" id="vat-rate-display">20%</div>
+        </div>
+      </div>
+
+      <!-- Net vs VAT bar -->
+      <div class="bar-wrap">
+        <div class="bar-labels">
+          <div class="bar-label-item"><span class="bar-dot" style="background:var(--accent)"></span>Net price</div>
+          <div class="bar-label-item"><span class="bar-dot" style="background:var(--red)"></span>VAT</div>
+        </div>
+        <div class="bar-chart">
+          <div class="bar-net" id="bar-net" style="width:83%"></div>
+          <div class="bar-vat" id="bar-vat" style="width:17%"></div>
+        </div>
+      </div>
+
+      <!-- VAT return planner -->
+      <div class="vat-return-card">
+        <div class="vat-return-title">Quarterly VAT return planner</div>
+        <div class="return-inputs">
+          <div class="return-field">
+            <label>VAT charged to customers</label>
+            <div class="return-input-wrap">
+              <span class="return-prefix">£</span>
+              <input class="return-input" type="number" id="vat-collected"
+                placeholder="4200" min="0" step="1" />
+            </div>
+          </div>
+          <div class="return-field">
+            <label>VAT paid on purchases</label>
+            <div class="return-input-wrap">
+              <span class="return-prefix">£</span>
+              <input class="return-input" type="number" id="vat-paid"
+                placeholder="1800" min="0" step="1" />
+            </div>
+          </div>
+        </div>
+        <div class="return-result" id="return-result" style="display:none">
+          <span class="return-result-label" id="return-label">VAT to pay HMRC</span>
+          <span class="return-result-val owe" id="return-val">£0</span>
+        </div>
+      </div>
+
+      <!-- UK VAT rates reference -->
+      <div class="rates-info">
+        <div class="rates-info-title">UK VAT rates reference (2025)</div>
+        <div class="rates-info-row">
+          <div class="rates-info-rate">20%</div>
+          <div class="rates-info-desc">Standard rate — applies to most goods and services including electronics, clothing, professional services, and alcohol.</div>
+        </div>
+        <div class="rates-info-row">
+          <div class="rates-info-rate">5%</div>
+          <div class="rates-info-desc">Reduced rate — applies to domestic energy, children's car seats, smoking cessation products, and some renovation work.</div>
+        </div>
+        <div class="rates-info-row">
+          <div class="rates-info-rate">0%</div>
+          <div class="rates-info-desc">Zero rated — applies to food (most), books and newspapers, children's clothing and footwear, and most prescriptions. VAT registered but charged at 0%.</div>
+        </div>
+      </div>
+
+      <button class="share-btn" onclick="shareURL()">⎘ Copy share link</button>
+    </div>
+  </div>
+
+  <div class="seo-section">
+    <h2>How to Add or Remove VAT in the UK</h2>
+    <p>
+      To add VAT to a net price, multiply by 1.20 for the standard rate (or 1.05 for the reduced rate). To remove VAT from a gross price, divide by 1.20 — not subtract 20%, which is a common mistake. Dividing £120 by 1.20 gives the correct net of £100; subtracting 20% of £120 gives £96, which is wrong.
+    </p>
+    <p>
+      Businesses must register for VAT once their taxable turnover exceeds £90,000 in any 12-month period (2024/25 threshold). Once registered, you charge VAT on your sales (output tax) and can reclaim VAT on your business purchases (input tax). The difference is paid to or reclaimed from HMRC quarterly via a VAT return.
+    </p>
+    <p>
+      For business financial planning, use our <a href="/break-even-calculator" style="color:var(--accent);text-decoration:none;">Break-Even Calculator</a> to factor VAT into your pricing strategy, or our <a href="/freelance-rate-calculator" style="color:var(--accent);text-decoration:none;">Freelance Rate Calculator</a> to set VAT-inclusive rates.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  let mode = 'add';
+  let vatRate = 20;
+  let useCustom = false;
+
+  function setMode(m) {
+    mode = m;
+    document.getElementById('tab-add').classList.toggle('active', m === 'add');
+    document.getElementById('tab-remove').classList.toggle('active', m === 'remove');
+    document.getElementById('price-label').textContent =
+      m === 'add' ? 'Net price (ex. VAT)' : 'Gross price (inc. VAT)';
+    calc();
+  }
+
+  function setRate(r) {
+    useCustom = r === 'custom';
+    document.getElementById('custom-rate-field').style.display = useCustom ? 'block' : 'none';
+
+    ['20','5','0','custom'].forEach(k => {
+      document.getElementById('rate-' + k).classList.toggle('active', String(r) === k);
+    });
+
+    if (!useCustom) { vatRate = r; calc(); }
+  }
+
+  function getRate() {
+    if (useCustom) {
+      return parseFloat(document.getElementById('custom-rate').value) || 0;
+    }
+    return vatRate;
+  }
+
+  function fmt(n) {
+    return '£' + Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function fmtReturn(n) {
+    return '£' + Math.abs(Math.round(n)).toLocaleString('en-GB');
+  }
+
+  function calcReturn() {
+    const collected = parseFloat(document.getElementById('vat-collected').value) || 0;
+    const paid      = parseFloat(document.getElementById('vat-paid').value)      || 0;
+    const el        = document.getElementById('return-result');
+    const lbl       = document.getElementById('return-label');
+    const val       = document.getElementById('return-val');
+
+    if (!collected && !paid) { el.style.display = 'none'; return; }
+    el.style.display = 'flex';
+
+    const diff = collected - paid;
+    if (diff >= 0) {
+      lbl.textContent = 'VAT to pay HMRC';
+      val.textContent = fmtReturn(diff);
+      val.className   = 'return-result-val owe';
+    } else {
+      lbl.textContent = 'VAT refund from HMRC';
+      val.textContent = fmtReturn(Math.abs(diff));
+      val.className   = 'return-result-val refund';
+    }
+  }
+
+  function calc() {
+    const price   = parseFloat(document.getElementById('price').value);
+    const rate    = getRate();
+    const resultsEl = document.getElementById('results');
+
+    if (!price || price <= 0) { resultsEl.style.display = 'none'; return; }
+
+    let net, gross, vatAmt;
+
+    if (mode === 'add') {
+      net    = price;
+      gross  = price * (1 + rate / 100);
+      vatAmt = gross - net;
+    } else {
+      gross  = price;
+      net    = price / (1 + rate / 100);
+      vatAmt = gross - net;
+    }
+
+    document.getElementById('net-amount').textContent  = fmt(net);
+    document.getElementById('gross-amount').textContent = fmt(gross);
+    document.getElementById('vat-amount').textContent  = fmt(vatAmt);
+    document.getElementById('vat-rate-display').textContent = rate + '%';
+
+    // Bar
+    const netPct = gross > 0 ? (net / gross) * 100 : 100;
+    const vatPct = 100 - netPct;
+    document.getElementById('bar-net').style.width = netPct + '%';
+    document.getElementById('bar-vat').style.width = vatPct + '%';
+
+    resultsEl.style.display = 'block';
+    resultsEl.classList.remove('result-animate');
+    void resultsEl.offsetWidth;
+    resultsEl.classList.add('result-animate');
+
+    calcReturn();
+  }
+
+  function shareURL() {
+    const params = new URLSearchParams();
+    const price = document.getElementById('price').value;
+    if (price) params.set('price', price);
+    params.set('mode', mode);
+    params.set('rate', useCustom ? document.getElementById('custom-rate').value : vatRate);
+    const url = location.origin + location.pathname + '?' + params.toString();
+    navigator.clipboard.writeText(url).then(() => {
+      const btn = document.querySelector('.share-btn');
+      const orig = btn.innerHTML; btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    });
+  }
+
+  function loadFromURL() {
+    const p = new URLSearchParams(location.search);
+    if (p.has('mode')) setMode(p.get('mode'));
+    if (p.has('rate')) {
+      const r = parseFloat(p.get('rate'));
+      if ([20, 5, 0].includes(r)) setRate(r);
+      else { setRate('custom'); document.getElementById('custom-rate').value = r; vatRate = r; }
+    }
+    if (p.has('price')) document.getElementById('price').value = p.get('price');
+    calc();
+  }
+
+  document.getElementById('price').addEventListener('input', calc);
+  document.getElementById('custom-rate').addEventListener('input', () => { vatRate = getRate(); calc(); });
+  document.getElementById('vat-collected').addEventListener('input', calcReturn);
+  document.getElementById('vat-paid').addEventListener('input', calcReturn);
+  loadFromURL();
+</script>
+</body>
+</html>

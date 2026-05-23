@@ -1,0 +1,959 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monthly Budget Planner UK — Free Budget Calculator 2025</title>
+  <meta name="description" content="Plan your monthly budget with our free UK budget planner. Enter your income and expenses to see exactly where your money goes and how much you have left to save." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    
+    /* ── LIGHT THEME OVERRIDES ── */
+    :root {
+      --bg:        #f8f9fc;
+      --surface:   #ffffff;
+      --surface2:  #f1f4f9;
+      --border:    #e2e8f0;
+      --accent:    #2563eb;
+      --accent-dim: rgba(37,99,235,0.08);
+      --accent-glow: rgba(37,99,235,0.15);
+      --red:       #dc2626;
+      --red-dim:   rgba(220,38,38,0.08);
+      --green:     #16a34a;
+      --green-dim: rgba(22,163,74,0.08);
+      --amber:     #d97706;
+      --amber-dim: rgba(217,119,6,0.08);
+      --purple:    #7c3aed;
+      --purple-dim: rgba(124,58,237,0.08);
+      --text:      #0f172a;
+      --muted:     #64748b;
+      --label:     #475569;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 52px;
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .site-nav-logo {
+      font-family: 'Inter', 'Syne', sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: #2563eb; text-decoration: none;
+      display: flex; align-items: center; gap: 4px;
+      transition: opacity 0.15s;
+    }
+
+    .site-nav-logo:hover { opacity: 0.75; }
+
+    .site-nav-trust {
+      font-family: 'JetBrains Mono', 'DM Mono', monospace;
+      font-size: 11px; color: #16a34a;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .site-nav-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 2px rgba(22,163,74,0.2);
+    }
+
+    @media (max-width: 520px) {
+      .site-nav { padding: 0 16px; }
+      .site-nav-trust { display: none; }
+    }
+
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 24px 24px 80px;
+    }
+
+    header { margin-bottom: 48px; }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 36px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--red));
+    }
+
+    @media (max-width: 520px) { .tool-card { padding: 20px; } }
+
+    /* Income row */
+    .income-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      background: var(--green-dim);
+      border: 1px solid rgba(78,203,113,0.2);
+      border-radius: 2px;
+      padding: 16px 20px;
+    }
+
+    .income-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green);
+      flex: 1;
+    }
+
+    .income-input-wrap { position: relative; width: 160px; flex-shrink: 0; }
+
+    .income-prefix {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      color: var(--green);
+      font-weight: 500;
+      pointer-events: none;
+    }
+
+    input.income-input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid rgba(78,203,113,0.25);
+      border-radius: 2px;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 16px;
+      padding: 10px 12px 10px 28px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    input.income-input::-webkit-outer-spin-button,
+    input.income-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    input.income-input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(78,203,113,0.15);
+    }
+
+    /* Category sections */
+    .cat-section { margin-bottom: 6px; }
+
+    .cat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 0.15s;
+      margin-bottom: 2px;
+    }
+
+    .cat-header:hover { border-color: #2a3d6a; }
+
+    .cat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    .cat-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .cat-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cat-total {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--red);
+      font-variant-numeric: tabular-nums;
+      min-width: 70px;
+      text-align: right;
+    }
+
+    .cat-chevron {
+      font-size: 10px;
+      color: var(--muted);
+      transition: transform 0.2s;
+    }
+
+    .cat-chevron.open { transform: rotate(180deg); }
+
+    .cat-body { display: none; border: 1px solid var(--border); border-top: none; border-radius: 0 0 2px 2px; }
+    .cat-body.open { display: block; }
+
+    /* Expense rows */
+    .exp-row {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(30,45,80,0.6);
+    }
+
+    .exp-row:last-child { border-bottom: none; }
+
+    .exp-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 0 14px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .exp-input-wrap { position: relative; width: 120px; flex-shrink: 0; }
+
+    .exp-prefix {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    input.exp-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-left: 1px solid var(--border);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      padding: 10px 10px 10px 22px;
+      outline: none;
+      transition: background 0.15s;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    input.exp-input::-webkit-outer-spin-button,
+    input.exp-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    input.exp-input:focus { background: #1a2540; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 28px 0;
+    }
+
+    /* Summary */
+    .summary-hero {
+      border-radius: 2px;
+      padding: 24px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .summary-hero.surplus  { background: var(--green-dim); border: 1px solid rgba(78,203,113,0.2); }
+    .summary-hero.balanced { background: var(--accent-dim); border: 1px solid rgba(77,142,255,0.2); }
+    .summary-hero.deficit  { background: var(--red-dim);   border: 1px solid rgba(230,57,70,0.2); }
+
+    .summary-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .summary-amount {
+      font-size: clamp(32px, 6vw, 48px);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .summary-amount.green { color: var(--green); }
+    .summary-amount.red   { color: var(--red); }
+    .summary-amount.blue  { color: var(--accent); }
+
+    .summary-right { text-align: right; }
+
+    .summary-sub-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .summary-sub-val {
+      font-size: 20px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Stats */
+    .breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) { .breakdown-grid { grid-template-columns: 1fr 1fr; } }
+
+    .breakdown-item {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 16px 14px;
+    }
+
+    .breakdown-period {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .breakdown-amount {
+      font-size: 20px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .breakdown-amount.green  { color: var(--green); }
+    .breakdown-amount.red    { color: var(--red); }
+    .breakdown-amount.accent { color: var(--accent); }
+
+    /* Spending bar */
+    .spend-bar-wrap { margin-bottom: 20px; }
+
+    .spend-bar-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--label);
+      margin-bottom: 10px;
+    }
+
+    .spend-bar-track {
+      height: 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      display: flex;
+      gap: 1px;
+    }
+
+    .spend-bar-seg {
+      height: 100%;
+      transition: width 0.4s ease;
+      min-width: 0;
+    }
+
+    .spend-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .spend-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* 50/30/20 rule */
+    .rule-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 20px;
+    }
+
+    .rule-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--label);
+      margin-bottom: 14px;
+    }
+
+    .rule-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .rule-row:last-child { border-bottom: none; }
+
+    .rule-left { display: flex; align-items: center; gap: 10px; }
+
+    .rule-pill {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .rule-pill.needs  { background: rgba(230,57,70,0.15);  color: var(--red); }
+    .rule-pill.wants  { background: rgba(244,160,34,0.15); color: var(--amber); }
+    .rule-pill.savings { background: rgba(78,203,113,0.15); color: var(--green); }
+
+    .rule-desc {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .rule-right { display: flex; align-items: center; gap: 10px; }
+
+    .rule-target {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      min-width: 54px;
+      text-align: right;
+    }
+
+    .rule-actual {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      min-width: 70px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .rule-actual.ok  { color: var(--green); }
+    .rule-actual.warn { color: var(--amber); }
+    .rule-actual.over { color: var(--red); }
+
+    /* SEO */
+    .seo-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 32px 36px;
+      margin-top: 20px;
+    }
+
+    .seo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .seo-section p {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    .seo-section p + p { margin-top: 10px; }
+
+    .view-toggle {
+      display: flex; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; padding: 3px; gap: 3px; width: fit-content;
+    }
+    .view-pill {
+      padding: 7px 16px; font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); cursor: pointer; border-radius: 1px;
+      transition: all 0.15s; border: none; background: transparent;
+    }
+    .view-pill.active { background: var(--surface); color: var(--accent); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .action-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .action-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 16px; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 11px;
+      color: var(--muted); cursor: pointer; transition: all 0.15s;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .action-btn:hover { border-color: var(--accent); color: var(--accent); }
+    @media print {
+      .site-nav, .action-row, .view-toggle, .seo-section { display: none !important; }
+      .cat-body { display: block !important; }
+      body { background: white; }
+      .tool-card { border: none; box-shadow: none; padding: 0; }
+      .container { padding: 0; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .tool-card, .seo-section { animation: fadeUp 0.4s ease both; }
+    .seo-section { animation-delay: 0.1s; }
+  </style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-logo">← Calculators.Finance</a>
+  <div class="site-nav-trust">
+    <span class="site-nav-dot"></span>
+    2025/26 rates live
+  </div>
+</nav>
+<div class="container">
+
+  <header>
+    <p class="eyebrow">Finance Calculator · UK</p>
+    <h1>Monthly <span>Budget</span><br>Planner</h1>
+    <p class="subtitle">Enter your income and expenses — see exactly where your money goes</p>
+  </header>
+
+  <div class="tool-card">
+
+    <!-- View toggle -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--label)">All figures</div>
+      <div class="view-toggle">
+        <button class="view-pill active" id="pill-monthly" onclick="setView('monthly')">Monthly</button>
+        <button class="view-pill" id="pill-annual" onclick="setView('annual')">Annual (×12)</button>
+      </div>
+    </div>
+
+    <!-- Income -->
+    <div class="income-row">
+      <span class="income-label">Monthly take-home income</span>
+      <div class="income-input-wrap">
+        <span class="income-prefix">£</span>
+        <input class="income-input" type="number" id="income" placeholder="2800" min="0" step="100" />
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div id="categories"></div>
+
+    <hr class="divider" />
+
+    <!-- Summary — always visible -->
+    <div class="summary-hero balanced" id="summary-hero">
+      <div>
+        <div class="summary-label" id="summary-label">Left over / surplus</div>
+        <div class="summary-amount blue" id="summary-amount">£0</div>
+      </div>
+      <div class="summary-right">
+        <div class="summary-sub-label">Total spending</div>
+        <div class="summary-sub-val" id="summary-spend" style="color:var(--red)">£0</div>
+      </div>
+    </div>
+
+    <div class="breakdown-grid">
+      <div class="breakdown-item">
+        <div class="breakdown-period">Income</div>
+        <div class="breakdown-amount green" id="stat-income">£0</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-period">Expenses</div>
+        <div class="breakdown-amount red" id="stat-expenses">£0</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-period">Savings Rate</div>
+        <div class="breakdown-amount accent" id="stat-rate">0%</div>
+      </div>
+    </div>
+
+    <!-- Spending bar -->
+    <div class="spend-bar-wrap">
+      <div class="spend-bar-label">Spending breakdown</div>
+      <div class="spend-bar-track" id="spend-bar"></div>
+      <div class="spend-legend" id="spend-legend"></div>
+    </div>
+
+    <!-- Annual view note -->
+    <div id="annual-note" style="display:none;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:12px;padding:10px 14px;background:var(--accent-dim);border:1px solid rgba(37,99,235,0.12);border-radius:2px">
+      Showing annual figures (monthly × 12). Your inputs remain monthly.
+    </div>
+
+    <!-- 50/30/20 -->
+    <div class="rule-card">
+      <div class="rule-title">50 / 30 / 20 Rule — how you compare</div>
+      <div class="rule-row">
+        <div class="rule-left">
+          <span class="rule-pill needs">50%</span>
+          <span class="rule-desc">Needs (housing, food, bills)</span>
+        </div>
+        <div class="rule-right">
+          <span class="rule-target" id="rule-needs-target">£0</span>
+          <span class="rule-actual" id="rule-needs-actual">£0</span>
+        </div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-left">
+          <span class="rule-pill wants">30%</span>
+          <span class="rule-desc">Wants (dining, fun, clothing)</span>
+        </div>
+        <div class="rule-right">
+          <span class="rule-target" id="rule-wants-target">£0</span>
+          <span class="rule-actual" id="rule-wants-actual">£0</span>
+        </div>
+      </div>
+      <div class="rule-row">
+        <div class="rule-left">
+          <span class="rule-pill savings">20%</span>
+          <span class="rule-desc">Savings & debt repayment</span>
+        </div>
+        <div class="rule-right">
+          <span class="rule-target" id="rule-savings-target">£0</span>
+          <span class="rule-actual" id="rule-savings-actual">£0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="action-btn" onclick="exportCSV()">↓ Export CSV</button>
+      <button class="action-btn" onclick="window.print()">⎙ Print budget</button>
+      <button class="action-btn" onclick="shareURL()">⎘ Copy share link</button>
+    </div>
+
+  </div>
+
+  <div class="seo-section">
+    <h2>How to Plan a Monthly Budget in the UK</h2>
+    <p>
+      A monthly budget works by mapping your take-home income against all your outgoings. Start with essentials — rent or mortgage, utilities, food, transport and minimum debt repayments. These are non-negotiable and should account for no more than 50% of your income according to the popular 50/30/20 rule. The remaining 30% covers discretionary spending like dining out and entertainment, and the final 20% goes to savings and additional debt repayment.
+    </p>
+    <p>
+      Most UK households overspend on subscriptions and dining without realising it. Running this budget planner monthly — especially after pay day — helps you spot leaks before they compound. Even a £200/month surplus invested consistently can grow significantly over 10–20 years thanks to compound interest.
+    </p>
+    <p>
+      To calculate your monthly take-home pay to enter above, use our <a href="/take-home-pay-calculator" style="color:var(--accent);text-decoration:none;">Take-Home Pay Calculator</a>. To put your surplus to work, see our <a href="/savings-goal-calculator" style="color:var(--accent);text-decoration:none;">Savings Goal Calculator</a>.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  let viewMode = 'monthly';
+
+  function setView(v) {
+    viewMode = v;
+    document.getElementById('pill-monthly').classList.toggle('active', v === 'monthly');
+    document.getElementById('pill-annual').classList.toggle('active', v === 'annual');
+    document.getElementById('annual-note').style.display = v === 'annual' ? 'block' : 'none';
+    calc();
+  }
+
+  function exportCSV() {
+    const income = parseFloat(document.getElementById('income').value) || 0;
+    let csv = 'Budget Planner,Monthly,Annual\n';
+    csv += `Income,${income},${income * 12}\n\n`;
+    csv += 'Category,Item,Monthly,Annual\n';
+    let grandTotal = 0;
+    CATEGORIES.forEach((cat, ci) => {
+      let catTotal = 0;
+      cat.items.forEach((item, ii) => {
+        const v = parseFloat(document.getElementById(`exp-${ci}-${ii}`).value) || 0;
+        if (v > 0) { csv += `${cat.name},${item},${v},${v * 12}\n`; catTotal += v; }
+      });
+      if (catTotal > 0) { csv += `${cat.name} Total,,${catTotal},${catTotal * 12}\n`; grandTotal += catTotal; }
+    });
+    csv += `\nTotal Expenses,,${grandTotal},${grandTotal * 12}\n`;
+    csv += `Surplus / Deficit,,${income - grandTotal},${(income - grandTotal) * 12}\n`;
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: 'budget-planner.csv' });
+    a.click(); URL.revokeObjectURL(a.href);
+  }
+
+  const CATEGORIES = [
+    {
+      name: 'Housing', color: '#e63946', type: 'needs',
+      items: ['Rent / Mortgage', 'Council Tax', 'Electricity & Gas', 'Water', 'Internet & Phone', 'Home Insurance']
+    },
+    {
+      name: 'Food & Groceries', color: '#f4a022', type: 'needs',
+      items: ['Groceries', 'Work lunches', 'Meal delivery / takeaway']
+    },
+    {
+      name: 'Transport', color: '#38bdf8', type: 'needs',
+      items: ['Car payment / lease', 'Fuel', 'Insurance', 'Public transport', 'Parking & tolls']
+    },
+    {
+      name: 'Debt Repayments', color: '#a78bfa', type: 'savings',
+      items: ['Credit card payment', 'Personal loan', 'Student loan']
+    },
+    {
+      name: 'Entertainment & Dining', color: '#fb923c', type: 'wants',
+      items: ['Restaurants & bars', 'Streaming services', 'Hobbies', 'Gym & sports', 'Events & activities']
+    },
+    {
+      name: 'Shopping & Clothing', color: '#f472b6', type: 'wants',
+      items: ['Clothing & shoes', 'Online shopping', 'Personal care']
+    },
+    {
+      name: 'Savings & Investments', color: '#4ecb71', type: 'savings',
+      items: ['Emergency fund', 'ISA / investments', 'Pension top-up', 'Other savings']
+    },
+    {
+      name: 'Health & Insurance', color: '#67e8f9', type: 'needs',
+      items: ['Life insurance', 'Health / dental', 'Prescriptions', 'Therapy / wellbeing']
+    },
+    {
+      name: 'Family & Kids', color: '#fbbf24', type: 'needs',
+      items: ['Childcare', 'School / activities', 'Child support']
+    },
+    {
+      name: 'Other', color: '#6a7aaa', type: 'wants',
+      items: ['Gifts & donations', 'Pet costs', 'Miscellaneous']
+    },
+  ];
+
+  // Build category DOM
+  const container = document.getElementById('categories');
+  CATEGORIES.forEach((cat, ci) => {
+    const section = document.createElement('div');
+    section.className = 'cat-section';
+
+    const header = document.createElement('div');
+    header.className = 'cat-header';
+    header.innerHTML = `
+      <div class="cat-header-left">
+        <span class="cat-dot" style="background:${cat.color}"></span>
+        <span class="cat-name">${cat.name}</span>
+      </div>
+      <div class="cat-header-right">
+        <span class="cat-total" id="cat-total-${ci}">£0</span>
+        <span class="cat-chevron" id="cat-chev-${ci}">▼</span>
+      </div>`;
+
+    const body = document.createElement('div');
+    body.className = 'cat-body';
+    body.id = `cat-body-${ci}`;
+
+    cat.items.forEach((item, ii) => {
+      const row = document.createElement('div');
+      row.className = 'exp-row';
+      row.innerHTML = `
+        <span class="exp-label">${item}</span>
+        <div class="exp-input-wrap">
+          <span class="exp-prefix">£</span>
+          <input class="exp-input" type="number" id="exp-${ci}-${ii}" placeholder="0" min="0" step="10" />
+        </div>`;
+      body.appendChild(row);
+    });
+
+    header.addEventListener('click', () => {
+      const isOpen = body.classList.toggle('open');
+      document.getElementById(`cat-chev-${ci}`).classList.toggle('open', isOpen);
+    });
+
+    section.appendChild(header);
+    section.appendChild(body);
+    container.appendChild(section);
+  });
+
+  // Open first two by default
+  [0, 1].forEach(i => {
+    document.getElementById(`cat-body-${i}`).classList.add('open');
+    document.getElementById(`cat-chev-${i}`).classList.add('open');
+  });
+
+  function fmt(n) {
+    return '£' + Math.abs(Math.round(n)).toLocaleString('en-GB');
+  }
+
+  function calc() {
+    const income = parseFloat(document.getElementById('income').value) || 0;
+    const mul = viewMode === 'annual' ? 12 : 1;
+    const periodLabel = viewMode === 'annual' ? 'Annual' : 'Monthly';
+
+    let totalExpenses = 0;
+    let needsTotal = 0, wantsTotal = 0, savingsTotal = 0;
+    const catTotals = [];
+
+    CATEGORIES.forEach((cat, ci) => {
+      let catTotal = 0;
+      cat.items.forEach((_, ii) => {
+        catTotal += parseFloat(document.getElementById(`exp-${ci}-${ii}`).value) || 0;
+      });
+      catTotals.push(catTotal);
+      totalExpenses += catTotal;
+      if (cat.type === 'needs')   needsTotal   += catTotal;
+      if (cat.type === 'wants')   wantsTotal   += catTotal;
+      if (cat.type === 'savings') savingsTotal += catTotal;
+      document.getElementById(`cat-total-${ci}`).textContent = catTotal > 0 ? fmt(catTotal * mul) : '£0';
+    });
+
+    const surplus = income - totalExpenses;
+    const savingsRate = income > 0 ? ((surplus / income) * 100).toFixed(0) : 0;
+
+    const hero   = document.getElementById('summary-hero');
+    const amount = document.getElementById('summary-amount');
+    const label  = document.getElementById('summary-label');
+
+    if (surplus > 50) {
+      hero.className = 'summary-hero surplus'; amount.className = 'summary-amount green';
+      label.textContent = periodLabel + ' surplus';
+    } else if (surplus < -50) {
+      hero.className = 'summary-hero deficit'; amount.className = 'summary-amount red';
+      label.textContent = periodLabel + ' deficit';
+    } else {
+      hero.className = 'summary-hero balanced'; amount.className = 'summary-amount blue';
+      label.textContent = 'Roughly balanced';
+    }
+
+    amount.textContent = fmt(surplus * mul);
+    document.getElementById('summary-spend').textContent = fmt(totalExpenses * mul);
+    document.getElementById('stat-income').textContent   = fmt(income * mul);
+    document.getElementById('stat-expenses').textContent = fmt(totalExpenses * mul);
+    document.getElementById('stat-rate').textContent     = Math.max(0, savingsRate) + '%';
+
+    // Spending bar (always based on actual proportions)
+    const bar = document.getElementById('spend-bar'), legend = document.getElementById('spend-legend');
+    bar.innerHTML = ''; legend.innerHTML = '';
+    const totalRaw = totalExpenses || 1;
+    CATEGORIES.forEach((cat, ci) => {
+      if (catTotals[ci] <= 0) return;
+      const pct = (catTotals[ci] / totalRaw * 100).toFixed(1);
+      const seg = document.createElement('div');
+      seg.className = 'spend-bar-seg'; seg.style.width = pct + '%';
+      seg.style.background = cat.color;
+      seg.title = `${cat.name}: ${fmt(catTotals[ci] * mul)} (${pct}%)`;
+      bar.appendChild(seg);
+      const li = document.createElement('div');
+      li.className = 'spend-legend-item';
+      li.innerHTML = `<span class="legend-dot" style="background:${cat.color}"></span>${cat.name}: ${fmt(catTotals[ci] * mul)}`;
+      legend.appendChild(li);
+    });
+
+    // 50/30/20
+    const needsTarget = income * 0.50, wantsTarget = income * 0.30, savingsTarget = income * 0.20;
+    function ruleClass(actual, target) {
+      return actual <= target ? 'ok' : actual <= target * 1.15 ? 'warn' : 'over';
+    }
+    document.getElementById('rule-needs-target').textContent   = fmt(needsTarget * mul) + ' target';
+    document.getElementById('rule-wants-target').textContent   = fmt(wantsTarget * mul) + ' target';
+    document.getElementById('rule-savings-target').textContent = fmt(savingsTarget * mul) + ' target';
+    const nEl = document.getElementById('rule-needs-actual');
+    const wEl = document.getElementById('rule-wants-actual');
+    const sEl = document.getElementById('rule-savings-actual');
+    nEl.textContent = fmt(needsTotal * mul);
+    wEl.textContent = fmt(wantsTotal * mul);
+    sEl.textContent = fmt((savingsTotal + Math.max(0, surplus)) * mul);
+    nEl.className = 'rule-actual ' + (income > 0 ? ruleClass(needsTotal, needsTarget) : '');
+    wEl.className = 'rule-actual ' + (income > 0 ? ruleClass(wantsTotal, wantsTarget) : '');
+    sEl.className = 'rule-actual ok';
+  }
+
+  // Attach listeners to all inputs
+  document.getElementById('income').addEventListener('input', calc);
+  CATEGORIES.forEach((cat, ci) => {
+    cat.items.forEach((_, ii) => {
+      document.getElementById(`exp-${ci}-${ii}`).addEventListener('input', calc);
+    });
+  });
+
+  function shareURL() {
+    navigator.clipboard.writeText(location.href).then(() => {
+      const btn = document.querySelector('.action-btn:last-child');
+      const orig = btn.innerHTML; btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    });
+  }
+
+  calc();
+</script>
+</body>
+</html>

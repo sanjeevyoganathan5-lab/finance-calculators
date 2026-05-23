@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Salary Sacrifice Calculator UK 2025 — True Cost After Tax &amp; NI</title>
+  <meta name="description" content="Accurate UK salary sacrifice calculator for pension, cycle to work, electric vehicle and childcare. See your true net cost after income tax and NI savings. 2025/26." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#f8f9fc; --surface:#fff; --surface2:#f1f4f9; --border:#e2e8f0;
+      --accent:#2563eb; --accent-dim:rgba(37,99,235,.08); --accent-glow:rgba(37,99,235,.15);
+      --red:#dc2626; --red-dim:rgba(220,38,38,.08);
+      --green:#16a34a; --green-dim:rgba(22,163,74,.08);
+      --amber:#d97706; --amber-dim:rgba(217,119,6,.08);
+      --purple:#7c3aed; --purple-dim:rgba(124,58,237,.08);
+      --text:#0f172a; --muted:#64748b; --label:#475569;
+    }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; overflow-x:hidden; }
+
+    .site-nav { background:#fff; border-bottom:1px solid var(--border); padding:0 32px; display:flex; align-items:center; justify-content:space-between; height:52px; position:sticky; top:0; z-index:100; }
+    .site-nav-logo { font-family:'Inter',sans-serif; font-size:13px; font-weight:600; color:var(--accent); text-decoration:none; transition:opacity .15s; }
+    .site-nav-logo:hover { opacity:.75; }
+    .site-nav-trust { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--green); display:flex; align-items:center; gap:6px; }
+    .site-nav-dot { width:7px; height:7px; border-radius:50%; background:var(--green); box-shadow:0 0 0 2px rgba(22,163,74,.2); }
+    @media(max-width:520px){.site-nav{padding:0 16px;} .site-nav-trust{display:none;}}
+
+    .container { max-width:820px; margin:0 auto; padding:28px 20px 80px; }
+    header { margin-bottom:32px; }
+    .eyebrow { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+    h1 { font-size:clamp(26px,4.5vw,40px); font-weight:800; line-height:1.1; margin-bottom:8px; }
+    h1 span { color:var(--accent); }
+    .subtitle { font-family:'DM Mono',monospace; font-size:13px; color:var(--muted); font-weight:300; }
+    .badge-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+    .badge { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; padding:4px 10px; border-radius:2px; border:1px solid; }
+    .badge-green { background:var(--green-dim); border-color:rgba(22,163,74,.3); color:var(--green); }
+    .badge-amber { background:var(--amber-dim); border-color:rgba(217,119,6,.3); color:var(--amber); }
+
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:32px; margin-bottom:16px; position:relative; overflow:hidden; }
+    .card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--accent),var(--green)); }
+    .card-title { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--label); margin-bottom:20px; }
+
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+    .grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; margin-bottom:16px; }
+    @media(max-width:580px){.grid2,.grid3{grid-template-columns:1fr;} .card{padding:20px;}}
+
+    .field { display:flex; flex-direction:column; gap:7px; }
+    .field label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--label); }
+    .input-wrap { position:relative; }
+    .input-prefix { position:absolute; left:12px; top:50%; transform:translateY(-50%); font-family:'DM Mono',monospace; font-size:13px; color:var(--accent); pointer-events:none; }
+    .input-suffix { position:absolute; right:12px; top:50%; transform:translateY(-50%); font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); pointer-events:none; }
+    input[type="number"] { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:3px; color:var(--text); font-family:'DM Mono',monospace; font-size:15px; padding:11px 12px; outline:none; transition:border-color .2s,box-shadow .2s; -moz-appearance:textfield; appearance:textfield; }
+    input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance:none; }
+    .has-prefix input { padding-left:28px; }
+    .has-suffix input { padding-right:42px; }
+    input:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
+    select { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:3px; color:var(--text); font-family:'DM Mono',monospace; font-size:15px; padding:11px 12px; outline:none; cursor:pointer; }
+    select:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
+
+    .tbtn { font-family:'DM Mono',monospace; font-size:11px; background:var(--surface2); border:1px solid var(--border); color:var(--muted); border-radius:2px; padding:7px 12px; cursor:pointer; transition:all .15s; white-space:nowrap; }
+    .tbtn.active { background:var(--accent-dim); border-color:rgba(37,99,235,.35); color:var(--accent); }
+    .toggle-row { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+
+    /* Before / After comparison */
+    .ba-table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; margin-bottom:16px; }
+    .ba-table th { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); padding:8px 12px; border-bottom:2px solid var(--border); text-align:right; }
+    .ba-table th:first-child { text-align:left; }
+    .ba-table td { padding:10px 12px; font-family:'DM Mono',monospace; font-size:13px; border-bottom:1px solid var(--border); text-align:right; }
+    .ba-table td:first-child { text-align:left; color:var(--label); font-size:12px; }
+    .ba-table tr.total td { font-weight:700; font-size:15px; border-top:2px solid var(--border); border-bottom:none; }
+    .ba-table .neg { color:var(--red); }
+    .ba-table .pos { color:var(--green); }
+    .ba-table tr:hover td { background:var(--surface2); }
+    .ba-table .diff-col { color:var(--green); font-weight:600; }
+    .ba-table .diff-col.neg { color:var(--red); }
+
+    /* Hero savings */
+    .hero-block { background:var(--green-dim); border:1px solid rgba(22,163,74,.2); border-radius:4px; padding:22px 28px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    .hero-amount { font-size:clamp(36px,6vw,52px); font-weight:800; color:var(--green); font-variant-numeric:tabular-nums; line-height:1; letter-spacing:-.03em; }
+    .hero-label { font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); margin-top:4px; }
+    .hero-right { text-align:right; }
+    .hero-sub-label { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); margin-bottom:4px; }
+    .hero-sub-val { font-size:22px; font-weight:700; font-variant-numeric:tabular-nums; }
+
+    /* Cost breakdown cards */
+    .cost-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
+    @media(max-width:520px){ .cost-grid { grid-template-columns:1fr 1fr; } }
+    .cost-box { background:var(--surface2); border:1px solid var(--border); border-radius:3px; padding:14px; }
+    .cost-box-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:4px; }
+    .cost-box-val { font-size:20px; font-weight:700; font-variant-numeric:tabular-nums; }
+
+    /* Employer NI section */
+    .emp-block { background:var(--purple-dim); border:1px solid rgba(124,58,237,.2); border-radius:3px; padding:18px 20px; margin-bottom:16px; }
+    .emp-title { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--purple); margin-bottom:12px; }
+    .emp-row { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(124,58,237,.15); font-family:'DM Mono',monospace; font-size:13px; }
+    .emp-row:last-child { border-bottom:none; font-weight:700; color:var(--purple); }
+    .emp-row span:last-child { font-variant-numeric:tabular-nums; }
+
+    /* Info boxes */
+    .info-box { border-radius:3px; padding:14px 16px; margin-bottom:12px; font-family:'DM Mono',monospace; font-size:12px; line-height:1.7; border:1px solid; }
+    .info-box strong { display:block; margin-bottom:4px; font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
+    .info-green { background:var(--green-dim); border-color:rgba(22,163,74,.3); color:#14532d; }
+    .info-blue  { background:var(--accent-dim); border-color:rgba(37,99,235,.25); color:#1e3a8a; }
+    .info-amber { background:var(--amber-dim); border-color:rgba(217,119,6,.3); color:#92400e; }
+
+    .sdiv { border:none; border-top:1px solid var(--border); margin:20px 0; }
+
+    .seo-card { background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:28px 32px; margin-top:16px; }
+    .seo-card h2 { font-size:17px; font-weight:700; margin-bottom:10px; }
+    .seo-card p { font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); line-height:1.8; font-weight:300; }
+    .seo-card p+p { margin-top:8px; }
+
+    .share-btn {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:9px 16px; background:var(--surface2); border:1px solid var(--border);
+      border-radius:3px; cursor:pointer; font-family:'DM Mono',monospace;
+      font-size:11px; color:var(--muted); letter-spacing:.08em; text-transform:uppercase; margin-top:16px;
+    }
+    .share-btn:hover { border-color:var(--accent); color:var(--accent); }
+    @media print { .site-nav,.share-btn { display:none !important; } body { background:white; } }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);} }
+    .fade-up { animation:fadeUp .3s ease both; }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-logo">← Calculators.Finance</a>
+  <div class="site-nav-trust">
+    <span class="site-nav-dot"></span>
+    2025/26 rates · HMRC verified
+  </div>
+</nav>
+
+<div class="container">
+  <header>
+    <p class="eyebrow">UK Tax Calculator</p>
+    <h1>Salary Sacrifice<br><span>Calculator</span></h1>
+    <p class="subtitle">Your true net cost after income tax and NI savings. Pension, Cycle to Work, EV &amp; more.</p>
+    <div class="badge-row">
+      <span class="badge badge-green">Saves income tax + NI</span>
+      <span class="badge badge-amber">Employer NI saving included</span>
+    </div>
+  </header>
+
+  <!-- INPUTS -->
+  <div class="card">
+    <div class="card-title">Your Details</div>
+
+    <div class="grid3">
+      <div class="field">
+        <label for="grossSalary">Gross Annual Salary £</label>
+        <div class="input-wrap has-prefix">
+          <span class="input-prefix">£</span>
+          <input type="number" id="grossSalary" inputmode="decimal" placeholder="45000" min="0" value="45000" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="sacrificeAmt">Monthly Sacrifice Amount £</label>
+        <div class="input-wrap has-prefix">
+          <span class="input-prefix">£</span>
+          <input type="number" id="sacrificeAmt" inputmode="decimal" placeholder="300" min="0" value="300" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="sacrificeType">Type of Sacrifice</label>
+        <select id="sacrificeType" onchange="updateType()">
+          <option value="pension" selected>Pension</option>
+          <option value="cycle">Cycle to Work</option>
+          <option value="ev">Electric Vehicle</option>
+          <option value="childcare">Childcare Vouchers</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="field">
+        <label>Tax Region</label>
+        <div class="toggle-row" style="margin-bottom:0">
+          <button class="tbtn active" id="region-uk" onclick="setRegion('uk')">England / NI / Wales</button>
+          <button class="tbtn" id="region-scot" onclick="setRegion('scot')">Scotland</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="studentLoan">Student Loan Plan</label>
+        <select id="studentLoan">
+          <option value="none" selected>None</option>
+          <option value="plan1">Plan 1 — 9% above £24,990</option>
+          <option value="plan2">Plan 2 — 9% above £27,295</option>
+          <option value="plan4">Plan 4 (Scotland) — 9% above £32,745</option>
+          <option value="plan5">Plan 5 — 9% above £25,000</option>
+          <option value="pg">Postgraduate — 6% above £21,000</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="toggle-row">
+      <button class="tbtn" id="btn-empni" onclick="toggleEmpNI()">Employer passes on NI saving</button>
+    </div>
+
+    <!-- Cycle to Work specific -->
+    <div id="cycle-section" style="display:none">
+      <hr style="border:none;border-top:1px solid var(--border);margin:8px 0 16px">
+      <div class="card-title" style="margin-bottom:12px">Cycle to Work Break-Even</div>
+      <div class="grid2">
+        <div class="field">
+          <label for="bikeCost">Bike + Equipment Cost £</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">£</span>
+            <input type="number" id="bikeCost" inputmode="decimal" placeholder="1500" min="0" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="schemeDuration">Scheme Duration (months)</label>
+          <select id="schemeDuration">
+            <option value="12" selected>12 months</option>
+            <option value="18">18 months</option>
+            <option value="24">24 months</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- EV specific -->
+    <div id="ev-section" style="display:none">
+      <hr style="border:none;border-top:1px solid var(--border);margin:8px 0 16px">
+      <div class="card-title" style="margin-bottom:12px">Electric Vehicle Benefit</div>
+      <div class="grid2">
+        <div class="field">
+          <label for="evMonths">Contract Length (months)</label>
+          <select id="evMonths">
+            <option value="24">24 months</option>
+            <option value="36" selected>36 months</option>
+            <option value="48">48 months</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="evBIK">Vehicle P11D Value £</label>
+          <div class="input-wrap has-prefix">
+            <span class="input-prefix">£</span>
+            <input type="number" id="evBIK" inputmode="decimal" placeholder="40000" min="0" />
+          </div>
+        </div>
+      </div>
+      <div class="info-box info-blue" style="margin-bottom:0">
+        <strong>EV BIK rate 2025/26</strong>
+        Pure electric vehicles have a 3% BIK rate in 2025/26 (rising to 4% in 2026/27, then 5% in 2027/28). EV salary sacrifice schemes avoid this BIK tax — the car is taken gross, meaning full income tax and NI savings apply to the sacrifice amount.
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card fade-up" id="results-card" style="display:none">
+
+    <!-- Hero savings -->
+    <div class="hero-block">
+      <div>
+        <div class="hero-amount" id="hero-saving">£0</div>
+        <div class="hero-label">annual take-home saving</div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-sub-label">Monthly saving</div>
+        <div class="hero-sub-val" id="hero-monthly" style="color:var(--green)">£0</div>
+        <div class="hero-sub-label" style="margin-top:8px">True cost of sacrifice</div>
+        <div class="hero-sub-val" id="hero-true-cost">£0</div>
+      </div>
+    </div>
+
+    <!-- Cost breakdown boxes -->
+    <div class="cost-grid">
+      <div class="cost-box">
+        <div class="cost-box-label">Income Tax Saving</div>
+        <div class="cost-box-val" id="stat-tax-saving" style="color:var(--green)">£0</div>
+      </div>
+      <div class="cost-box">
+        <div class="cost-box-label">NI Saving (Employee)</div>
+        <div class="cost-box-val" id="stat-ni-saving" style="color:var(--green)">£0</div>
+      </div>
+      <div class="cost-box">
+        <div class="cost-box-label">Student Loan Saving</div>
+        <div class="cost-box-val" id="stat-sl-saving" style="color:var(--green)">£0</div>
+      </div>
+    </div>
+
+    <!-- Before / After table -->
+    <div class="card-title">Before vs After Salary Sacrifice</div>
+    <table class="ba-table" id="ba-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Without Sacrifice</th>
+          <th>With Sacrifice</th>
+          <th>Saving</th>
+        </tr>
+      </thead>
+      <tbody id="ba-tbody"></tbody>
+    </table>
+
+    <!-- Employer NI -->
+    <div class="emp-block" id="emp-block">
+      <div class="emp-title">Employer NI Saving (Class 1 Secondary — 15% of sacrifice)</div>
+      <div class="emp-row">
+        <span>Annual sacrifice amount</span>
+        <span id="emp-sacrifice">£0</span>
+      </div>
+      <div class="emp-row">
+        <span>Employer NI saving (15%)</span>
+        <span id="emp-ni-saving">£0</span>
+      </div>
+      <div class="emp-row" id="emp-passthrough-row" style="display:none">
+        <span>Passed on to you (100%)</span>
+        <span id="emp-passthrough">£0</span>
+      </div>
+      <div class="emp-row">
+        <span id="emp-total-label">Your total benefit</span>
+        <span id="emp-total">£0</span>
+      </div>
+    </div>
+
+    <!-- Pension specific -->
+    <div id="pension-section-results" style="display:none">
+      <div class="info-box info-green">
+        <strong>Your pension grows by more than your sacrifice</strong>
+        Your employer also saves 15% NI on your sacrifice amount (<span id="pen-empl-saving">£0</span>/year). Many employers pass this saving back into your pension — ask your HR team. With employer NI pass-through, your total pension boost becomes <span id="pen-total-boost">£0</span>/year instead of just your sacrifice.
+      </div>
+    </div>
+
+    <!-- Cycle break-even -->
+    <div id="cycle-results" style="display:none">
+      <div class="info-box info-amber">
+        <strong>Cycle to Work break-even analysis</strong>
+        <span id="cycle-explain"></span>
+      </div>
+    </div>
+
+    <!-- EV summary -->
+    <div id="ev-results" style="display:none">
+      <div class="info-box info-green">
+        <strong>EV contract total benefit</strong>
+        <span id="ev-explain"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="share-btn" onclick="shareURL()">⎘ Copy share link</button>
+
+  <div class="seo-card">
+    <h2>How does salary sacrifice work in the UK?</h2>
+    <p>Salary sacrifice is an arrangement where you give up part of your gross salary in exchange for a non-cash benefit — typically a pension contribution, cycle-to-work scheme, electric vehicle lease, or childcare vouchers. Because the sacrifice reduces your gross pay before income tax and National Insurance are calculated, you save tax and NI on the sacrificed amount.</p>
+    <p>For a basic-rate taxpayer (20% income tax + 8% NI), a £100/month salary sacrifice costs only £72/month net. For a higher-rate taxpayer (40% income tax + 2% NI above the UEL), a £100 sacrifice costs £58 net. Your employer also saves 15% NI (in 2025/26) on the sacrificed amount — some employers pass this saving on to you as an additional pension contribution.</p>
+    <p>From April 2025, the employer NI rate is 15% with a secondary threshold of £5,000 (down from £9,100). This makes salary sacrifice even more attractive as employer NI savings per employee are larger. For pension salary sacrifice, contributions also reduce your student loan repayments (if applicable) since repayments are based on your adjusted gross salary.</p>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// 2025/26 rates
+const NI_PT = 12570, NI_UEL = 50270;
+const NI_MAIN = 0.08, NI_UPPER = 0.02;
+const EMP_NI_RATE = 0.15, EMP_NI_ST = 5000;
+
+const SCOT_BANDS_2526 = [
+  { w: 2827,   r: 0.19 },
+  { w: 12094,  r: 0.20 },
+  { w: 16171,  r: 0.21 },
+  { w: 31338,  r: 0.42 },
+  { w: 50140,  r: 0.45 },
+  { w: Infinity,r: 0.48 },
+];
+const UK_BANDS_2526 = [
+  { w: 37700,   r: 0.20 },
+  { w: 74870,   r: 0.40 },
+  { w: Infinity, r: 0.45 },
+];
+
+const SL_THRESHOLDS = {
+  plan1: { t: 24990, r: 0.09 }, plan2: { t: 27295, r: 0.09 },
+  plan4: { t: 32745, r: 0.09 }, plan5: { t: 25000, r: 0.09 },
+  pg:    { t: 21000, r: 0.06 },
+};
+
+let region = 'uk';
+let empNIPassthrough = false;
+
+function setRegion(r) {
+  region = r;
+  document.getElementById('region-uk').classList.toggle('active', r === 'uk');
+  document.getElementById('region-scot').classList.toggle('active', r === 'scot');
+  calc();
+}
+
+function toggleEmpNI() {
+  empNIPassthrough = !empNIPassthrough;
+  document.getElementById('btn-empni').classList.toggle('active', empNIPassthrough);
+  calc();
+}
+
+function updateType() {
+  const t = document.getElementById('sacrificeType').value;
+  document.getElementById('cycle-section').style.display  = t === 'cycle'    ? '' : 'none';
+  document.getElementById('ev-section').style.display     = t === 'ev'       ? '' : 'none';
+  calc();
+}
+
+function calcIncomeTax(taxable, bands) {
+  let rem = Math.max(0, taxable), tax = 0;
+  for (const b of bands) {
+    const slice = b.w === Infinity ? rem : Math.min(rem, b.w);
+    if (slice <= 0) break;
+    tax += slice * b.r;
+    rem -= slice;
+    if (rem <= 0) break;
+  }
+  return tax;
+}
+
+function getMarginalTaxRate(gross, sacrifice, bands, pa = 12570) {
+  // Rate on the slice that's sacrificed
+  const taxable1 = Math.max(0, gross - pa);
+  const taxable2 = Math.max(0, gross - sacrifice - pa);
+  const tax1 = calcIncomeTax(taxable1, bands);
+  const tax2 = calcIncomeTax(taxable2, bands);
+  return sacrifice > 0 ? (tax1 - tax2) / sacrifice : 0;
+}
+
+function calcNI(income) {
+  if (income <= NI_PT) return 0;
+  return (Math.min(income, NI_UEL) - NI_PT) * NI_MAIN + Math.max(0, income - NI_UEL) * NI_UPPER;
+}
+
+function calcStudentLoan(income, plan) {
+  if (!plan || plan === 'none') return 0;
+  const s = SL_THRESHOLDS[plan];
+  if (!s) return 0;
+  return Math.max(0, income - s.t) * s.r;
+}
+
+function fmt(n, dp = 0) {
+  return '£' + Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: dp, maximumFractionDigits: dp });
+}
+
+function calc() {
+  const gross = parseFloat(document.getElementById('grossSalary').value) || 0;
+  const monthlySacrifice = parseFloat(document.getElementById('sacrificeAmt').value) || 0;
+  const annualSacrifice = monthlySacrifice * 12;
+  const sacrificeType = document.getElementById('sacrificeType').value;
+  const slPlan = document.getElementById('studentLoan').value;
+  const pa = 12570;
+
+  if (!gross || gross <= 0) { document.getElementById('results-card').style.display = 'none'; return; }
+
+  const bands = region === 'scot' ? SCOT_BANDS_2526 : UK_BANDS_2526;
+
+  // Calculate without sacrifice
+  const grossAfter1 = gross;
+  const taxable1 = Math.max(0, grossAfter1 - pa);
+  const tax1 = calcIncomeTax(taxable1, bands);
+  const ni1  = calcNI(grossAfter1);
+  const sl1  = calcStudentLoan(grossAfter1, slPlan);
+  const net1 = grossAfter1 - tax1 - ni1 - sl1;
+
+  // Calculate with sacrifice
+  const grossAfter2 = Math.max(0, gross - annualSacrifice);
+  const taxable2 = Math.max(0, grossAfter2 - pa);
+  const tax2 = calcIncomeTax(taxable2, bands);
+  const ni2  = calcNI(grossAfter2);
+  const sl2  = calcStudentLoan(grossAfter2, slPlan);
+  const net2 = grossAfter2 - tax2 - ni2 - sl2;
+  // Note: sacrifice already removed from gross, so net take-home after sacrifice:
+  // net pay = grossAfter2 - tax2 - ni2 - sl2 (pension deduction already in grossAfter2)
+  // Actual take-home = gross - annualSacrifice - tax2 - ni2 - sl2
+
+  const taxSaving = tax1 - tax2;
+  const niSaving  = ni1 - ni2;
+  const slSaving  = sl1 - sl2;
+  const totalSaving = taxSaving + niSaving + slSaving;
+  const netCostOfSacrifice = annualSacrifice - totalSaving;
+  const effectiveCostPct = annualSacrifice > 0 ? (netCostOfSacrifice / annualSacrifice * 100) : 0;
+
+  // Employer NI saving
+  const empNISaving = Math.min(annualSacrifice, Math.max(0, gross - EMP_NI_ST)) * EMP_NI_RATE;
+
+  // Hero
+  document.getElementById('hero-saving').textContent    = fmt(totalSaving);
+  document.getElementById('hero-monthly').textContent   = fmt(totalSaving / 12);
+  document.getElementById('hero-true-cost').textContent = fmt(netCostOfSacrifice) + '/yr (' + effectiveCostPct.toFixed(0) + '% of face value)';
+
+  // Boxes
+  document.getElementById('stat-tax-saving').textContent = fmt(taxSaving);
+  document.getElementById('stat-ni-saving').textContent  = fmt(niSaving);
+  document.getElementById('stat-sl-saving').textContent  = sl1 > sl2 ? fmt(slSaving) : '£0';
+
+  // Before / After table
+  const tbody = document.getElementById('ba-tbody');
+  const rows = [
+    ['Gross salary',          gross,     grossAfter2, grossAfter2 - gross],
+    ['Income Tax',            -tax1,     -tax2,       tax1 - tax2],
+    ['National Insurance',    -ni1,      -ni2,        ni1 - ni2],
+    sl1 > 0 || sl2 > 0 ? ['Student Loan', -sl1, -sl2, sl1 - sl2] : null,
+    ['Take-Home Pay',         net1,      net2,        net2 - net1],
+  ].filter(Boolean);
+
+  tbody.innerHTML = rows.map((r, i) => {
+    const isTotal = i === rows.length - 1;
+    const diff = r[3];
+    const diffClass = diff > 0 ? 'pos' : diff < 0 ? 'neg' : '';
+    const diffSign = diff > 0 ? '+' : diff < 0 ? '−' : '';
+    return `<tr${isTotal?' class="total"':''}>
+      <td>${r[0]}</td>
+      <td class="${r[1]<0?'neg':''}">${r[1]<0?'−':''}${fmt(Math.abs(r[1]))}</td>
+      <td class="${r[2]<0?'neg':''}">${r[2]<0?'−':''}${fmt(Math.abs(r[2]))}</td>
+      <td class="diff-col ${diffClass}">${diffSign}${fmt(Math.abs(diff))}</td>
+    </tr>`;
+  }).join('');
+
+  // Employer NI block
+  document.getElementById('emp-sacrifice').textContent   = fmt(annualSacrifice);
+  document.getElementById('emp-ni-saving').textContent   = fmt(empNISaving);
+  document.getElementById('emp-passthrough-row').style.display = empNIPassthrough ? '' : 'none';
+  document.getElementById('emp-passthrough').textContent = fmt(empNISaving);
+
+  const totalBenefit = empNIPassthrough ? totalSaving + empNISaving : totalSaving;
+  document.getElementById('emp-total').textContent = fmt(totalBenefit);
+  document.getElementById('emp-total-label').textContent = empNIPassthrough
+    ? 'Your total benefit (incl. NI pass-through)'
+    : 'Your take-home saving';
+
+  // Type-specific sections
+  document.getElementById('pension-section-results').style.display = sacrificeType === 'pension' ? '' : 'none';
+  document.getElementById('cycle-results').style.display = sacrificeType === 'cycle' ? '' : 'none';
+  document.getElementById('ev-results').style.display = sacrificeType === 'ev' ? '' : 'none';
+
+  if (sacrificeType === 'pension') {
+    document.getElementById('pen-empl-saving').textContent = fmt(empNISaving);
+    document.getElementById('pen-total-boost').textContent = fmt(annualSacrifice + (empNIPassthrough ? empNISaving : 0));
+  }
+
+  if (sacrificeType === 'cycle') {
+    const bikeCost = parseFloat(document.getElementById('bikeCost').value) || 0;
+    const months   = parseInt(document.getElementById('schemeDuration').value) || 12;
+    const totalSacrificeForBike = monthlySacrifice * months;
+    const taxSavingForBike = (tax1 - calcIncomeTax(Math.max(0, gross - totalSacrificeForBike - pa), bands))
+                           + (ni1 - calcNI(gross - totalSacrificeForBike));
+    const netCostBike = totalSacrificeForBike - taxSavingForBike;
+    const saving = bikeCost > 0 ? bikeCost - netCostBike : 0;
+
+    document.getElementById('cycle-explain').textContent = bikeCost > 0
+      ? `Bike cost: ${fmt(bikeCost)}. Over ${months} months of sacrifice, your net cost is ${fmt(netCostBike)} after tax/NI savings. You save ${fmt(saving)} (${((saving/bikeCost)*100).toFixed(0)}%) vs buying outright.`
+      : `Enter the bike cost above to see your break-even analysis.`;
+  }
+
+  if (sacrificeType === 'ev') {
+    const evMonths = parseInt(document.getElementById('evMonths').value) || 36;
+    const totalBenefitEV = totalSaving / 12 * evMonths + (empNIPassthrough ? empNISaving / 12 * evMonths : 0);
+    const evBIK = parseFloat(document.getElementById('evBIK').value) || 0;
+    const evBIKTax = evBIK > 0 ? evBIK * 0.03 * (taxSaving / annualSacrifice) : 0; // rough BIK tax estimate
+    document.getElementById('ev-explain').textContent =
+      `Over your ${evMonths}-month contract, total take-home saving: ${fmt(totalBenefitEV)}. Pure electric vehicles have a 3% BIK rate in 2025/26 — EV salary sacrifice schemes typically avoid this as the car is treated as a sacrifice rather than a company car benefit. Always confirm with your employer's scheme provider.`;
+  }
+
+  document.getElementById('results-card').style.display = '';
+}
+
+['grossSalary','sacrificeAmt','studentLoan','bikeCost','schemeDuration','evMonths','evBIK'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', calc);
+  if (el) el.addEventListener('change', calc);
+});
+
+document.getElementById('sacrificeType').addEventListener('change', updateType);
+function shareURL() {
+  const params = new URLSearchParams();
+  ['grossSalary','sacrificeAmt'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.value) params.set(id, el.value);
+  });
+  const url = location.origin + location.pathname + '?' + params.toString();
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.querySelector('.share-btn');
+    const orig = btn.innerHTML; btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.innerHTML = orig; }, 2000);
+  });
+}
+
+function loadFromURL() {
+  const p = new URLSearchParams(location.search);
+  ['grossSalary','sacrificeAmt'].forEach(id => {
+    if (p.has(id)) { const el = document.getElementById(id); if (el) el.value = p.get(id); }
+  });
+}
+
+loadFromURL();
+updateType();
+calc();
+</script>
+</body>
+</html>

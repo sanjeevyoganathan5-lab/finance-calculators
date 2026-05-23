@@ -1,0 +1,829 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emergency Fund Calculator UK — How Much Should I Save?</title>
+  <meta name="description" content="Calculate exactly how much you need in your emergency fund. Enter your monthly expenses and see your recommended 3, 6 and 12 month safety net targets instantly." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    
+    /* ── LIGHT THEME OVERRIDES ── */
+    :root {
+      --bg:        #f8f9fc;
+      --surface:   #ffffff;
+      --surface2:  #f1f4f9;
+      --border:    #e2e8f0;
+      --accent:    #2563eb;
+      --accent-dim: rgba(37,99,235,0.08);
+      --accent-glow: rgba(37,99,235,0.15);
+      --red:       #dc2626;
+      --red-dim:   rgba(220,38,38,0.08);
+      --green:     #16a34a;
+      --green-dim: rgba(22,163,74,0.08);
+      --amber:     #d97706;
+      --amber-dim: rgba(217,119,6,0.08);
+      --purple:    #7c3aed;
+      --purple-dim: rgba(124,58,237,0.08);
+      --text:      #0f172a;
+      --muted:     #64748b;
+      --label:     #475569;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 52px;
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .site-nav-logo {
+      font-family: 'Inter', 'Syne', sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: #2563eb; text-decoration: none;
+      display: flex; align-items: center; gap: 4px;
+      transition: opacity 0.15s;
+    }
+
+    .site-nav-logo:hover { opacity: 0.75; }
+
+    .site-nav-trust {
+      font-family: 'JetBrains Mono', 'DM Mono', monospace;
+      font-size: 11px; color: #16a34a;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .site-nav-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 2px rgba(22,163,74,0.2);
+    }
+
+    @media (max-width: 520px) {
+      .site-nav { padding: 0 16px; }
+      .site-nav-trust { display: none; }
+    }
+
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Syne', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 24px 24px 80px;
+    }
+
+    header { margin-bottom: 48px; }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    h1 span { color: var(--amber); }
+
+    .subtitle {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    /* Tool card */
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 36px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--amber));
+    }
+
+    /* Section label */
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--label);
+      margin-bottom: 14px;
+    }
+
+    .inputs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 520px) {
+      .inputs-grid { grid-template-columns: 1fr; }
+      .tool-card { padding: 24px; }
+    }
+
+    .field { display: flex; flex-direction: column; gap: 8px; }
+
+    .field label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--label);
+    }
+
+    .input-wrap { position: relative; }
+
+    .input-prefix {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 500;
+      pointer-events: none;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 16px;
+      font-weight: 400;
+      padding: 13px 14px 13px 32px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 28px 0;
+    }
+
+    /* Risk profile selector */
+    .risk-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 480px) { .risk-row { grid-template-columns: 1fr; } }
+
+    .risk-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 16px 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+
+    .risk-card:hover { border-color: #2a3d6a; }
+
+    .risk-card.active-low    { border-color: rgba(78,203,113,0.4);  background: var(--green-dim); }
+    .risk-card.active-medium { border-color: rgba(244,160,34,0.4);  background: var(--amber-dim); }
+    .risk-card.active-high   { border-color: rgba(230,57,70,0.4);   background: var(--red-dim); }
+
+    .risk-icon {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .risk-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .risk-desc {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 32px 0;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+    }
+
+    /* Results */
+    .results-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--label);
+      margin-bottom: 16px;
+    }
+
+    /* Target cards: 3 / 6 / 12 months */
+    .target-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) { .target-cards { grid-template-columns: 1fr; } }
+
+    .target-card {
+      border-radius: 2px;
+      padding: 20px 16px;
+      text-align: center;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .target-card.recommended::before {
+      content: 'RECOMMENDED';
+      position: absolute;
+      top: 8px; right: 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      background: var(--amber);
+      color: #0a0f1e;
+      padding: 2px 8px;
+      font-weight: 500;
+    }
+
+    .target-months {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .target-amount {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 8px;
+    }
+
+    .target-amount.three  { color: var(--accent); }
+    .target-amount.six    { color: var(--amber); }
+    .target-amount.twelve { color: var(--red); }
+
+    .target-months-to-save {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    /* Progress bar: current vs target */
+    .progress-section { margin-bottom: 20px; }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .progress-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .progress-pct {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--amber);
+      font-weight: 500;
+    }
+
+    .progress-track {
+      height: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 1px;
+      background: linear-gradient(90deg, var(--accent), var(--amber));
+      transition: width 0.5s ease;
+      max-width: 100%;
+    }
+
+    .progress-status {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .progress-status.complete { color: var(--green); }
+    .progress-status.close    { color: var(--amber); }
+
+    /* Expense breakdown */
+    .expense-breakdown {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 20px;
+    }
+
+    .expense-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--label);
+      margin-bottom: 14px;
+    }
+
+    .expense-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .expense-row:last-child { border-bottom: none; }
+
+    .expense-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .expense-val {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .expense-val.total-row {
+      color: var(--amber);
+      font-size: 14px;
+    }
+
+    /* SEO */
+    .seo-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 32px 36px;
+      margin-top: 20px;
+    }
+
+    .seo-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .seo-section p {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-weight: 300;
+    }
+
+    .seo-section p + p { margin-top: 10px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .tool-card, .seo-section { animation: fadeUp 0.4s ease both; }
+    .seo-section { animation-delay: 0.1s; }
+    .result-animate { animation: fadeUp 0.2s ease both; }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 16px; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; cursor: pointer; font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--muted);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px;
+    }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+    @media print {
+      .site-nav, .share-btn, .seo-section { display: none !important; }
+      body { background: white; }
+      .tool-card { border: none; box-shadow: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-logo">← Calculators.Finance</a>
+  <div class="site-nav-trust">
+    <span class="site-nav-dot"></span>
+    2025/26 rates live
+  </div>
+</nav>
+<div class="container">
+
+  <header>
+    <p class="eyebrow">Finance Calculator</p>
+    <h1>Emergency Fund<br><span>Calculator</span></h1>
+    <p class="subtitle">How much do you need in your safety net?</p>
+  </header>
+
+  <div class="tool-card">
+
+    <!-- Job situation -->
+    <div class="section-label">Your situation</div>
+    <div class="risk-row">
+      <div class="risk-card active-low" id="risk-low" onclick="setRisk('low')">
+        <div class="risk-icon">🏢</div>
+        <div class="risk-title">Stable</div>
+        <div class="risk-desc">Permanent job, dual income, strong sector</div>
+      </div>
+      <div class="risk-card" id="risk-medium" onclick="setRisk('medium')">
+        <div class="risk-icon">⚖️</div>
+        <div class="risk-title">Moderate</div>
+        <div class="risk-desc">Single income, smaller company, some uncertainty</div>
+      </div>
+      <div class="risk-card" id="risk-high" onclick="setRisk('high')">
+        <div class="risk-icon">🎯</div>
+        <div class="risk-title">Variable</div>
+        <div class="risk-desc">Self-employed, freelance, contract or commission</div>
+      </div>
+    </div>
+
+    <!-- Monthly expenses -->
+    <div class="section-label">Monthly essential expenses</div>
+    <div class="inputs-grid">
+      <div class="field">
+        <label for="rent">Rent / Mortgage</label>
+        <div class="input-wrap">
+          <span class="input-prefix">£</span>
+          <input type="number" inputmode="decimal" id="rent" placeholder="1200" min="0" step="50" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="bills">Bills & Utilities</label>
+        <div class="input-wrap">
+          <span class="input-prefix">£</span>
+          <input type="number" inputmode="decimal" id="bills" placeholder="300" min="0" step="10" />
+        </div>
+      </div>
+    </div>
+
+    <div class="inputs-grid">
+      <div class="field">
+        <label for="food">Food & Groceries</label>
+        <div class="input-wrap">
+          <span class="input-prefix">£</span>
+          <input type="number" inputmode="decimal" id="food" placeholder="400" min="0" step="10" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="transport">Transport</label>
+        <div class="input-wrap">
+          <span class="input-prefix">£</span>
+          <input type="number" inputmode="decimal" id="transport" placeholder="150" min="0" step="10" />
+        </div>
+      </div>
+    </div>
+
+    <div class="inputs-grid">
+      <div class="field">
+        <label for="insurance">Insurance & Subscriptions</label>
+        <div class="input-wrap">
+          <span class="input-prefix">£</span>
+          <input type="number" inputmode="decimal" id="insurance" placeholder="100" min="0" step="10" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="other">Other Essentials</label>
+        <div class="input-wrap">
+          <span class="input-prefix">£</span>
+          <input type="number" inputmode="decimal" id="other" placeholder="0" min="0" step="10" />
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Current savings + monthly contribution -->
+    <div class="section-label">Your savings</div>
+    <div class="inputs-grid">
+      <div class="field">
+        <label for="current-savings">Current Emergency Savings</label>
+        <div class="input-wrap">
+          <span class="input-prefix">£</span>
+          <input type="number" inputmode="decimal" id="current-savings" placeholder="0" min="0" step="100" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="monthly-save">Can Save Per Month</label>
+        <div class="input-wrap">
+          <span class="input-prefix">£</span>
+          <input type="number" inputmode="decimal" id="monthly-save" placeholder="300" min="0" step="50" />
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="empty-state" id="empty-state">Enter your monthly expenses above →</div>
+
+    <div id="results" style="display:none">
+
+      <div class="results-label">Your emergency fund targets</div>
+
+      <div class="target-cards">
+        <div class="target-card">
+          <div class="target-months">3 months</div>
+          <div class="target-amount three" id="target-3">£0</div>
+          <div class="target-months-to-save" id="time-3">—</div>
+        </div>
+        <div class="target-card recommended" id="recommended-card">
+          <div class="target-months">6 months</div>
+          <div class="target-amount six" id="target-6">£0</div>
+          <div class="target-months-to-save" id="time-6">—</div>
+        </div>
+        <div class="target-card">
+          <div class="target-months">12 months</div>
+          <div class="target-amount twelve" id="target-12">£0</div>
+          <div class="target-months-to-save" id="time-12">—</div>
+        </div>
+      </div>
+
+      <!-- Progress toward recommended target -->
+      <div class="progress-section" id="progress-section">
+        <div class="progress-header">
+          <span class="progress-label">Progress toward your target</span>
+          <span class="progress-pct" id="progress-pct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="progress-status" id="progress-status"></div>
+      </div>
+
+      <!-- Expense breakdown -->
+      <div class="expense-breakdown">
+        <div class="expense-title">Monthly expense breakdown</div>
+        <div class="expense-row">
+          <span class="expense-name">Rent / Mortgage</span>
+          <span class="expense-val" id="b-rent">£0</span>
+        </div>
+        <div class="expense-row">
+          <span class="expense-name">Bills & Utilities</span>
+          <span class="expense-val" id="b-bills">£0</span>
+        </div>
+        <div class="expense-row">
+          <span class="expense-name">Food & Groceries</span>
+          <span class="expense-val" id="b-food">£0</span>
+        </div>
+        <div class="expense-row">
+          <span class="expense-name">Transport</span>
+          <span class="expense-val" id="b-transport">£0</span>
+        </div>
+        <div class="expense-row">
+          <span class="expense-name">Insurance & Subscriptions</span>
+          <span class="expense-val" id="b-insurance">£0</span>
+        </div>
+        <div class="expense-row">
+          <span class="expense-name">Other Essentials</span>
+          <span class="expense-val" id="b-other">£0</span>
+        </div>
+        <div class="expense-row" style="border-top: 1px solid var(--border); margin-top: 4px; padding-top: 12px;">
+          <span class="expense-name" style="color:var(--text);font-weight:600">Total Monthly</span>
+          <span class="expense-val total-row" id="b-total">£0</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <button class="share-btn" onclick="shareURL()">⎘ Copy share link</button>
+
+  <div class="seo-section">
+    <h2>How Much Should I Have in My Emergency Fund?</h2>
+    <p>
+      Most UK financial advisors recommend saving between 3 and 6 months of essential expenses as an emergency fund. If you're self-employed, freelance, or have a variable income, 6–12 months is the more appropriate target — since your income isn't guaranteed and job-seeking periods can last longer.
+    </p>
+    <p>
+      Your emergency fund should only cover true essentials: rent or mortgage, utilities, food, transport, and minimum debt repayments. It's not a spending buffer — it's a safety net for genuine emergencies like job loss, illness, or an unexpected large expense. Keep it in an easy-access savings account so it's available immediately when needed.
+    </p>
+    <p>
+      Once your emergency fund is in place, you can confidently redirect surplus income to longer-term goals. Use our <a href="/savings-goal-calculator" style="color:var(--accent);text-decoration:none;">Savings Goal Calculator</a> to plan the timeline, or our <a href="/take-home-pay-calculator" style="color:var(--accent);text-decoration:none;">Take-Home Pay Calculator</a> to see how much you can afford to save each month.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  let risk = 'low';
+
+  // Recommended months per risk level
+  const riskMonths = { low: 3, medium: 6, high: 9 };
+
+  function setRisk(r) {
+    risk = r;
+    ['low','medium','high'].forEach(k => {
+      const el = document.getElementById('risk-' + k);
+      el.className = 'risk-card' + (k === r ? ' active-' + k : '');
+    });
+    calc();
+  }
+
+  function fmt(n) {
+    return '£' + Math.round(n).toLocaleString('en-GB');
+  }
+
+  function monthsToText(m) {
+    if (m <= 0) return 'already there!';
+    const y = Math.floor(m / 12);
+    const mo = m % 12;
+    if (y > 0 && mo > 0) return `${y}y ${mo}m to go`;
+    if (y > 0) return `${y} yr${y > 1 ? 's' : ''} to go`;
+    return `${mo} mo to go`;
+  }
+
+  function calc() {
+    const rent      = parseFloat(document.getElementById('rent').value)      || 0;
+    const bills     = parseFloat(document.getElementById('bills').value)     || 0;
+    const food      = parseFloat(document.getElementById('food').value)      || 0;
+    const transport = parseFloat(document.getElementById('transport').value) || 0;
+    const insurance = parseFloat(document.getElementById('insurance').value) || 0;
+    const other     = parseFloat(document.getElementById('other').value)     || 0;
+    const currentSavings = parseFloat(document.getElementById('current-savings').value) || 0;
+    const monthlySave    = parseFloat(document.getElementById('monthly-save').value)    || 0;
+
+    const emptyEl   = document.getElementById('empty-state');
+    const resultsEl = document.getElementById('results');
+
+    const total = rent + bills + food + transport + insurance + other;
+
+    if (total <= 0) {
+      emptyEl.style.display   = 'block';
+      resultsEl.style.display = 'none';
+      return;
+    }
+
+    const target3  = total * 3;
+    const target6  = total * 6;
+    const target12 = total * 12;
+
+    // Recommended target based on risk
+    const recMonths = riskMonths[risk];
+    const recTarget = total * recMonths;
+
+    // Update recommended label
+    const recCard = document.getElementById('recommended-card');
+    recCard.querySelector('.target-months').textContent = recMonths + ' months';
+    document.getElementById('target-3').textContent  = fmt(target3);
+    document.getElementById('target-6').textContent  = fmt(recTarget);
+    document.getElementById('target-12').textContent = fmt(target12);
+
+    // Time to reach each target
+    function timeToTarget(target) {
+      if (currentSavings >= target) return 'Goal reached ✓';
+      if (monthlySave <= 0) return 'Set a monthly amount';
+      const months = Math.ceil((target - currentSavings) / monthlySave);
+      return monthsToText(months);
+    }
+
+    document.getElementById('time-3').textContent  = timeToTarget(target3);
+    document.getElementById('time-6').textContent  = timeToTarget(recTarget);
+    document.getElementById('time-12').textContent = timeToTarget(target12);
+
+    // Progress bar toward recommended target
+    const pct = Math.min(100, (currentSavings / recTarget) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-pct').textContent  = pct.toFixed(0) + '%';
+
+    const statusEl = document.getElementById('progress-status');
+    if (pct >= 100) {
+      statusEl.textContent = '✓ Emergency fund complete — you\'re protected.';
+      statusEl.className = 'progress-status complete';
+    } else if (pct >= 50) {
+      statusEl.textContent = `£${Math.round(recTarget - currentSavings).toLocaleString('en-GB')} still needed to reach your ${recMonths}-month target.`;
+      statusEl.className = 'progress-status close';
+    } else {
+      statusEl.textContent = `£${Math.round(recTarget - currentSavings).toLocaleString('en-GB')} to go to reach your ${recMonths}-month target.`;
+      statusEl.className = 'progress-status';
+    }
+
+    // Expense breakdown
+    document.getElementById('b-rent').textContent      = fmt(rent);
+    document.getElementById('b-bills').textContent     = fmt(bills);
+    document.getElementById('b-food').textContent      = fmt(food);
+    document.getElementById('b-transport').textContent = fmt(transport);
+    document.getElementById('b-insurance').textContent = fmt(insurance);
+    document.getElementById('b-other').textContent     = fmt(other);
+    document.getElementById('b-total').textContent     = fmt(total);
+
+    emptyEl.style.display   = 'none';
+    resultsEl.style.display = 'block';
+    resultsEl.classList.remove('result-animate');
+    void resultsEl.offsetWidth;
+    resultsEl.classList.add('result-animate');
+  }
+
+  ['rent','bills','food','transport','insurance','other','current-savings','monthly-save'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calc);
+  });
+
+  function shareURL() {
+    const params = new URLSearchParams();
+    ['rent','bills','food','transport','insurance','other','current-savings','monthly-save'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.value) params.set(id, el.value);
+    });
+    const url = location.origin + location.pathname + '?' + params.toString();
+    navigator.clipboard.writeText(url).then(() => {
+      const btn = document.querySelector('.share-btn');
+      const orig = btn.innerHTML; btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    });
+  }
+
+  function loadFromURL() {
+    const p = new URLSearchParams(location.search);
+    ['rent','bills','food','transport','insurance','other','current-savings','monthly-save'].forEach(id => {
+      if (p.has(id)) { const el = document.getElementById(id); if (el) el.value = p.get(id); }
+    });
+    calc();
+  }
+  loadFromURL();
+</script>
+</body>
+</html>

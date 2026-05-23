@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UK Finance Calculators — Free Tools for Every Money Decision</title>
+  <meta name="description" content="23 free UK finance calculators. Tax, mortgages, savings, investments, debt, pensions, FIRE, ISA vs pension, salary sacrifice and more. Instant results, no signup required." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; color: inherit; }
+
+    :root {
+      --bg:        #f8f9fc;
+      --surface:   #ffffff;
+      --surface2:  #f1f4f9;
+      --border:    #e2e8f0;
+      --border2:   #cbd5e1;
+      --accent:    #2563eb;
+      --accent-lt: #eff6ff;
+      --accent-md: #bfdbfe;
+      --red:       #dc2626;
+      --red-lt:    #fef2f2;
+      --green:     #16a34a;
+      --green-lt:  #f0fdf4;
+      --amber:     #d97706;
+      --amber-lt:  #fffbeb;
+      --purple:    #7c3aed;
+      --purple-lt: #f5f3ff;
+      --cyan:      #0891b2;
+      --cyan-lt:   #ecfeff;
+      --text:      #0f172a;
+      --text2:     #334155;
+      --muted:     #64748b;
+      --muted2:    #94a3b8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .nav-logo {
+      font-weight: 700; font-size: 15px;
+      color: var(--accent); letter-spacing: -0.01em;
+    }
+
+    .nav-right {
+      display: flex; align-items: center; gap: 20px;
+    }
+
+    .nav-trust {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--green);
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 2px rgba(22,163,74,0.2);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 2px rgba(22,163,74,0.2); }
+      50%       { box-shadow: 0 0 0 5px rgba(22,163,74,0.0); }
+    }
+
+    /* ── TRUST BAR ── */
+    .trust-bar {
+      background: var(--green-lt);
+      border-bottom: 1px solid #bbf7d0;
+      padding: 9px 32px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 28px; flex-wrap: wrap;
+    }
+
+    .trust-item {
+      font-size: 12px; font-weight: 500; color: var(--green);
+      display: flex; align-items: center; gap: 5px;
+    }
+
+    .trust-item::before { content: '✓'; font-weight: 700; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 52px 32px 44px;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-lt);
+      border: 1px solid var(--accent-md);
+      padding: 4px 12px; border-radius: 99px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 4.5vw, 52px);
+      font-weight: 800; line-height: 1.1;
+      color: var(--text); letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+
+    h1 .accent { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 15px; color: var(--muted);
+      max-width: 400px; margin: 0 auto 32px;
+      font-weight: 400; line-height: 1.6;
+    }
+
+    .hero-stats {
+      display: flex; justify-content: center;
+      gap: 0; flex-wrap: wrap;
+      border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+      max-width: 480px; margin: 0 auto;
+      background: var(--surface);
+    }
+
+    .hero-stat {
+      flex: 1; padding: 14px 20px; text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .hero-stat:last-child { border-right: none; }
+
+    .hero-stat-num {
+      font-size: 22px; font-weight: 800;
+      color: var(--text); letter-spacing: -0.02em;
+    }
+
+    .hero-stat-label {
+      font-size: 11px; color: var(--muted);
+      margin-top: 2px; font-weight: 500;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      max-width: 1080px; margin: 0 auto;
+      padding: 32px 32px 80px;
+    }
+
+    /* ── POPULAR STRIP ── */
+    .popular-section { margin-bottom: 36px; }
+
+    .section-head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); white-space: nowrap;
+    }
+
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    .popular-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 8px;
+    }
+
+    @media (max-width: 700px) { .popular-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 400px) { .popular-grid { grid-template-columns: 1fr; } }
+
+    .popular-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex; align-items: center; gap: 10px;
+      transition: all 0.15s; cursor: pointer;
+    }
+
+    .popular-card:hover {
+      border-color: var(--accent-md);
+      box-shadow: 0 2px 12px rgba(37,99,235,0.08);
+      transform: translateY(-1px);
+    }
+
+    .popular-icon {
+      font-size: 20px; line-height: 1; flex-shrink: 0;
+    }
+
+    .popular-name {
+      font-size: 12px; font-weight: 600;
+      color: var(--text); line-height: 1.3;
+    }
+
+    .popular-badge {
+      font-size: 9px; font-weight: 600;
+      color: var(--amber); background: var(--amber-lt);
+      padding: 2px 6px; border-radius: 99px;
+      margin-left: auto; flex-shrink: 0;
+    }
+
+    /* ── CONTROLS ── */
+    .controls {
+      display: flex; align-items: center;
+      gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+    }
+
+    .cat-filters { display: flex; gap: 6px; flex-wrap: wrap; flex: 1; }
+
+    .cat-btn {
+      font-size: 13px; font-weight: 500;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted); border-radius: 6px; padding: 6px 14px;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap;
+    }
+
+    .cat-btn:hover { border-color: var(--border2); color: var(--text2); }
+
+    .cat-btn.active {
+      background: var(--accent); border-color: var(--accent);
+      color: white; font-weight: 600;
+    }
+
+    /* Search */
+    .search-wrap { position: relative; }
+
+    .search-icon {
+      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+      font-size: 14px; color: var(--muted2); pointer-events: none;
+    }
+
+    input#search {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 6px; color: var(--text);
+      font-family: 'Inter', sans-serif; font-size: 13px;
+      padding: 7px 12px 7px 32px; outline: none; width: 180px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input#search::placeholder { color: var(--muted2); }
+
+    input#search:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+
+    /* ── ALL TOOLS GRID ── */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(248px,1fr));
+      gap: 8px;
+    }
+
+    /* ── TOOL CARD ── */
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex; align-items: flex-start; gap: 12px;
+      transition: all 0.15s;
+      animation: fadeUp 0.3s ease both;
+    }
+
+    .tool-card:hover {
+      border-color: var(--border2);
+      box-shadow: 0 4px 16px rgba(15,23,42,0.07);
+      transform: translateY(-2px);
+    }
+
+    .tool-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; flex-shrink: 0;
+    }
+
+    .tool-info { flex: 1; min-width: 0; }
+
+    .tool-name {
+      font-size: 13px; font-weight: 650;
+      color: var(--text); margin-bottom: 3px; line-height: 1.3;
+    }
+
+    .tool-desc {
+      font-size: 12px; color: var(--muted);
+      line-height: 1.45; font-weight: 400;
+    }
+
+    .tool-arrow {
+      font-size: 14px; color: var(--muted2);
+      flex-shrink: 0; margin-top: 1px;
+      transition: transform 0.15s, color 0.15s;
+    }
+
+    .tool-card:hover .tool-arrow {
+      transform: translateX(3px); color: var(--accent);
+    }
+
+    /* No results */
+    .no-results {
+      text-align: center; padding: 48px 0; display: none;
+      font-size: 14px; color: var(--muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 24px 32px;
+    }
+
+    .footer-inner {
+      max-width: 1080px; margin: 0 auto;
+      display: flex; align-items: flex-start;
+      justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+
+    .footer-note {
+      font-size: 12px; color: var(--muted); line-height: 1.7;
+      max-width: 500px;
+    }
+
+    .footer-note strong { color: var(--text2); }
+
+    .footer-right {
+      font-size: 11px; color: var(--muted2);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .tool-card:nth-child(1)  { animation-delay: 0.02s; }
+    .tool-card:nth-child(2)  { animation-delay: 0.04s; }
+    .tool-card:nth-child(3)  { animation-delay: 0.06s; }
+    .tool-card:nth-child(4)  { animation-delay: 0.08s; }
+    .tool-card:nth-child(5)  { animation-delay: 0.10s; }
+    .tool-card:nth-child(6)  { animation-delay: 0.12s; }
+
+    @media (max-width: 600px) {
+      nav, .trust-bar { padding: 0 16px; }
+      nav { height: 52px; }
+      .hero { padding: 36px 20px 32px; }
+      .main { padding: 24px 16px 60px; }
+      .controls { flex-direction: column; align-items: stretch; }
+      input#search { width: 100%; }
+      footer { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">Calculators.Finance</a>
+    <div class="nav-right">
+      <div class="nav-trust">
+        <span class="live-dot"></span>
+        2025/26 rates live
+      </div>
+    </div>
+  </nav>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="trust-item">Updated for 2025/26 tax year</div>
+    <div class="trust-item">Verified against HMRC guidance</div>
+    <div class="trust-item">Free · No signup · No ads</div>
+    <div class="trust-item">Instant results</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">UK Finance Calculators</div>
+    <h1>Every money decision,<br><span class="accent">calculated.</span></h1>
+    <p class="hero-sub">23 free tools for tax, mortgages, savings, debt and investments.</p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">23</div>
+        <div class="hero-stat-label">Calculators</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2025</div>
+        <div class="hero-stat-label">Tax year rates</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">0s</div>
+        <div class="hero-stat-label">Load time</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- POPULAR -->
+    <div class="popular-section">
+      <div class="section-head">
+        <span class="section-label">🔥 Most popular</span>
+        <div class="section-line"></div>
+      </div>
+      <div class="popular-grid" id="popular-grid"></div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+      <div class="cat-filters">
+        <button class="cat-btn active" onclick="filterCat('all')">All</button>
+        <button class="cat-btn" onclick="filterCat('tax')">Tax & Pay</button>
+        <button class="cat-btn" onclick="filterCat('property')">Property</button>
+        <button class="cat-btn" onclick="filterCat('savings')">Savings</button>
+        <button class="cat-btn" onclick="filterCat('debt')">Debt</button>
+        <button class="cat-btn" onclick="filterCat('investment')">Investing</button>
+        <button class="cat-btn" onclick="filterCat('business')">Business</button>
+      </div>
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input type="text" id="search" placeholder="Search…" autocomplete="off" />
+      </div>
+    </div>
+
+    <!-- ALL TOOLS -->
+    <div class="no-results" id="no-results">No calculators match — try a different search.</div>
+    <div class="tool-grid" id="tool-grid"></div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <p class="footer-note">
+        <strong>Guidance only.</strong> All calculators use 2025/26 UK tax rates and are verified against HMRC published guidance. Results are estimates — always consult a qualified financial adviser before making major financial decisions.
+      </p>
+      <div class="footer-right">Free · No ads · No data collected</div>
+    </div>
+  </footer>
+
+  <script>
+    const CAT_COLORS = {
+      tax:        { bg: '#eff6ff', icon: '#2563eb' },
+      property:   { bg: '#ecfeff', icon: '#0891b2' },
+      savings:    { bg: '#f0fdf4', icon: '#16a34a' },
+      debt:       { bg: '#fef2f2', icon: '#dc2626' },
+      investment: { bg: '#f5f3ff', icon: '#7c3aed' },
+      business:   { bg: '#fffbeb', icon: '#d97706' },
+    };
+
+    const POPULAR = [
+      'take-home-pay-calculator.html',
+      'fire-calculator.html',
+      'salary-sacrifice-calculator.html',
+      'stamp-duty-calculator.html',
+    ];
+
+    const TOOLS = [
+      { name: 'Take-Home Pay Calculator',        desc: 'Net pay after income tax, NI & student loan',           icon: '💷', href: 'take-home-pay-calculator.html',        cat: 'tax',        tags: ['take home','tax','ni','salary','net pay','payslip','national insurance'] },
+      { name: 'Salary to Hourly Calculator',     desc: 'Convert annual salary to hourly & daily rates',         icon: '⏱',  href: 'salary-to-hourly-calculator.html',     cat: 'tax',        tags: ['salary','hourly','daily','weekly','contractor','rate'] },
+      { name: 'VAT Calculator',                  desc: 'Add or remove 20%, 5% and 0% UK VAT instantly',        icon: '🧾', href: 'vat-calculator.html',                  cat: 'tax',        tags: ['vat','tax','20%','gross','net','invoice'] },
+      { name: 'Inflation Calculator',            desc: 'Adjust any amount for UK inflation over time',                   icon: '📈', href: 'inflation-calculator.html',            cat: 'tax',        tags: ['inflation','cpi','purchasing power','real value','worth'] },
+      { name: 'Mortgage Affordability',          desc: 'How much can I borrow? Includes stamp duty',           icon: '🏠', href: 'mortgage-affordability-calculator.html', cat: 'property', tags: ['mortgage','borrow','house','property','loan','affordability'] },
+      { name: 'Stamp Duty Calculator',           desc: 'SDLT, LBTT & LTT for all UK nations · 2025',          icon: '🏛', href: 'stamp-duty-calculator.html',           cat: 'property',   tags: ['stamp duty','sdlt','lbtt','ltt','house','property tax'] },
+      { name: 'Rent vs Buy Calculator',          desc: 'True 5, 10 and 20-year cost comparison',               icon: '🔑', href: 'rent-vs-buy-calculator.html',          cat: 'property',   tags: ['rent','buy','property','mortgage','cheaper'] },
+      { name: 'Savings Goal Calculator',         desc: 'How long to reach your savings target',                icon: '🎯', href: 'savings-goal-calculator.html',         cat: 'savings',    tags: ['savings','goal','target','interest','monthly','how long'] },
+      { name: 'Compound Interest Calculator',    desc: 'See how your money grows over time',                   icon: '📊', href: 'compound-interest-calculator.html',    cat: 'savings',    tags: ['compound','interest','growth','isa','invest'] },
+      { name: 'Emergency Fund Calculator',       desc: 'How much should I have in my safety net?',            icon: '🛡', href: 'emergency-fund-calculator.html',        cat: 'savings',    tags: ['emergency','fund','safety net','savings','expenses'] },
+      { name: 'Budget Planner',                  desc: 'Monthly budget with 50/30/20 rule',                    icon: '📋', href: 'budget-planner.html',                  cat: 'savings',    tags: ['budget','planner','monthly','expenses','income','spending'] },
+      { name: 'Net Worth Calculator',            desc: 'Assets minus liabilities — your true picture',         icon: '⚖',  href: 'net-worth-calculator.html',            cat: 'savings',    tags: ['net worth','assets','liabilities','wealth'] },
+      { name: 'Pension Contribution Calculator', desc: 'Project your pension pot with tax relief',             icon: '🌅', href: 'pension-contribution-calculator.html', cat: 'savings',    tags: ['pension','retirement','contribution','employer','tax relief'] },
+      { name: 'Loan Repayment Calculator',       desc: 'Monthly payment, interest & yearly breakdown',         icon: '💳', href: 'loan-repayment-calculator.html',       cat: 'debt',       tags: ['loan','repayment','monthly','interest','personal loan'] },
+      { name: 'Credit Card Payoff Calculator',   desc: 'How long to clear your balance — true cost',           icon: '✂',  href: 'credit-card-payoff-calculator.html',   cat: 'debt',       tags: ['credit card','payoff','apr','debt','interest','balance'] },
+      { name: 'Debt Snowball Calculator',         desc: 'Pay off all debts in the fastest order',              icon: '❄',  href: 'debt-snowball-calculator.html',         cat: 'debt',       tags: ['debt','snowball','avalanche','payoff','multiple debts'] },
+      { name: 'Investment Return Calculator',    desc: 'Model investments with real vs nominal returns',        icon: '📉', href: 'investment-return-calculator.html',    cat: 'investment', tags: ['investment','return','cagr','isa','stocks','growth'] },
+      { name: 'Currency Converter',              desc: 'Live GBP to USD, EUR, JPY and 30+ currencies',         icon: '💱', href: 'currency-converter.html',              cat: 'investment', tags: ['currency','gbp','usd','eur','convert','exchange rate'] },
+      { name: 'Freelance Rate Calculator',       desc: 'Your minimum day rate after tax — UK',                 icon: '💼', href: 'freelance-rate-calculator.html',       cat: 'business',   tags: ['freelance','rate','day rate','self employed','contractor'] },
+      { name: 'Break-Even Calculator',           desc: 'Units to sell to break even — with chart',             icon: '⚡', href: 'break-even-calculator.html',           cat: 'business',   tags: ['break even','profit','loss','units','pricing','margin'] },
+      { name: 'FIRE Calculator',                 desc: 'Financial Independence number, Coast FIRE &amp; years to retire', icon: '🔥', href: 'fire-calculator.html',                  cat: 'investment', tags: ['fire','financial independence','retire early','fire number','4% rule','coast fire'] },
+      { name: 'ISA vs Pension Calculator',       desc: 'Which gives more retirement income? True comparison',   icon: '⚖',  href: 'isa-vs-pension-calculator.html',        cat: 'savings',    tags: ['isa','pension','retirement','tax relief','comparison','sipp'] },
+      { name: 'Salary Sacrifice Calculator',     desc: 'True net cost after tax &amp; NI — pension, EV, cycle',      icon: '💰', href: 'salary-sacrifice-calculator.html',      cat: 'tax',        tags: ['salary sacrifice','pension','cycle to work','ev','electric vehicle','ni saving'] },
+    ];
+
+    let activeCat = 'all';
+
+    // ── Render popular strip ──
+    function renderPopular() {
+      const grid = document.getElementById('popular-grid');
+      grid.innerHTML = POPULAR.map(href => {
+        const t = TOOLS.find(x => x.href === href);
+        if (!t) return '';
+        const c = CAT_COLORS[t.cat];
+        return `<a href="${t.href}" class="popular-card">
+          <div class="popular-icon">${t.icon}</div>
+          <div class="popular-name">${t.name}</div>
+          <span class="popular-badge">Popular</span>
+        </a>`;
+      }).join('');
+    }
+
+    // ── Render tool grid ──
+    function renderCards(list) {
+      const grid = document.getElementById('tool-grid');
+      const none = document.getElementById('no-results');
+      if (!list.length) { grid.innerHTML = ''; none.style.display = 'block'; return; }
+      none.style.display = 'none';
+      grid.innerHTML = list.map(t => {
+        const c = CAT_COLORS[t.cat];
+        return `<a href="${t.href}" class="tool-card">
+          <div class="tool-icon" style="background:${c.bg}">${t.icon}</div>
+          <div class="tool-info">
+            <div class="tool-name">${t.name}</div>
+            <div class="tool-desc">${t.desc}</div>
+          </div>
+          <div class="tool-arrow">→</div>
+        </a>`;
+      }).join('');
+    }
+
+    function filterCat(cat) {
+      activeCat = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => {
+        const isAll   = cat === 'all' && b.textContent === 'All';
+        const matches = b.textContent.toLowerCase().replace(/\s+/g,'').includes(cat.replace(/\s+/g,''));
+        b.classList.toggle('active', isAll || (cat !== 'all' && matches));
+      });
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const q = document.getElementById('search').value.toLowerCase().trim();
+      let list = TOOLS;
+      if (activeCat !== 'all') list = list.filter(t => t.cat === activeCat);
+      if (q) list = list.filter(t =>
+        t.name.toLowerCase().includes(q) ||
+        t.desc.toLowerCase().includes(q) ||
+        t.tags.some(tag => tag.includes(q))
+      );
+      renderCards(list);
+    }
+
+    document.getElementById('search').addEventListener('input', applyFilters);
+
+    renderPopular();
+    renderCards(TOOLS);
+  </script>
+
+</body>
+</html>

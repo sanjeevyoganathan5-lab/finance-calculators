@@ -1,0 +1,860 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Break-Even Calculator UK — Calculate Your Break-Even Point</title>
+  <meta name="description" content="Calculate your break-even point instantly. Enter your fixed costs, variable costs and selling price to see exactly how many units you need to sell to break even and start making profit." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    
+    /* ── LIGHT THEME OVERRIDES ── */
+    :root {
+      --bg:        #f8f9fc;
+      --surface:   #ffffff;
+      --surface2:  #f1f4f9;
+      --border:    #e2e8f0;
+      --accent:    #2563eb;
+      --accent-dim: rgba(37,99,235,0.08);
+      --accent-glow: rgba(37,99,235,0.15);
+      --red:       #dc2626;
+      --red-dim:   rgba(220,38,38,0.08);
+      --green:     #16a34a;
+      --green-dim: rgba(22,163,74,0.08);
+      --amber:     #d97706;
+      --amber-dim: rgba(217,119,6,0.08);
+      --purple:    #7c3aed;
+      --purple-dim: rgba(124,58,237,0.08);
+      --text:      #0f172a;
+      --muted:     #64748b;
+      --label:     #475569;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 52px;
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .site-nav-logo {
+      font-family: 'Inter', 'Syne', sans-serif;
+      font-size: 13px; font-weight: 600;
+      color: #2563eb; text-decoration: none;
+      display: flex; align-items: center; gap: 4px;
+      transition: opacity 0.15s;
+    }
+
+    .site-nav-logo:hover { opacity: 0.75; }
+
+    .site-nav-trust {
+      font-family: 'JetBrains Mono', 'DM Mono', monospace;
+      font-size: 11px; color: #16a34a;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .site-nav-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #16a34a;
+      box-shadow: 0 0 0 2px rgba(22,163,74,0.2);
+    }
+
+    @media (max-width: 520px) {
+      .site-nav { padding: 0 16px; }
+      .site-nav-trust { display: none; }
+    }
+
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', 'Syne', sans-serif;
+      min-height: 100vh; overflow-x: hidden;
+    }
+
+    
+
+    .container {
+      position: relative; z-index: 1;
+      max-width: 740px; margin: 0 auto;
+      padding: 24px 24px 80px;
+    }
+
+    header { margin-bottom: 48px; }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.2em; color: var(--accent);
+      text-transform: uppercase; margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: clamp(28px,5vw,44px); font-weight: 800;
+      line-height: 1.1; color: var(--text); margin-bottom: 12px;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .subtitle {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--muted); font-weight: 300;
+    }
+
+    .tool-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 2px; padding: 36px; margin-bottom: 20px;
+      position: relative; overflow: hidden;
+    }
+
+    .tool-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--red));
+    }
+
+    @media (max-width: 520px) { .tool-card { padding: 24px; } }
+
+    .section-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--label); margin-bottom: 14px;
+    }
+
+    .inputs-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 20px; margin-bottom: 20px;
+    }
+
+    @media (max-width: 520px) { .inputs-grid { grid-template-columns: 1fr; } }
+
+    .field { display: flex; flex-direction: column; gap: 8px; }
+
+    .field label {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--label);
+    }
+
+    .input-wrap { position: relative; }
+
+    .input-prefix {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      font-family: 'DM Mono', monospace; font-size: 14px;
+      color: var(--accent); font-weight: 500; pointer-events: none;
+    }
+
+    input[type="number"] {
+      width: 100%; background: var(--surface2);
+      border: 1px solid var(--border); border-radius: 2px;
+      color: var(--text); font-family: 'DM Mono', monospace;
+      font-size: 16px; font-weight: 400;
+      padding: 13px 14px 13px 32px; outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -moz-appearance: textfield; appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+    .empty-state {
+      text-align: center; padding: 32px 0;
+      color: var(--muted); font-family: 'DM Mono', monospace; font-size: 13px;
+    }
+
+    /* Hero */
+    .results-label {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--label); margin-bottom: 16px;
+    }
+
+    .hero-result {
+      background: var(--accent-dim); border: 1px solid rgba(77,142,255,0.2);
+      border-radius: 2px; padding: 28px 24px; margin-bottom: 16px;
+      display: flex; align-items: baseline;
+      justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+
+    .hero-left {}
+
+    .hero-amount {
+      font-size: clamp(36px,7vw,56px); font-weight: 800;
+      color: var(--accent); font-variant-numeric: tabular-nums;
+      line-height: 1; letter-spacing: -0.02em;
+    }
+
+    .hero-unit {
+      font-family: 'DM Mono', monospace; font-size: 14px;
+      color: var(--muted); margin-top: 4px;
+    }
+
+    .hero-right { text-align: right; }
+
+    .hero-sub-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 4px;
+    }
+
+    .hero-sub-val {
+      font-size: 22px; font-weight: 700;
+      color: var(--text); font-variant-numeric: tabular-nums;
+    }
+
+    /* Stat cards */
+    .breakdown-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 12px; margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) { .breakdown-grid { grid-template-columns: 1fr 1fr; } }
+
+    .breakdown-item {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; padding: 16px 14px; transition: border-color 0.2s;
+    }
+
+    .breakdown-item:hover { border-color: #2a3d6a; }
+
+    .breakdown-period {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 6px;
+    }
+
+    .breakdown-amount {
+      font-size: 20px; font-weight: 700;
+      color: var(--text); font-variant-numeric: tabular-nums;
+    }
+
+    .breakdown-amount.accent { color: var(--accent); }
+    .breakdown-amount.green  { color: var(--green); }
+    .breakdown-amount.red    { color: var(--red); }
+
+    /* Contribution margin bar */
+    .margin-bar-wrap { margin-bottom: 20px; }
+
+    .margin-bar-header {
+      display: flex; justify-content: space-between; margin-bottom: 8px;
+    }
+
+    .margin-bar-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--label);
+    }
+
+    .margin-bar-pct {
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      color: var(--green); font-weight: 500;
+    }
+
+    .margin-bar-track {
+      height: 8px; background: var(--surface2);
+      border: 1px solid var(--border); border-radius: 2px; overflow: hidden; display: flex;
+    }
+
+    .margin-bar-vc { height: 100%; background: var(--red); transition: width 0.4s; }
+    .margin-bar-cm { height: 100%; background: var(--green); transition: width 0.4s; }
+
+    /* Chart */
+    .chart-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--label); margin-bottom: 12px;
+    }
+
+    .chart-canvas-wrap { position: relative; height: 200px; width: 100%; margin-bottom: 8px; }
+    canvas { width: 100%; height: 100%; display: block; }
+
+    .chart-legend {
+      display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+
+    .chart-legend-item {
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .legend-dash {
+      width: 16px; height: 2px; flex-shrink: 0;
+      background: var(--accent); border-radius: 1px;
+    }
+
+    /* What-if target profit */
+    .target-card {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; padding: 20px; margin-bottom: 4px;
+    }
+
+    .target-title {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--label); margin-bottom: 14px;
+    }
+
+    .target-row {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+
+    .target-row .field { flex: 1; min-width: 140px; }
+
+    .target-result {
+      background: var(--green-dim); border: 1px solid rgba(78,203,113,0.2);
+      border-radius: 2px; padding: 14px 16px; flex: 1; min-width: 140px;
+    }
+
+    .target-result-label {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 4px;
+    }
+
+    .target-result-val {
+      font-size: 22px; font-weight: 700;
+      color: var(--green); font-variant-numeric: tabular-nums;
+    }
+
+    /* Scenario table */
+    .scenario-wrap { margin-top: 20px; }
+
+    .scenario-title {
+      font-family: 'DM Mono', monospace; font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--label); margin-bottom: 12px;
+    }
+
+    table {
+      width: 100%; border-collapse: collapse;
+      font-family: 'DM Mono', monospace; font-size: 12px;
+    }
+
+    thead th {
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--label); text-align: right; padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    thead th:first-child { text-align: left; }
+
+    tbody td {
+      text-align: right; padding: 8px 10px;
+      border-bottom: 1px solid rgba(30,45,80,0.5);
+      color: var(--muted); font-variant-numeric: tabular-nums;
+    }
+
+    tbody td:first-child { text-align: left; color: var(--label); }
+    tbody tr:hover td { background: var(--surface2); }
+    tbody td.green  { color: var(--green); }
+    tbody td.red    { color: var(--red); }
+    tbody td.accent { color: var(--accent); }
+    tbody tr.break-even-row td { color: var(--accent); font-weight: 600; }
+
+    /* SEO */
+    .seo-section {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 2px; padding: 32px 36px; margin-top: 20px;
+    }
+
+    .seo-section h2 {
+      font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 12px;
+    }
+
+    .seo-section p {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--muted); line-height: 1.75; font-weight: 300;
+    }
+
+    .seo-section p + p { margin-top: 10px; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .tool-card, .seo-section { animation: fadeUp 0.4s ease both; }
+    .seo-section { animation-delay: 0.1s; }
+    .result-animate { animation: fadeUp 0.2s ease both; }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 16px; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 2px; cursor: pointer; font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--muted);
+      letter-spacing: 0.08em; text-transform: uppercase; margin-top: 16px;
+    }
+    .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+    @media print {
+      .site-nav, .share-btn, .seo-section { display: none !important; }
+      body { background: white; }
+      .tool-card { border: none; box-shadow: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-logo">← Calculators.Finance</a>
+  <div class="site-nav-trust">
+    <span class="site-nav-dot"></span>
+    2025/26 rates live
+  </div>
+</nav>
+<div class="container">
+
+  <header>
+    <p class="eyebrow">Finance Calculator</p>
+    <h1>Break-Even<br><span>Calculator</span></h1>
+    <p class="subtitle">How many units do you need to sell to cover your costs?</p>
+  </header>
+
+  <div class="tool-card">
+
+    <!-- Costs -->
+    <div class="section-label">Costs</div>
+    <div class="inputs-grid">
+      <div class="field">
+        <label for="fixed-costs">Total Fixed Costs</label>
+        <div class="input-wrap">
+          <span class="input-prefix">£</span>
+          <input type="number" inputmode="decimal" id="fixed-costs" placeholder="5000" min="0" step="100" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="variable-cost">Variable Cost per Unit</label>
+        <div class="input-wrap">
+          <span class="input-prefix">£</span>
+          <input type="number" inputmode="decimal" id="variable-cost" placeholder="12" min="0" step="0.01" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="section-label">Pricing</div>
+    <div class="inputs-grid">
+      <div class="field">
+        <label for="sell-price">Selling Price per Unit</label>
+        <div class="input-wrap">
+          <span class="input-prefix">£</span>
+          <input type="number" inputmode="decimal" id="sell-price" placeholder="25" min="0" step="0.01" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="expected-units">Expected Monthly Sales</label>
+        <div class="input-wrap">
+          <span class="input-prefix" style="color:var(--muted)">#</span>
+          <input type="number" inputmode="decimal" id="expected-units" placeholder="300" min="0" step="10" />
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="empty-state" id="empty-state">Enter your costs and selling price above →</div>
+
+    <div id="results" style="display:none">
+
+      <div class="results-label">Break-even point</div>
+
+      <div class="hero-result">
+        <div class="hero-left">
+          <div class="hero-amount" id="hero-units">0</div>
+          <div class="hero-unit">units to break even</div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-sub-label">Break-even revenue</div>
+          <div class="hero-sub-val" id="hero-revenue">£0</div>
+        </div>
+      </div>
+
+      <div class="breakdown-grid">
+        <div class="breakdown-item">
+          <div class="breakdown-period">Contribution Margin</div>
+          <div class="breakdown-amount accent" id="stat-margin">—</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-period">Margin Ratio</div>
+          <div class="breakdown-amount green" id="stat-margin-ratio">—</div>
+        </div>
+        <div class="breakdown-item">
+          <div class="breakdown-period" id="profit-label">Monthly Profit</div>
+          <div class="breakdown-amount" id="stat-profit">—</div>
+        </div>
+      </div>
+
+      <!-- Contribution margin bar -->
+      <div class="margin-bar-wrap">
+        <div class="margin-bar-header">
+          <span class="margin-bar-label">Price split: variable cost vs contribution margin</span>
+          <span class="margin-bar-pct" id="cm-pct">—</span>
+        </div>
+        <div class="margin-bar-track">
+          <div class="margin-bar-vc" id="bar-vc" style="width:50%"></div>
+          <div class="margin-bar-cm" id="bar-cm" style="width:50%"></div>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:6px">
+          <div style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block"></span>Variable cost
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block"></span>Contribution margin
+          </div>
+        </div>
+      </div>
+
+      <!-- Break-even chart -->
+      <div class="chart-label">Revenue vs total cost curve</div>
+      <div class="chart-canvas-wrap">
+        <canvas id="be-chart"></canvas>
+      </div>
+      <div class="chart-legend">
+        <div class="chart-legend-item"><span class="legend-dot" style="background:var(--green)"></span>Revenue</div>
+        <div class="chart-legend-item"><span class="legend-dot" style="background:var(--red)"></span>Total cost</div>
+        <div class="chart-legend-item"><span class="legend-dot" style="background:var(--muted)"></span>Fixed cost</div>
+        <div class="chart-legend-item"><div class="legend-dash"></div>Break-even point</div>
+      </div>
+
+      <!-- Target profit what-if -->
+      <div class="target-card">
+        <div class="target-title">What if you want a specific profit?</div>
+        <div class="target-row">
+          <div class="field">
+            <label for="target-profit">Target Monthly Profit</label>
+            <div class="input-wrap">
+              <span class="input-prefix">£</span>
+              <input type="number" inputmode="decimal" id="target-profit" placeholder="2000" min="0" step="100" />
+            </div>
+          </div>
+          <div class="target-result">
+            <div class="target-result-label">Units needed</div>
+            <div class="target-result-val" id="target-units">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario table -->
+      <div class="scenario-wrap">
+        <div class="scenario-title">Profit / loss at different sales volumes</div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Units Sold</th>
+                <th>Revenue</th>
+                <th>Variable Costs</th>
+                <th>Total Costs</th>
+                <th>Profit / Loss</th>
+              </tr>
+            </thead>
+            <tbody id="scenario-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <button class="share-btn" onclick="shareURL()">⎘ Copy share link</button>
+
+  <div class="seo-section">
+    <h2>How to Calculate Your Break-Even Point</h2>
+    <p>
+      The break-even point is the number of units you need to sell so that your total revenue exactly covers your total costs — fixed and variable. The formula is: Break-Even Units = Fixed Costs ÷ (Selling Price − Variable Cost per Unit). The denominator is called the contribution margin — the amount each unit sale contributes toward covering fixed costs and generating profit.
+    </p>
+    <p>
+      For example, if your fixed costs are £5,000 per month, your product sells for £25 and costs £12 to make, your contribution margin is £13 per unit. You need to sell 385 units (£5,000 ÷ £13) to break even. Every unit sold above that is pure profit at £13 per unit. Understanding this number is essential for pricing decisions, business planning and investor conversations.
+    </p>
+    <p>
+      Use this calculator alongside our <a href="/freelance-rate-calculator" style="color:var(--accent);text-decoration:none;">Freelance Rate Calculator</a> to set profitable rates, or our <a href="/budget-planner" style="color:var(--accent);text-decoration:none;">Budget Planner</a> to keep your fixed costs in check.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  function fmt(n, dp = 0) {
+    return '£' + Math.abs(n).toLocaleString('en-GB', { minimumFractionDigits: dp, maximumFractionDigits: dp });
+  }
+
+  function fmtN(n) {
+    return Math.ceil(n).toLocaleString('en-GB');
+  }
+
+  function drawChart(fixedCosts, variableCost, sellPrice, beUnits) {
+    const canvas = document.getElementById('be-chart');
+    const dpr    = window.devicePixelRatio || 1;
+    const rect   = canvas.parentElement.getBoundingClientRect();
+    canvas.width  = rect.width * dpr;
+    canvas.height = 200 * dpr;
+    canvas.style.width  = rect.width + 'px';
+    canvas.style.height = '200px';
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    const W = rect.width, H = 200;
+    const pad = { top: 14, right: 14, bottom: 28, left: 58 };
+    const cW = W - pad.left - pad.right;
+    const cH = H - pad.top - pad.bottom;
+
+    // Show up to 2x break-even units
+    const maxUnits = Math.max(beUnits * 2, 100);
+    const steps    = 40;
+    const unitStep = maxUnits / steps;
+
+    const points = [];
+    for (let i = 0; i <= steps; i++) {
+      const u = i * unitStep;
+      points.push({
+        units: u,
+        revenue:   u * sellPrice,
+        totalCost: fixedCosts + u * variableCost,
+        fixedCost: fixedCosts,
+      });
+    }
+
+    const maxVal = Math.max(...points.map(p => Math.max(p.revenue, p.totalCost)));
+    const minVal = 0;
+    const range  = maxVal - minVal || 1;
+
+    function xPos(u)  { return pad.left + (u / maxUnits) * cW; }
+    function yPos(v)  { return pad.top  + cH - ((v - minVal) / range) * cH; }
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid
+    for (let i = 0; i <= 4; i++) {
+      const y = pad.top + (cH / 4) * i;
+      ctx.strokeStyle = 'rgba(30,45,80,0.7)';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + cW, y); ctx.stroke();
+      const v = maxVal - (maxVal / 4) * i;
+      ctx.fillStyle = '#4a5880';
+      ctx.font = `9px 'DM Mono', monospace`;
+      ctx.textAlign = 'right';
+      ctx.fillText(v >= 1000 ? '£' + Math.round(v / 1000) + 'k' : '£' + Math.round(v), pad.left - 4, y + 3);
+    }
+
+    // Loss zone fill
+    ctx.beginPath();
+    ctx.moveTo(xPos(0), yPos(points[0].totalCost));
+    points.forEach(p => {
+      if (p.units <= beUnits) ctx.lineTo(xPos(p.units), yPos(p.totalCost));
+    });
+    ctx.lineTo(xPos(Math.min(beUnits, maxUnits)), yPos(beUnits * sellPrice));
+    points.slice().reverse().forEach(p => {
+      if (p.units <= beUnits) ctx.lineTo(xPos(p.units), yPos(p.revenue));
+    });
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(230,57,70,0.07)';
+    ctx.fill();
+
+    // Profit zone fill
+    ctx.beginPath();
+    ctx.moveTo(xPos(beUnits), yPos(beUnits * sellPrice));
+    points.forEach(p => {
+      if (p.units >= beUnits) ctx.lineTo(xPos(p.units), yPos(p.revenue));
+    });
+    points.slice().reverse().forEach(p => {
+      if (p.units >= beUnits) ctx.lineTo(xPos(p.units), yPos(p.totalCost));
+    });
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(78,203,113,0.07)';
+    ctx.fill();
+
+    // Fixed cost line
+    ctx.beginPath();
+    ctx.moveTo(pad.left, yPos(fixedCosts));
+    ctx.lineTo(pad.left + cW, yPos(fixedCosts));
+    ctx.strokeStyle = 'rgba(74,88,128,0.6)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Total cost line
+    ctx.beginPath();
+    points.forEach((p, i) => i === 0
+      ? ctx.moveTo(xPos(p.units), yPos(p.totalCost))
+      : ctx.lineTo(xPos(p.units), yPos(p.totalCost)));
+    ctx.strokeStyle = '#e63946';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Revenue line
+    ctx.beginPath();
+    points.forEach((p, i) => i === 0
+      ? ctx.moveTo(xPos(p.units), yPos(p.revenue))
+      : ctx.lineTo(xPos(p.units), yPos(p.revenue)));
+    ctx.strokeStyle = '#4ecb71';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Break-even vertical line
+    if (beUnits <= maxUnits) {
+      const bx = xPos(beUnits);
+      ctx.strokeStyle = 'rgba(77,142,255,0.6)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(bx, pad.top);
+      ctx.lineTo(bx, pad.top + cH);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // BE dot
+      const beY = yPos(beUnits * sellPrice);
+      ctx.beginPath();
+      ctx.arc(bx, beY, 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#4d8eff';
+      ctx.fill();
+      ctx.strokeStyle = '#0f1628';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+
+    // X axis labels
+    ctx.fillStyle = '#4a5880';
+    ctx.font = `9px 'DM Mono', monospace`;
+    ctx.textAlign = 'center';
+    const labelStep = Math.ceil(maxUnits / 5 / 10) * 10;
+    for (let u = 0; u <= maxUnits; u += labelStep) {
+      ctx.fillText(u, xPos(u), H - 6);
+    }
+  }
+
+  // Helper to safely get CSS var from canvas context
+  function var_(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  function renderScenario(fixedCosts, variableCost, sellPrice, beUnits) {
+    const tbody = document.getElementById('scenario-body');
+    const scenarios = [];
+    const step = Math.max(1, Math.ceil(beUnits / 4));
+    for (let i = -2; i <= 6; i++) {
+      scenarios.push(Math.round(beUnits + i * step));
+    }
+    // deduplicate and sort
+    const uniq = [...new Set(scenarios.filter(u => u >= 0))].sort((a, b) => a - b);
+
+    tbody.innerHTML = uniq.map(u => {
+      const revenue  = u * sellPrice;
+      const varCosts = u * variableCost;
+      const total    = fixedCosts + varCosts;
+      const profit   = revenue - total;
+      const isBreak  = Math.abs(u - Math.ceil(beUnits)) <= 1;
+      return `<tr class="${isBreak ? 'break-even-row' : ''}">
+        <td>${u.toLocaleString('en-GB')} ${isBreak ? '← break-even' : ''}</td>
+        <td class="green">${fmt(revenue)}</td>
+        <td class="red">${fmt(varCosts)}</td>
+        <td>${fmt(total)}</td>
+        <td class="${profit >= 0 ? 'green' : 'red'}">${profit >= 0 ? '+' : ''}${fmt(profit)}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function calc() {
+    const fixedCosts   = parseFloat(document.getElementById('fixed-costs').value)   || 0;
+    const variableCost = parseFloat(document.getElementById('variable-cost').value) || 0;
+    const sellPrice    = parseFloat(document.getElementById('sell-price').value)    || 0;
+    const expected     = parseFloat(document.getElementById('expected-units').value) || 0;
+    const targetProfit = parseFloat(document.getElementById('target-profit').value) || 0;
+
+    const emptyEl   = document.getElementById('empty-state');
+    const resultsEl = document.getElementById('results');
+
+    if (!fixedCosts || !sellPrice || sellPrice <= variableCost) {
+      emptyEl.style.display   = 'block';
+      resultsEl.style.display = 'none';
+      return;
+    }
+
+    const cm      = sellPrice - variableCost;          // contribution margin per unit
+    const cmRatio = (cm / sellPrice) * 100;
+    const beUnits = fixedCosts / cm;
+    const beRev   = beUnits * sellPrice;
+
+    document.getElementById('hero-units').textContent   = fmtN(beUnits);
+    document.getElementById('hero-revenue').textContent = fmt(beRev);
+
+    document.getElementById('stat-margin').textContent       = fmt(cm, 2) + ' / unit';
+    document.getElementById('stat-margin-ratio').textContent = cmRatio.toFixed(1) + '%';
+
+    // Monthly profit at expected units
+    if (expected > 0) {
+      const profit = expected * cm - fixedCosts;
+      document.getElementById('stat-profit').textContent = (profit >= 0 ? '+' : '') + fmt(profit);
+      document.getElementById('stat-profit').className   = 'breakdown-amount ' + (profit >= 0 ? 'green' : 'red');
+      document.getElementById('profit-label').textContent = 'Profit at ' + expected.toLocaleString() + ' units';
+    } else {
+      document.getElementById('stat-profit').textContent = '—';
+      document.getElementById('stat-profit').className   = 'breakdown-amount muted';
+      document.getElementById('profit-label').textContent = 'Profit (set expected sales)';
+    }
+
+    // Margin bar
+    const vcPct = (variableCost / sellPrice) * 100;
+    document.getElementById('bar-vc').style.width = vcPct + '%';
+    document.getElementById('bar-cm').style.width = (100 - vcPct) + '%';
+    document.getElementById('cm-pct').textContent = cmRatio.toFixed(1) + '% margin';
+
+    // Target profit units
+    if (targetProfit > 0) {
+      const targetUnits = (fixedCosts + targetProfit) / cm;
+      document.getElementById('target-units').textContent = fmtN(targetUnits) + ' units';
+    } else {
+      document.getElementById('target-units').textContent = '—';
+    }
+
+    emptyEl.style.display   = 'none';
+    resultsEl.style.display = 'block';
+    resultsEl.classList.remove('result-animate');
+    void resultsEl.offsetWidth;
+    resultsEl.classList.add('result-animate');
+
+    requestAnimationFrame(() => drawChart(fixedCosts, variableCost, sellPrice, beUnits));
+    renderScenario(fixedCosts, variableCost, sellPrice, beUnits);
+  }
+
+  ['fixed-costs','variable-cost','sell-price','expected-units','target-profit'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calc);
+  });
+
+  window.addEventListener('resize', () => {
+    if (document.getElementById('results').style.display !== 'none') calc();
+  });
+
+  function shareURL() {
+    const params = new URLSearchParams();
+    ['fixed-costs','variable-cost','sell-price','expected-units','target-profit'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.value) params.set(id, el.value);
+    });
+    const url = location.origin + location.pathname + '?' + params.toString();
+    navigator.clipboard.writeText(url).then(() => {
+      const btn = document.querySelector('.share-btn');
+      const orig = btn.innerHTML; btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    });
+  }
+
+  function loadFromURL() {
+    const p = new URLSearchParams(location.search);
+    ['fixed-costs','variable-cost','sell-price','expected-units','target-profit'].forEach(id => {
+      if (p.has(id)) { const el = document.getElementById(id); if (el) el.value = p.get(id); }
+    });
+    calc();
+  }
+  loadFromURL();
+</script>
+</body>
+</html>
