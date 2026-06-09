@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Salary Sacrifice Calculator UK 2025 — True Cost After Tax &amp; NI</title>
-  <meta name="description" content="Accurate UK salary sacrifice calculator for pension, cycle to work, electric vehicle and childcare. See your true net cost after income tax and NI savings. 2025/26." />
+  <title>Salary Sacrifice Calculator UK 2025/26 | Calculators.Finance</title>
+  <meta name="description" content="Calculate the true net cost of UK salary sacrifice for pension, cycle to work, EV lease and childcare. See exact income tax and NI savings. 2025/26 HMRC rates." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
@@ -124,6 +124,54 @@
     @keyframes fadeUp { from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);} }
     .fade-up { animation:fadeUp .3s ease both; }
   </style>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="canonical" href="https://calculators.finance/salary-sacrifice-calculator" />
+  <meta property="og:title" content="Salary Sacrifice Calculator UK 2025/26 | Calculators.Finance" />
+  <meta property="og:description" content="Calculate the true net cost of UK salary sacrifice for pension, cycle to work, EV lease and childcare. See exact income tax and NI savings. 2025/26 HMRC rates." />
+  <meta property="og:url" content="https://calculators.finance/salary-sacrifice-calculator" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Calculators.Finance" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Salary Sacrifice Calculator UK 2025/26 | Calculators.Finance" />
+  <meta name="twitter:description" content="Calculate the true net cost of UK salary sacrifice for pension, cycle to work, EV lease and childcare. See exact income tax and NI savings. 2025/26 HMRC rates." />
+
+  <style>
+    .site-footer {
+      background: #fff; border-top: 1px solid #e2e8f0;
+      padding: 24px 32px; margin-top: 40px;
+      font-family: 'Inter', sans-serif; font-size: 12px; color: #64748b;
+    }
+    .site-footer-inner {
+      max-width: 900px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .site-footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .site-footer-links a { color: #64748b; text-decoration: none; transition: color 0.15s; }
+    .site-footer-links a:hover { color: #2563eb; }
+    @media (max-width: 520px) {
+      .site-footer { padding: 20px 16px; }
+      .site-footer-inner { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "UK Salary Sacrifice Calculator",
+    "url": "https://calculators.finance/salary-sacrifice-calculator",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "GBP"
+    },
+    "description": "Calculate the true net cost of UK salary sacrifice for pension, cycle to work, EV lease and childcare. See exact income tax and NI savings. 2025/26 HMRC rates."
+  }
+  </script>
 </head>
 <body>
 
@@ -597,6 +645,43 @@ function loadFromURL() {
 loadFromURL();
 updateType();
 calc();
+</script>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <span>© 2025 Calculators.Finance — For informational purposes only. Not financial advice.</span>
+    <nav class="site-footer-links">
+      <a href="/about">About</a>
+      <a href="/privacy-policy">Privacy Policy</a>
+      <a href="/terms">Terms of Use</a>
+      <a href="/cookies">Cookie Policy</a>
+    </nav>
+  </div>
+</footer>
+
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;padding:14px 24px;z-index:9999;font-family:'Inter',sans-serif;font-size:13px;color:#475569;box-shadow:0 -2px 12px rgba(0,0,0,0.06);">
+  <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <span>We use cookies for analytics and advertising. See our <a href="/cookies" style="color:#2563eb;text-decoration:none;">Cookie Policy</a>.</span>
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button onclick="acceptCookies()" style="background:#2563eb;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">Accept</button>
+      <button onclick="declineCookies()" style="background:transparent;color:#64748b;border:1px solid #e2e8f0;border-radius:6px;padding:8px 18px;font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;">Decline</button>
+    </div>
+  </div>
+</div>
+<script>
+  (function(){
+    if(!localStorage.getItem('cookie_consent')){
+      document.getElementById('cookie-banner').style.display='block';
+    }
+  })();
+  function acceptCookies(){
+    localStorage.setItem('cookie_consent','accepted');
+    document.getElementById('cookie-banner').style.display='none';
+  }
+  function declineCookies(){
+    localStorage.setItem('cookie_consent','declined');
+    document.getElementById('cookie-banner').style.display='none';
+  }
 </script>
 </body>
 </html>
