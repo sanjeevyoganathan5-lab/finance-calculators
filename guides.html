@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UK Personal Finance Guides 2025/26 | Calculators.Finance</title>
+  <meta name="description" content="Free UK personal finance guides. Understand income tax, stamp duty, mortgage borrowing, ISA vs pension and FIRE — written for 2025/26 with worked examples." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="canonical" href="https://calculators.finance/guides" />
+  <meta property="og:title" content="UK Personal Finance Guides 2025/26 | Calculators.Finance" />
+  <meta property="og:description" content="Free UK personal finance guides covering income tax, stamp duty, mortgage borrowing, ISA vs pension and FIRE. Accurate 2025/26 figures." />
+  <meta property="og:url" content="https://calculators.finance/guides" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Calculators.Finance" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="UK Personal Finance Guides 2025/26 | Calculators.Finance" />
+  <meta name="twitter:description" content="Free UK personal finance guides with accurate 2025/26 figures and worked examples." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f8f9fc; --surface: #fff; --surface2: #f1f4f9; --border: #e2e8f0;
+      --accent: #2563eb; --text: #0f172a; --muted: #64748b; --label: #475569;
+      --green: #16a34a;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+    a { text-decoration: none; color: inherit; }
+
+    .site-nav {
+      background: #fff; border-bottom: 1px solid var(--border);
+      padding: 0 32px; display: flex; align-items: center; gap: 24px;
+      height: 52px; position: sticky; top: 0; z-index: 100;
+    }
+    .site-nav-logo { font-size: 13px; font-weight: 600; color: var(--accent); transition: opacity .15s; }
+    .site-nav-logo:hover { opacity: .75; }
+    .site-nav-guides { font-size: 13px; font-weight: 500; color: var(--accent); background: rgba(37,99,235,0.08); padding: 4px 12px; border-radius: 99px; }
+    .site-nav-spacer { flex: 1; }
+    .site-nav-trust { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green); display: flex; align-items: center; gap: 6px; }
+    .site-nav-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 2px rgba(22,163,74,.2); }
+    @media (max-width: 520px) { .site-nav { padding: 0 16px; } .site-nav-trust { display: none; } }
+
+    .container { max-width: 900px; margin: 0 auto; padding: 48px 20px 80px; }
+    .page-eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    h1 { font-size: clamp(26px,4vw,36px); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .page-subtitle { font-size: 15px; color: var(--muted); margin-bottom: 48px; max-width: 560px; line-height: 1.6; }
+
+    .guides-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 16px; }
+    .guide-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 24px; display: flex; flex-direction: column; gap: 10px;
+      transition: all .15s; position: relative; overflow: hidden;
+    }
+    .guide-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--accent);
+    }
+    .guide-card:hover { border-color: rgba(37,99,235,.3); box-shadow: 0 4px 16px rgba(37,99,235,.08); transform: translateY(-2px); }
+    .guide-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+    .guide-title { font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .guide-desc { font-size: 13px; color: var(--muted); line-height: 1.6; flex: 1; }
+    .guide-cta { font-size: 12px; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+    .guide-cta::after { content: '→'; }
+
+    .calculators-row { margin-top: 56px; }
+    .calculators-row h2 { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+    .calc-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .calc-chip {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+      padding: 8px 14px; font-size: 13px; font-weight: 500; color: var(--label);
+      transition: all .15s;
+    }
+    .calc-chip:hover { border-color: rgba(37,99,235,.3); color: var(--accent); }
+
+    .site-footer { background: #fff; border-top: 1px solid var(--border); padding: 24px 32px; margin-top: 40px; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--muted); }
+    .site-footer-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .site-footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .site-footer-links a { color: var(--muted); text-decoration: none; transition: color .15s; }
+    .site-footer-links a:hover { color: var(--accent); }
+    @media (max-width: 520px) { .site-footer { padding: 20px 16px; } .site-footer-inner { flex-direction: column; align-items: flex-start; gap: 8px; } }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">Calculators.Finance</a>
+  <a href="/guides" class="site-nav-guides">Guides</a>
+  <div class="site-nav-spacer"></div>
+  <div class="site-nav-trust"><div class="site-nav-dot"></div>HMRC 2025/26</div>
+</nav>
+
+<div class="container">
+
+  <p class="page-eyebrow">Guides</p>
+  <h1>UK Personal Finance Guides</h1>
+  <p class="page-subtitle">In-depth articles on the questions that matter most — written to HMRC 2025/26 rates with worked examples so you can understand the numbers, not just look them up.</p>
+
+  <div class="guides-grid">
+
+    <a href="/how-much-tax-will-i-pay" class="guide-card">
+      <span class="guide-tag">Income Tax</span>
+      <div class="guide-title">How Much Tax Will I Pay on My Salary?</div>
+      <div class="guide-desc">Income tax bands, NI rates, the £100k–£125k 60% trap, and worked examples at £30k, £50k and £100k for 2025/26.</div>
+      <div class="guide-cta">Read guide</div>
+    </a>
+
+    <a href="/stamp-duty-explained" class="guide-card">
+      <span class="guide-tag">Property</span>
+      <div class="guide-title">How Much Stamp Duty Will I Pay?</div>
+      <div class="guide-desc">SDLT bands, first-time buyer relief, the additional property surcharge, and regional differences for Scotland (LBTT) and Wales (LTT).</div>
+      <div class="guide-cta">Read guide</div>
+    </a>
+
+    <a href="/how-much-can-i-borrow-mortgage" class="guide-card">
+      <span class="guide-tag">Mortgages</span>
+      <div class="guide-title">How Much Can I Borrow for a Mortgage?</div>
+      <div class="guide-desc">Income multiples, stress testing, deposit and LTV explained. Understand exactly how lenders calculate what they'll offer you.</div>
+      <div class="guide-cta">Read guide</div>
+    </a>
+
+    <a href="/isa-vs-pension" class="guide-card">
+      <span class="guide-tag">Investing</span>
+      <div class="guide-title">ISA vs Pension: Which Is Better?</div>
+      <div class="guide-desc">The higher-rate taxpayer decision, tax relief mechanics, withdrawal tax comparison, and when each wrapper wins.</div>
+      <div class="guide-cta">Read guide</div>
+    </a>
+
+    <a href="/what-is-fire-movement" class="guide-card">
+      <span class="guide-tag">FIRE</span>
+      <div class="guide-title">What Is the FIRE Movement?</div>
+      <div class="guide-desc">Financial Independence Retire Early explained for a UK audience. The 4% rule, your FIRE number, Lean vs Fat FIRE, and ISA/pension strategy.</div>
+      <div class="guide-cta">Read guide</div>
+    </a>
+
+  </div>
+
+  <div class="calculators-row">
+    <h2>Jump straight to a calculator</h2>
+    <div class="calc-chips">
+      <a href="/take-home-pay-calculator" class="calc-chip">Take-Home Pay</a>
+      <a href="/stamp-duty-calculator" class="calc-chip">Stamp Duty</a>
+      <a href="/mortgage-affordability-calculator" class="calc-chip">Mortgage Affordability</a>
+      <a href="/isa-vs-pension-calculator" class="calc-chip">ISA vs Pension</a>
+      <a href="/fire-calculator" class="calc-chip">FIRE Calculator</a>
+      <a href="/pension-contribution-calculator" class="calc-chip">Pension Contribution</a>
+      <a href="/salary-sacrifice-calculator" class="calc-chip">Salary Sacrifice</a>
+      <a href="/rent-vs-buy-calculator" class="calc-chip">Rent vs Buy</a>
+      <a href="/" class="calc-chip">All 23 calculators →</a>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <span>© 2025 Calculators.Finance — For informational purposes only. Not financial advice.</span>
+    <nav class="site-footer-links">
+      <a href="/about">About</a>
+      <a href="/privacy-policy">Privacy Policy</a>
+      <a href="/terms">Terms of Use</a>
+      <a href="/cookies">Cookie Policy</a>
+    </nav>
+  </div>
+</footer>
+
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;padding:14px 24px;z-index:9999;font-family:'Inter',sans-serif;font-size:13px;color:#475569;box-shadow:0 -2px 12px rgba(0,0,0,0.06);">
+  <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <span>We use cookies for analytics and advertising. See our <a href="/cookies" style="color:#2563eb;text-decoration:none;">Cookie Policy</a>.</span>
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button onclick="acceptCookies()" style="background:#2563eb;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">Accept</button>
+      <button onclick="declineCookies()" style="background:transparent;color:#64748b;border:1px solid #e2e8f0;border-radius:6px;padding:8px 18px;font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;">Decline</button>
+    </div>
+  </div>
+</div>
+<script>
+  (function(){ if(!localStorage.getItem('cookie_consent')){ document.getElementById('cookie-banner').style.display='block'; } })();
+  function acceptCookies(){ localStorage.setItem('cookie_consent','accepted'); document.getElementById('cookie-banner').style.display='none'; }
+  function declineCookies(){ localStorage.setItem('cookie_consent','declined'); document.getElementById('cookie-banner').style.display='none'; }
+</script>
+
+</body>
+</html>

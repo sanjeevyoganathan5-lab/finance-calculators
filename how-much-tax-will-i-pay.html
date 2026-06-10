@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Much Tax Will I Pay on My Salary? (2025/26 Guide) | Calculators.Finance</title>
+  <meta name="description" content="How much income tax and National Insurance will you pay in 2025/26? Clear guide covering all UK tax bands, NI rates, the 60% trap, and worked examples at £30k, £50k and £100k." />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="canonical" href="https://calculators.finance/how-much-tax-will-i-pay" />
+  <meta property="og:title" content="How Much Tax Will I Pay on My Salary? (2025/26 Guide)" />
+  <meta property="og:description" content="UK income tax and NI explained for 2025/26. Tax bands, NI rates, worked examples at £30k/£50k/£100k, and the 60% tax trap." />
+  <meta property="og:url" content="https://calculators.finance/how-much-tax-will-i-pay" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Calculators.Finance" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How Much Tax Will I Pay on My Salary? (2025/26)" />
+  <meta name="twitter:description" content="UK income tax and NI explained for 2025/26 with worked examples at £30k, £50k and £100k." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How Much Tax Will I Pay on My Salary? (2025/26 Guide)",
+    "datePublished": "2025-06-09",
+    "dateModified": "2025-06-09",
+    "author": { "@type": "Organization", "name": "Calculators.Finance", "url": "https://calculators.finance" },
+    "publisher": { "@type": "Organization", "name": "Calculators.Finance", "url": "https://calculators.finance" },
+    "url": "https://calculators.finance/how-much-tax-will-i-pay",
+    "description": "Complete guide to UK income tax and National Insurance for 2025/26, with worked examples at £30,000, £50,000 and £100,000 salaries."
+  }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f8f9fc; --surface: #fff; --surface2: #f1f4f9; --border: #e2e8f0;
+      --accent: #2563eb; --text: #0f172a; --muted: #64748b; --label: #475569;
+      --green: #16a34a;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .site-nav { background: #fff; border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; gap: 24px; height: 52px; position: sticky; top: 0; z-index: 100; }
+    .site-nav-logo { font-size: 13px; font-weight: 600; color: var(--accent); transition: opacity .15s; }
+    .site-nav-logo:hover { opacity: .75; text-decoration: none; }
+    .site-nav-guides { font-size: 13px; font-weight: 500; color: var(--muted); transition: color .15s; }
+    .site-nav-guides:hover { color: var(--accent); text-decoration: none; }
+    .site-nav-spacer { flex: 1; }
+    .site-nav-trust { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--green); display: flex; align-items: center; gap: 6px; }
+    .site-nav-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 2px rgba(22,163,74,.2); }
+    @media (max-width: 520px) { .site-nav { padding: 0 16px; } .site-nav-trust { display: none; } }
+
+    .container { max-width: 740px; margin: 0 auto; padding: 40px 20px 80px; }
+    .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article-tag { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); background: rgba(37,99,235,.08); padding: 4px 10px; border-radius: 99px; margin-bottom: 14px; }
+    h1 { font-size: clamp(26px,4.5vw,38px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 14px; }
+    .article-meta { font-size: 12px; color: var(--muted); margin-bottom: 28px; display: flex; gap: 16px; flex-wrap: wrap; }
+    .intro { font-size: 16px; line-height: 1.75; color: var(--label); margin-bottom: 32px; }
+    h2 { font-size: 21px; font-weight: 700; margin: 40px 0 14px; letter-spacing: -0.01em; }
+    h3 { font-size: 16px; font-weight: 700; margin: 28px 0 10px; color: var(--text); }
+    p { font-size: 15px; line-height: 1.8; color: var(--label); margin-bottom: 16px; }
+    ul, ol { padding-left: 22px; margin-bottom: 16px; }
+    li { font-size: 15px; line-height: 1.8; color: var(--label); margin-bottom: 4px; }
+    strong { color: var(--text); }
+    hr { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+    table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 14px; }
+    th { background: var(--surface2); border: 1px solid var(--border); padding: 10px 14px; text-align: left; font-weight: 600; color: var(--text); }
+    td { border: 1px solid var(--border); padding: 10px 14px; color: var(--label); }
+    tr:nth-child(even) td { background: #fafbfc; }
+
+    .example-box { background: rgba(37,99,235,.05); border: 1px solid rgba(37,99,235,.15); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 18px 22px; margin: 20px 0; }
+    .example-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .example-box p { font-size: 14px; margin-bottom: 8px; }
+    .example-box p:last-child { margin-bottom: 0; }
+    .example-row { display: flex; justify-content: space-between; font-size: 14px; padding: 5px 0; border-bottom: 1px solid rgba(37,99,235,.1); }
+    .example-row:last-child { border-bottom: none; font-weight: 600; color: var(--text); }
+    .example-row span:last-child { font-family: 'JetBrains Mono', monospace; }
+
+    .warning-box { background: rgba(217,119,6,.06); border: 1px solid rgba(217,119,6,.2); border-left: 3px solid #d97706; border-radius: 0 6px 6px 0; padding: 18px 22px; margin: 20px 0; }
+    .warning-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #d97706; margin-bottom: 10px; }
+    .warning-box p { font-size: 14px; margin-bottom: 8px; }
+    .warning-box p:last-child { margin-bottom: 0; }
+
+    .cta-box { background: linear-gradient(135deg,rgba(37,99,235,.08),rgba(37,99,235,.04)); border: 1px solid rgba(37,99,235,.2); border-radius: 8px; padding: 22px 26px; margin: 32px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .cta-text { font-size: 15px; font-weight: 600; color: var(--text); }
+    .cta-text span { display: block; font-size: 13px; color: var(--muted); font-weight: 400; margin-top: 3px; }
+    .cta-btn { background: var(--accent); color: #fff; border-radius: 6px; padding: 11px 22px; font-size: 13px; font-weight: 600; white-space: nowrap; transition: opacity .15s; text-decoration: none; }
+    .cta-btn:hover { opacity: .85; text-decoration: none; }
+
+    .related-guides { margin-top: 48px; }
+    .related-guides h3 { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+    .guide-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .guide-chip { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 8px 14px; font-size: 13px; font-weight: 500; color: var(--label); transition: all .15s; }
+    .guide-chip:hover { border-color: rgba(37,99,235,.3); color: var(--accent); text-decoration: none; }
+
+    .site-footer { background: #fff; border-top: 1px solid var(--border); padding: 24px 32px; margin-top: 40px; font-family: 'Inter', sans-serif; font-size: 12px; color: var(--muted); }
+    .site-footer-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .site-footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .site-footer-links a { color: var(--muted); text-decoration: none; transition: color .15s; }
+    .site-footer-links a:hover { color: var(--accent); }
+    @media (max-width: 520px) { .site-footer { padding: 20px 16px; } .site-footer-inner { flex-direction: column; align-items: flex-start; gap: 8px; } }
+  </style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="/" class="site-nav-logo">← Calculators.Finance</a>
+  <a href="/guides" class="site-nav-guides">Guides</a>
+  <div class="site-nav-spacer"></div>
+  <div class="site-nav-trust"><div class="site-nav-dot"></div>HMRC 2025/26</div>
+</nav>
+
+<div class="container">
+
+  <p class="breadcrumb"><a href="/">Calculators.Finance</a> / <a href="/guides">Guides</a> / Income Tax</p>
+  <span class="article-tag">Income Tax</span>
+  <h1>How Much Tax Will I Pay on My Salary?</h1>
+  <div class="article-meta">
+    <span>Last updated: June 2025</span>
+    <span>2025/26 tax year</span>
+    <span>~10 min read</span>
+  </div>
+
+  <p class="intro">Most people know they pay income tax and National Insurance, but fewer know exactly how much — or why their marginal rate is often very different from the headline rate. This guide explains the UK tax system for 2025/26, with precise calculations at £30,000, £50,000 and £100,000.</p>
+
+  <div class="cta-box">
+    <div class="cta-text">Get your exact take-home pay instantly
+      <span>Enter your salary, pension and student loan for a precise 2025/26 breakdown</span>
+    </div>
+    <a href="/take-home-pay-calculator" class="cta-btn">Use the calculator →</a>
+  </div>
+
+  <h2>How UK income tax works</h2>
+  <p>Income tax in the UK is <strong>marginal</strong> — you pay each rate only on the portion of income within that band, not on your entire salary. The personal allowance (the amount you can earn before paying any tax) is £12,570 for 2025/26 and has been frozen at this level since 2021.</p>
+
+  <table>
+    <thead>
+      <tr><th>Band</th><th>Taxable income</th><th>Rate</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Personal Allowance</td><td>£0 – £12,570</td><td>0%</td></tr>
+      <tr><td>Basic rate</td><td>£12,571 – £50,270</td><td>20%</td></tr>
+      <tr><td>Higher rate</td><td>£50,271 – £125,140</td><td>40%</td></tr>
+      <tr><td>Additional rate</td><td>Above £125,140</td><td>45%</td></tr>
+    </tbody>
+  </table>
+
+  <p>Because these rates are marginal, a £50,000 earner does not pay 40% on their whole income — they pay 20% on the £37,700 between £12,570 and £50,270, and that's it. The 40% rate only applies to earnings above £50,270.</p>
+
+  <h2>National Insurance (NI) for employees in 2025/26</h2>
+  <p>National Insurance is a separate deduction from income tax. For employees on NI Category A (the most common), the rates are:</p>
+  <ul>
+    <li><strong>0%</strong> on earnings up to £12,570 (the Primary Threshold)</li>
+    <li><strong>8%</strong> on earnings between £12,570 and £50,270 (the Upper Earnings Limit)</li>
+    <li><strong>2%</strong> on earnings above £50,270</li>
+  </ul>
+  <p>NI thresholds have also been frozen for 2025/26. Employee NI was cut from 12% to 10% in January 2024, then to 8% in April 2024, where it has remained.</p>
+
+  <h2>Worked examples</h2>
+
+  <h3>£30,000 salary (England, no pension, no student loan)</h3>
+  <div class="example-box">
+    <div class="example-title">Tax calculation — £30,000</div>
+    <div class="example-row"><span>Gross salary</span><span>£30,000</span></div>
+    <div class="example-row"><span>Personal allowance</span><span>−£12,570</span></div>
+    <div class="example-row"><span>Taxable income</span><span>£17,430</span></div>
+    <div class="example-row"><span>Income tax (20% × £17,430)</span><span>−£3,486</span></div>
+    <div class="example-row"><span>NI (8% × £17,430)</span><span>−£1,394.40</span></div>
+    <div class="example-row"><span><strong>Annual take-home pay</strong></span><span><strong>£25,119.60</strong></span></div>
+    <div class="example-row"><span>Monthly take-home pay</span><span>£2,093.30</span></div>
+  </div>
+  <p>At £30,000 your effective tax rate (tax + NI as a percentage of gross) is <strong>15.6%</strong>. Your marginal rate on the next £1 of income is 28% (20% tax + 8% NI).</p>
+
+  <h3>£50,000 salary (England)</h3>
+  <div class="example-box">
+    <div class="example-title">Tax calculation — £50,000</div>
+    <div class="example-row"><span>Gross salary</span><span>£50,000</span></div>
+    <div class="example-row"><span>Taxable income (after £12,570 PA)</span><span>£37,430</span></div>
+    <div class="example-row"><span>Income tax (20% × £37,430)</span><span>−£7,486</span></div>
+    <div class="example-row"><span>NI (8% × £37,430)</span><span>−£2,994.40</span></div>
+    <div class="example-row"><span><strong>Annual take-home pay</strong></span><span><strong>£39,519.60</strong></span></div>
+    <div class="example-row"><span>Monthly take-home pay</span><span>£3,293.30</span></div>
+  </div>
+  <p>At exactly £50,000 you're still a basic-rate taxpayer — all your taxable income falls within the 20% band. The 40% rate only begins once earnings exceed £50,270.</p>
+
+  <h3>£100,000 salary (England)</h3>
+  <div class="example-box">
+    <div class="example-title">Tax calculation — £100,000</div>
+    <div class="example-row"><span>Gross salary</span><span>£100,000</span></div>
+    <div class="example-row"><span>Personal allowance</span><span>£12,570 (taper not yet triggered)</span></div>
+    <div class="example-row"><span>Income tax: 20% × £37,700</span><span>£7,540</span></div>
+    <div class="example-row"><span>Income tax: 40% × £49,730 (£50,270–£100,000)</span><span>£19,892</span></div>
+    <div class="example-row"><span>Total income tax</span><span>−£27,432</span></div>
+    <div class="example-row"><span>NI: 8% × £37,700 + 2% × £49,730</span><span>−£4,010.60</span></div>
+    <div class="example-row"><span><strong>Annual take-home pay</strong></span><span><strong>£68,557.40</strong></span></div>
+  </div>
+
+  <h2>The £100,000–£125,140 personal allowance trap</h2>
+
+  <div class="warning-box">
+    <div class="warning-title">60% effective marginal rate</div>
+    <p>If your adjusted net income is between £100,000 and £125,140, your personal allowance is reduced by £1 for every £2 you earn above £100,000. This means each extra £2 earned is taxed as income (40%) <em>and</em> removes £1 of allowance that would also have been taxed at 40%.</p>
+    <p>The effective marginal rate on every additional pound earned in this range is <strong>60%</strong> (40% tax on the pound earned + 40% tax on the lost allowance = 60% effective rate).</p>
+  </div>
+
+  <p>At £125,140, the personal allowance is fully withdrawn. Every additional pound earned above this level is taxed at 45% (the additional rate).</p>
+
+  <p>The most effective escape from this trap is <strong>salary sacrifice into a pension</strong>. Every pound sacrificed reduces your adjusted net income by one pound — so a £25,000 salary sacrifice from £125,000 down to £100,000 restores the full £12,570 personal allowance, saving up to £5,028 in tax (£12,570 × 40%). In net terms, that £25,000 sacrifice costs you only £10,000 after tax.</p>
+
+  <p>Use our <a href="/take-home-pay-calculator">take-home pay calculator</a> to model salary sacrifice scenarios and see the exact net cost to your take-home pay.</p>
+
+  <h2>Scottish income tax</h2>
+  <p>Scottish taxpayers pay income tax at different rates set by the Scottish Parliament. For 2025/26, Scotland has six bands (compared to three for the rest of the UK):</p>
+
+  <table>
+    <thead>
+      <tr><th>Band</th><th>Rate</th><th>Income range</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Starter rate</td><td>19%</td><td>£12,571 – £15,397</td></tr>
+      <tr><td>Basic rate</td><td>20%</td><td>£15,398 – £27,491</td></tr>
+      <tr><td>Intermediate rate</td><td>21%</td><td>£27,492 – £43,662</td></tr>
+      <tr><td>Higher rate</td><td>42%</td><td>£43,663 – £75,000</td></tr>
+      <tr><td>Advanced rate</td><td>45%</td><td>£75,001 – £125,140</td></tr>
+      <tr><td>Top rate</td><td>48%</td><td>Above £125,140</td></tr>
+    </tbody>
+  </table>
+
+  <p>A Scottish taxpayer earning £50,000 pays around £1,527 more tax than an equivalent earner in England, Wales or Northern Ireland. NI is the same across all of Great Britain — it is not devolved.</p>
+
+  <h2>What reduces your tax bill?</h2>
+  <p>Several things legally reduce how much income tax and NI you pay:</p>
+  <ul>
+    <li><strong>Salary sacrifice (pension, cycle-to-work, EV lease):</strong> reduces gross pay before tax and NI are calculated — the most efficient way to save on both taxes simultaneously</li>
+    <li><strong>Relief-at-source pension contributions:</strong> reduce your income tax liability but not NI, as contributions come from net pay</li>
+    <li><strong>Marriage Allowance:</strong> transfers £1,260 of unused personal allowance from a non-taxpayer to their basic-rate taxpayer spouse or civil partner, saving up to £252/year</li>
+    <li><strong>Blind Person's Allowance:</strong> adds £3,070 to your personal allowance (2025/26)</li>
+    <li><strong>Gift Aid:</strong> does not reduce payslip deductions but can extend your basic-rate band when you file a self-assessment return</li>
+  </ul>
+
+  <hr />
+
+  <div class="cta-box">
+    <div class="cta-text">Calculate your exact take-home pay
+      <span>Supports salary sacrifice, Scottish rates, all NI letters, student loans and bonus modelling</span>
+    </div>
+    <a href="/take-home-pay-calculator" class="cta-btn">Take-Home Pay Calculator →</a>
+  </div>
+
+  <div class="related-guides">
+    <h3>Related guides</h3>
+    <div class="guide-chips">
+      <a href="/isa-vs-pension" class="guide-chip">ISA vs Pension →</a>
+      <a href="/what-is-fire-movement" class="guide-chip">FIRE Movement →</a>
+      <a href="/stamp-duty-explained" class="guide-chip">Stamp Duty Explained →</a>
+      <a href="/guides" class="guide-chip">All guides →</a>
+    </div>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <span>© 2025 Calculators.Finance — For informational purposes only. Not financial advice.</span>
+    <nav class="site-footer-links">
+      <a href="/about">About</a>
+      <a href="/privacy-policy">Privacy Policy</a>
+      <a href="/terms">Terms of Use</a>
+      <a href="/cookies">Cookie Policy</a>
+    </nav>
+  </div>
+</footer>
+
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;padding:14px 24px;z-index:9999;font-family:'Inter',sans-serif;font-size:13px;color:#475569;box-shadow:0 -2px 12px rgba(0,0,0,0.06);">
+  <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <span>We use cookies for analytics and advertising. See our <a href="/cookies" style="color:#2563eb;text-decoration:none;">Cookie Policy</a>.</span>
+    <div style="display:flex;gap:8px;flex-shrink:0;">
+      <button onclick="acceptCookies()" style="background:#2563eb;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">Accept</button>
+      <button onclick="declineCookies()" style="background:transparent;color:#64748b;border:1px solid #e2e8f0;border-radius:6px;padding:8px 18px;font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;">Decline</button>
+    </div>
+  </div>
+</div>
+<script>
+  (function(){ if(!localStorage.getItem('cookie_consent')){ document.getElementById('cookie-banner').style.display='block'; } })();
+  function acceptCookies(){ localStorage.setItem('cookie_consent','accepted'); document.getElementById('cookie-banner').style.display='none'; }
+  function declineCookies(){ localStorage.setItem('cookie_consent','declined'); document.getElementById('cookie-banner').style.display='none'; }
+</script>
+</body>
+</html>
