@@ -4,7 +4,26 @@
       "Bash(dir \"C:\\\\finance-calculators\\\\calculators-updated\" /b)",
       "Bash(git init *)",
       "Bash(git remote *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git config *)",
+      "Bash(git branch *)",
+      "Bash(git push *)",
+      "Bash(python seo_apply.py)",
+      "Bash(python -c ' *)",
+      "WebFetch(domain:calculators.finance)",
+      "mcp__plugin_vercel_vercel__list_teams",
+      "mcp__plugin_vercel_vercel__list_projects",
+      "mcp__plugin_vercel_vercel__list_deployments",
+      "mcp__plugin_vercel_vercel__get_deployment_build_logs",
+      "mcp__plugin_vercel_vercel__get_deployment",
+      "mcp__plugin_vercel_vercel__web_fetch_vercel_url",
+      "Bash(python3 *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\finance-calculators\\\\calculators-updated\" -Recurse -Filter \"*.html\")",
+      "Bash(Select-Object FullName)",
+      "Bash(Sort-Object FullName)",
+      "Bash(vercel --version)",
+      "Bash(git *)"
     ]
   }
 }
