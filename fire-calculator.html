@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FIRE Calculator UK 2025 — Financial Independence, Retire Early | Calculators.Finance</title>
   <meta name="description" content="Calculate your UK FIRE number, years to financial independence, Coast FIRE and Lean FIRE targets. Real vs nominal projections with inflation adjustment." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -141,6 +142,10 @@
   <meta property="og:url" content="https://calculators.finance/fire-calculator" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Calculators.Finance" />
+  <meta property="og:image" content="https://calculators.finance/og-investing.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:image" content="https://calculators.finance/og-investing.svg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="FIRE Calculator UK 2025 — Financial Independence, Retire Early | Calculators.Finance" />
   <meta name="twitter:description" content="Calculate your UK FIRE number, years to financial independence, Coast FIRE and Lean FIRE targets. Real vs nominal projections with inflation adjustment." />
@@ -166,22 +171,74 @@
   </style>
 
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "UK FIRE Calculator",
-    "url": "https://calculators.finance/fire-calculator",
-    "applicationCategory": "FinanceApplication",
-    "operatingSystem": "Any",
-    "browserRequirements": "Requires JavaScript",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "GBP"
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "UK FIRE Calculator",
+  "url": "https://calculators.finance/fire-calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "GBP"
+  },
+  "description": "Calculate your UK FIRE number, years to financial independence, Coast FIRE and Lean FIRE targets. Real vs nominal projections with inflation adjustment.",
+  "author": {
+    "@type": "Person",
+    "@id": "https://calculators.finance/about#author",
+    "name": "Sanjeev Yoganathan"
+  },
+  "reviewedBy": {
+    "@type": "Person",
+    "@id": "https://calculators.finance/about#author",
+    "name": "Sanjeev Yoganathan"
+  },
+  "dateModified": "2025-04-06"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Calculators.Finance",
+  "url": "https://calculators.finance",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://calculators.finance/favicon.svg"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/sanjeev-yoganathan-08156492/"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://calculators.finance"
     },
-    "description": "Calculate your UK FIRE number, years to financial independence, Coast FIRE and Lean FIRE targets. Real vs nominal projections with inflation adjustment."
-  }
-  </script>
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Calculators",
+      "item": "https://calculators.finance"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "FIRE Calculator",
+      "item": "https://calculators.finance/fire-calculator"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -749,6 +806,27 @@ loadFromURL();
 calc();
 </script>
 
+
+<div style="font-family:'Inter',sans-serif;max-width:820px;margin:0 auto;padding:0 20px 8px;">
+  <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px 24px;">
+    <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#64748b;margin-bottom:12px;">Related Calculators</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <a href="/investment-return-calculator" style="display:inline-flex;align-items:center;gap:4px;background:#7c3aed14;color:#7c3aed;border:1px solid #7c3aed33;border-radius:6px;padding:8px 14px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;">Investment Return Calculator →</a>
+      <a href="/isa-vs-pension-calculator" style="display:inline-flex;align-items:center;gap:4px;background:#7c3aed14;color:#7c3aed;border:1px solid #7c3aed33;border-radius:6px;padding:8px 14px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;">ISA vs Pension Calculator →</a>
+      <a href="/pension-contribution-calculator" style="display:inline-flex;align-items:center;gap:4px;background:#7c3aed14;color:#7c3aed;border:1px solid #7c3aed33;border-radius:6px;padding:8px 14px;font-size:13px;font-weight:500;text-decoration:none;white-space:nowrap;">Pension Contribution Calculator →</a>
+    </div>
+  </div>
+</div>
+
+<div style="font-family:'Inter',sans-serif;max-width:820px;margin:0 auto;padding:0 20px 28px;">
+  <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:16px 20px;">
+    <div style="width:40px;height:40px;min-width:40px;background:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;">SY</div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:#0f172a;">Written and reviewed by <a href="/about" style="color:#2563eb;text-decoration:none;">Sanjeev Yoganathan</a></div>
+      <div style="font-size:12px;color:#64748b;margin-top:3px;">BSc Actuarial Science · 10+ years in insurance, pricing and financial services</div>
+    </div>
+  </div>
+</div>
 <footer class="site-footer">
   <div class="site-footer-inner">
     <span>© 2025 Calculators.Finance — For informational purposes only. Not financial advice.</span>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#eff6ff"/>
+      <stop offset="100%" stop-color="#f8f9fc"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="6" fill="#2563eb"/>
+  <!-- Logo badge -->
+  <rect x="80" y="72" width="60" height="60" rx="14" fill="#2563eb"/>
+  <text x="110" y="115" font-family="Georgia,serif" font-size="34" font-weight="700" fill="white" text-anchor="middle">£</text>
+  <!-- Site name -->
+  <text x="156" y="114" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="28" font-weight="700" fill="#0f172a" dominant-baseline="middle">Calculators.Finance</text>
+  <!-- Main heading -->
+  <text x="80" y="230" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="62" font-weight="800" fill="#0f172a" letter-spacing="-2">23 Free UK Finance</text>
+  <text x="80" y="308" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="62" font-weight="800" fill="#2563eb" letter-spacing="-2">Calculators</text>
+  <!-- Badge -->
+  <rect x="80" y="348" width="286" height="44" rx="8" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.5"/>
+  <text x="223" y="376" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="17" font-weight="600" fill="#2563eb" text-anchor="middle">HMRC 2025/26 Rates</text>
+  <!-- Categories -->
+  <text x="80" y="468" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="21" fill="#64748b">Tax &amp; Pay · Property · Savings · Debt · Investing · Business</text>
+  <!-- URL -->
+  <text x="80" y="560" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="18" fill="#94a3b8">calculators.finance</text>
+</svg>

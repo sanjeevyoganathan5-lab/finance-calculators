@@ -3,206 +3,247 @@
 
   <url>
     <loc>https://calculators.finance/</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
+  <!-- Tax & Pay calculators -->
   <url>
     <loc>https://calculators.finance/take-home-pay-calculator</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-
-  <url>
-    <loc>https://calculators.finance/stamp-duty-calculator</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-  </url>
-
-  <url>
-    <loc>https://calculators.finance/mortgage-affordability-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/salary-sacrifice-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/salary-to-hourly-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://calculators.finance/loan-repayment-calculator</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://calculators.finance/credit-card-payoff-calculator</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://calculators.finance/currency-converter</loc>
-    <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/vat-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/pension-contribution-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
+  <!-- Property calculators -->
   <url>
-    <loc>https://calculators.finance/isa-vs-pension-calculator</loc>
+    <loc>https://calculators.finance/stamp-duty-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://calculators.finance/mortgage-affordability-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/rent-vs-buy-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
+  <!-- Savings calculators -->
   <url>
-    <loc>https://calculators.finance/freelance-rate-calculator</loc>
+    <loc>https://calculators.finance/compound-interest-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/savings-goal-calculator</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://calculators.finance/compound-interest-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/emergency-fund-calculator</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://calculators.finance/net-worth-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/budget-planner</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/inflation-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
+    <loc>https://calculators.finance/net-worth-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Debt calculators -->
+  <url>
+    <loc>https://calculators.finance/loan-repayment-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calculators.finance/credit-card-payoff-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://calculators.finance/debt-snowball-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Investing calculators -->
+  <url>
     <loc>https://calculators.finance/investment-return-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/fire-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://calculators.finance/debt-snowball-calculator</loc>
+    <loc>https://calculators.finance/isa-vs-pension-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.9</priority>
   </url>
 
+  <url>
+    <loc>https://calculators.finance/currency-converter</loc>
+    <lastmod>2025-04-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Business calculators -->
   <url>
     <loc>https://calculators.finance/break-even-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://calculators.finance/freelance-rate-calculator</loc>
+    <lastmod>2025-04-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
   <!-- Guides -->
   <url>
     <loc>https://calculators.finance/guides</loc>
+    <lastmod>2025-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/how-much-tax-will-i-pay</loc>
+    <lastmod>2025-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/stamp-duty-explained</loc>
+    <lastmod>2025-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/how-much-can-i-borrow-mortgage</loc>
+    <lastmod>2025-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/isa-vs-pension</loc>
+    <lastmod>2025-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/what-is-fire-movement</loc>
+    <lastmod>2025-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Legal pages -->
+  <!-- About & editorial -->
   <url>
     <loc>https://calculators.finance/about</loc>
+    <lastmod>2026-06-11</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
 
+  <!-- Legal pages (excluded from priority crawl but included for completeness) -->
   <url>
     <loc>https://calculators.finance/privacy-policy</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/terms</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
 
   <url>
     <loc>https://calculators.finance/cookies</loc>
+    <lastmod>2025-04-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>

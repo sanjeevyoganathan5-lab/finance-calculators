@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#f8f9fc"/>
+  <rect x="0" y="0" width="1200" height="6" fill="#0891b2"/>
+  <rect x="0" y="0" width="420" height="630" fill="#ecfeff"/>
+  <!-- Category icon -->
+  <rect x="80" y="220" width="100" height="100" rx="20" fill="#0891b2"/>
+  <text x="130" y="288" font-family="Arial,sans-serif" font-size="52" fill="white" text-anchor="middle">&#127968;</text>
+  <text x="80" y="90" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="22" font-weight="700" fill="#0891b2">Calculators.Finance</text>
+  <text x="80" y="178" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="15" font-weight="600" fill="#0891b2" letter-spacing="3">PROPERTY</text>
+  <!-- Right side -->
+  <text x="480" y="160" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="52" font-weight="800" fill="#0f172a" letter-spacing="-1">Property</text>
+  <text x="480" y="218" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="52" font-weight="800" fill="#0891b2" letter-spacing="-1">Calculators</text>
+  <text x="480" y="308" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="22" fill="#334155">Stamp Duty Calculator (SDLT/LBTT/LTT)</text>
+  <text x="480" y="348" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="22" fill="#334155">Mortgage Affordability Calculator</text>
+  <text x="480" y="388" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="22" fill="#334155">Rent vs Buy Calculator</text>
+  <text x="480" y="428" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="22" fill="#64748b">True 5, 10 &amp; 20-year cost comparisons</text>
+  <rect x="480" y="490" width="264" height="40" rx="8" fill="#ecfeff" stroke="#a5f3fc" stroke-width="1.5"/>
+  <text x="612" y="515" font-family="-apple-system,system-ui,Arial,sans-serif" font-size="16" font-weight="600" fill="#0891b2" text-anchor="middle">HMRC 2025/26 Rates</text>
+</svg>

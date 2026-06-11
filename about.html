@@ -1,28 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Calculators.Finance — UK Finance Tools Built for Accuracy</title>
-  <meta name="description" content="About Calculators.Finance: 23 free UK financial calculators built on HMRC 2025/26 rates, independently maintained and designed for professionals making real money decisions." />
+  <title>About — Sanjeev Yoganathan | Calculators.Finance</title>
+  <meta name="description" content="About Calculators.Finance: 23 free UK financial calculators built and reviewed by Sanjeev Yoganathan, BSc Actuarial Science, 10+ years in insurance and financial services." />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="canonical" href="https://calculators.finance/about" />
-  <meta property="og:title" content="About Calculators.Finance — UK Finance Tools Built for Accuracy" />
-  <meta property="og:description" content="About Calculators.Finance: 23 free UK financial calculators built on HMRC 2025/26 rates, independently maintained and designed for professionals making real money decisions." />
+  <meta property="og:title" content="About — Sanjeev Yoganathan | Calculators.Finance" />
+  <meta property="og:description" content="Calculators.Finance is built and reviewed by Sanjeev Yoganathan — BSc Actuarial Science, 10+ years in insurance, actuarial and financial services." />
   <meta property="og:url" content="https://calculators.finance/about" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Calculators.Finance" />
+  <meta property="og:image" content="https://calculators.finance/og-home.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="About Calculators.Finance" />
-  <meta name="twitter:description" content="23 free UK financial calculators built on HMRC 2025/26 rates." />
+  <meta name="twitter:description" content="23 free UK financial calculators built and reviewed by Sanjeev Yoganathan, BSc Actuarial Science." />
+  <meta name="twitter:image" content="https://calculators.finance/og-home.svg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Calculators.Finance",
+    "url": "https://calculators.finance",
+    "logo": { "@type": "ImageObject", "url": "https://calculators.finance/favicon.svg" },
+    "sameAs": ["https://www.linkedin.com/in/sanjeev-yoganathan-08156492/"]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://calculators.finance/about#author",
+    "name": "Sanjeev Yoganathan",
+    "jobTitle": "Portfolio & Pricing Analyst",
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "City University London"
+    },
+    "knowsAbout": [
+      "insurance",
+      "actuarial science",
+      "financial services",
+      "pension scheme valuations",
+      "UK personal finance",
+      "pricing"
+    ],
+    "sameAs": ["https://www.linkedin.com/in/sanjeev-yoganathan-08156492/"],
+    "url": "https://calculators.finance/about"
+  }
+  </script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --bg: #f8f9fc; --surface: #ffffff; --border: #e2e8f0;
-      --accent: #2563eb; --text: #0f172a; --muted: #64748b; --label: #475569;
-      --green: #16a34a;
+      --accent: #2563eb; --accent-lt: #eff6ff; --accent-md: #bfdbfe;
+      --text: #0f172a; --text2: #334155; --muted: #64748b; --label: #475569;
+      --green: #16a34a; --green-lt: #f0fdf4;
     }
     html { scroll-behavior: smooth; }
     body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
@@ -49,24 +91,62 @@
 
     .container { max-width: 720px; margin: 0 auto; padding: 48px 20px 80px; }
 
+    .page-badge {
+      display: inline-block; background: var(--accent-lt); color: var(--accent);
+      font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 99px;
+      margin-bottom: 16px; font-family: 'JetBrains Mono', monospace; letter-spacing: .05em;
+      border: 1px solid var(--accent-md);
+    }
     h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
     .subtitle { font-size: 15px; color: var(--muted); margin-bottom: 40px; }
 
-    h2 { font-size: 17px; font-weight: 700; margin: 32px 0 12px; }
+    h2 { font-size: 17px; font-weight: 700; margin: 32px 0 12px; color: var(--text); }
     p { font-size: 14px; line-height: 1.8; color: var(--label); margin-bottom: 14px; }
-    ul { padding-left: 20px; margin-bottom: 14px; }
+    ul, ol { padding-left: 20px; margin-bottom: 14px; }
     li { font-size: 14px; line-height: 1.8; color: var(--label); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
     .card {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 8px; padding: 24px 28px; margin-bottom: 12px;
     }
-    .badge {
-      display: inline-block; background: rgba(37,99,235,0.08);
-      color: var(--accent); font-size: 11px; font-weight: 600;
-      padding: 3px 10px; border-radius: 99px; margin-bottom: 16px;
-      font-family: 'JetBrains Mono', monospace; letter-spacing: .05em;
+
+    .author-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 24px 28px; margin-bottom: 12px;
+      display: flex; align-items: flex-start; gap: 20px;
     }
+    .author-avatar {
+      width: 56px; height: 56px; min-width: 56px;
+      background: var(--accent); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 700; font-size: 18px;
+    }
+    .author-name-line { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .author-title-line { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+    .author-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .author-tag {
+      background: var(--accent-lt); color: var(--accent);
+      border: 1px solid var(--accent-md); border-radius: 4px;
+      font-size: 11px; font-weight: 600; padding: 2px 8px;
+      font-family: 'JetBrains Mono', monospace; letter-spacing: .04em;
+    }
+    .author-linkedin {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #0a66c2; color: #fff; border-radius: 6px;
+      padding: 7px 14px; font-size: 13px; font-weight: 600; text-decoration: none;
+      transition: opacity .15s;
+    }
+    .author-linkedin:hover { opacity: .85; text-decoration: none; }
+    @media (max-width: 540px) { .author-card { flex-direction: column; } }
+
+    .notice-box {
+      background: var(--green-lt); border: 1px solid #bbf7d0;
+      border-radius: 8px; padding: 16px 20px; margin-bottom: 12px;
+      font-size: 13px; color: #166534; line-height: 1.7;
+    }
+    .notice-box strong { color: #14532d; }
 
     .site-footer {
       background: #fff; border-top: 1px solid var(--border);
@@ -89,8 +169,8 @@
 <body>
 
 <nav class="site-nav">
-  <a href="/" class="site-nav-logo">← Calculators.Finance</a>
-  <a href="/guides" class="site-nav-guides">Guides</a>
+  <a href="/" class="site-nav-logo">&#8592; Calculators.Finance</a>
+  <a href="/guides" style="font-size:13px;font-weight:500;color:#64748b;text-decoration:none;">Guides</a>
   <div class="site-nav-trust">
     <div class="site-nav-dot"></div>
     HMRC 2025/26
@@ -99,43 +179,72 @@
 
 <div class="container">
 
-  <span class="badge">ABOUT</span>
+  <span class="page-badge">ABOUT</span>
   <h1>Built for accuracy.<br>Designed for real decisions.</h1>
-  <p class="subtitle">Calculators.Finance is a suite of free UK financial tools built on HMRC 2025/26 published rates and maintained by a UK-based finance professional.</p>
+  <p class="subtitle">Calculators.Finance is a suite of free UK financial tools built on published HMRC rates and maintained by a named UK finance professional.</p>
+
+  <div class="author-card">
+    <div class="author-avatar">SY</div>
+    <div>
+      <div class="author-name-line">Sanjeev Yoganathan</div>
+      <div class="author-title-line">Portfolio &amp; Pricing Analyst</div>
+      <div class="author-tags">
+        <span class="author-tag">BSc Actuarial Science</span>
+        <span class="author-tag">IFoA examinations</span>
+        <span class="author-tag">10+ years experience</span>
+      </div>
+      <p style="margin-bottom:14px;">
+        Sanjeev Yoganathan is a portfolio and pricing analyst with over a decade of experience across insurance, actuarial and financial services. He holds a BSc in Actuarial Science from City University, London, and has passed actuarial examinations with the Institute and Faculty of Actuaries. His career spans pricing and portfolio roles at Zurich Insurance, Saga, and Direct Line Group, and actuarial work at the Government Actuary's Department, where he worked on public sector pension scheme valuations. He builds these calculators to make UK financial decisions clearer, using published HMRC rates and transparent methodology.
+      </p>
+      <a href="https://www.linkedin.com/in/sanjeev-yoganathan-08156492/" class="author-linkedin" target="_blank" rel="noopener noreferrer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        View LinkedIn profile
+      </a>
+    </div>
+  </div>
 
   <div class="card">
     <h2>Our purpose</h2>
     <p>Most financial calculators on the internet are outdated, oversimplified, or optimised for collecting leads rather than delivering accurate results. Calculators.Finance was built to solve this: 23 tools that cover the full spectrum of personal finance decisions UK residents face — from take-home pay and stamp duty to FIRE planning and salary sacrifice.</p>
-    <p>Every calculator is designed to match the output of HMRC's own tools and published rate tables. We test against GOV.UK guidance and update rates at the start of each tax year. If a calculator gives a number, it's because that number is correct under current HMRC rules — not an estimate with generous rounding.</p>
+    <p>Every calculator is designed to match the output of HMRC's own tools and published rate tables. We test against GOV.UK guidance and update rates at the start of each tax year. If a calculator gives a number, it is because that number is correct under current HMRC rules — not an estimate with generous rounding.</p>
   </div>
 
   <div class="card">
-    <h2>Rate accuracy and methodology</h2>
-    <p>All tax-related calculators use HMRC's published rates for the 2025/26 tax year (6 April 2025 – 5 April 2026) unless the tool explicitly allows year selection. Key rates used:</p>
+    <h2>How calculators are built and reviewed</h2>
+    <p>Each calculator is built from HMRC's published rate tables and legislation, not from third-party sources or approximations. The process for every tool is:</p>
+    <ol>
+      <li><strong>Rate sourcing:</strong> All tax rates, thresholds, and bands are taken directly from HMRC's published guidance and Finance Acts on GOV.UK.</li>
+      <li><strong>Formula implementation:</strong> Logic is coded from first principles in JavaScript, running entirely in your browser — no server-side calculation, no rounding shortcuts.</li>
+      <li><strong>Cross-check:</strong> Results are verified against HMRC's own online calculators and published worked examples, and manually tested on edge cases (e.g. the £100k–£125,140 personal allowance taper, salary sacrifice with NI letter C employees, Scottish rate bands).</li>
+      <li><strong>Annual review:</strong> Rates are updated at the start of each tax year (6 April). The last major update was April 2025 for 2025/26. Mid-year HMRC changes (e.g. Budget announcements) are patched promptly.</li>
+      <li><strong>Corrections:</strong> If a calculation error is identified, it is treated as high priority and corrected within 24 hours of confirmation. Rate errors are fixed immediately; logic errors are root-caused and fully tested before redeployment.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Rate accuracy — 2025/26 figures used</h2>
+    <p>All tax-related calculators use HMRC's published rates for the 2025/26 tax year (6 April 2025 – 5 April 2026) unless the tool explicitly allows year selection. Key rates:</p>
     <ul>
-      <li>Personal allowance: £12,570</li>
+      <li>Personal allowance: £12,570 (frozen since 2021/22)</li>
       <li>Basic rate (20%): £12,571 – £50,270</li>
       <li>Higher rate (40%): £50,271 – £125,140</li>
       <li>Additional rate (45%): above £125,140</li>
-      <li>Employee NI (Class 1): 8% on earnings £12,570–£50,270; 2% above</li>
+      <li>Employee NI (Class 1): 8% on £12,570–£50,270; 2% above</li>
       <li>Scottish income tax: 6-band system as published by the Scottish Parliament for 2025/26</li>
       <li>Stamp duty (SDLT): England/NI thresholds effective from October 2024 Autumn Budget</li>
       <li>Child Benefit: £26.05/week (first child), £17.25/week (additional children)</li>
       <li>HICBC taper: £60,000–£80,000</li>
       <li>Student loan thresholds: Plan 1 £24,990, Plan 2 £27,295, Plan 4 £32,745, Plan 5 £25,000, Postgrad £21,000</li>
     </ul>
-    <p>When HMRC releases mid-year changes, this site is updated promptly. The last major update was April 2025 for the start of the 2025/26 tax year.</p>
   </div>
 
-  <div class="card">
-    <h2>What these calculators are — and aren't</h2>
-    <p>Calculators.Finance provides illustrative financial figures for informational purposes. They are not a substitute for professional financial, tax, or legal advice. Results reflect typical scenarios and may not account for your specific circumstances, HMRC investigations, benefits in kind beyond the inputs provided, or complex self-assessment situations.</p>
-    <p>For decisions involving significant sums — remortgaging, pension transfers, inheritance, business structure — we recommend consulting a qualified financial adviser (FCA-regulated), a chartered accountant (ICAEW/ICAS), or a solicitor as appropriate.</p>
+  <div class="notice-box">
+    <strong>General information only — not regulated financial advice.</strong> Calculators.Finance provides illustrative financial figures for informational purposes. Results are estimates based on the inputs you provide and HMRC's published rates. They are not a substitute for professional financial, tax, or legal advice, and do not account for your complete individual circumstances, HMRC investigations, or complex self-assessment situations. For decisions involving significant sums — remortgaging, pension transfers, inheritance, business structure — consult a qualified financial adviser (FCA-regulated), a chartered accountant (ICAEW/ICAS), or a solicitor as appropriate.
   </div>
 
   <div class="card">
     <h2>Privacy and advertising</h2>
-    <p>All calculations happen locally in your browser. No financial inputs are sent to any server. The site uses Google Analytics to understand traffic patterns and may display Google AdSense advertisements. Both involve cookies — see our <a href="/cookies" style="color:var(--accent)">Cookie Policy</a> and <a href="/privacy-policy" style="color:var(--accent)">Privacy Policy</a> for full details.</p>
+    <p>All calculations happen locally in your browser. No financial inputs are sent to any server. The site uses Google Analytics to understand traffic patterns and may display Google AdSense advertisements. Both involve cookies — see our <a href="/cookies">Cookie Policy</a> and <a href="/privacy-policy">Privacy Policy</a> for full details.</p>
   </div>
 
   <div class="card">
