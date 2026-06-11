@@ -157,7 +157,7 @@
     <p><strong>Withdraw consent:</strong> To withdraw your consent at any time, open your browser's developer tools, go to Application → Local Storage → calculators.finance, and delete the <code>cookie_consent</code> entry. Refresh the page and the consent banner will reappear.</p>
     <p><strong>Block cookies in your browser:</strong> Most browsers allow you to block third-party cookies in settings. Note this may affect functionality on other sites.</p>
     <p><strong>Opt out of personalised ads:</strong> Visit <a href="https://adssettings.google.com" target="_blank" rel="noopener">adssettings.google.com</a> or <a href="https://optout.aboutads.info" target="_blank" rel="noopener">aboutads.info</a>.</p>
-    <p><strong>Reset your preference:</strong> <button onclick="resetConsent()" style="background:none;border:none;color:#2563eb;font-size:14px;font-family:'Inter',sans-serif;cursor:pointer;text-decoration:underline;">Click here to reset cookie consent</button> — this will show the consent banner again on your next page load.</p>
+    <p><strong>Reset your preference:</strong> Cookie consent is now managed by Google's certified CMP. To update your ad personalisation preferences, use the consent controls provided by Google on this site.</p>
   </div>
 
   <h2>Do Not Track</h2>
@@ -182,35 +182,5 @@
     </nav>
   </div>
 </footer>
-
-<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;padding:14px 24px;z-index:9999;font-family:'Inter',sans-serif;font-size:13px;color:#475569;box-shadow:0 -2px 12px rgba(0,0,0,0.06);">
-  <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-    <span>We use cookies for analytics and advertising. See our <a href="/cookies" style="color:#2563eb;text-decoration:none;">Cookie Policy</a>.</span>
-    <div style="display:flex;gap:8px;flex-shrink:0;">
-      <button onclick="acceptCookies()" style="background:#2563eb;color:#fff;border:none;border-radius:6px;padding:8px 18px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">Accept</button>
-      <button onclick="declineCookies()" style="background:transparent;color:#64748b;border:1px solid #e2e8f0;border-radius:6px;padding:8px 18px;font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;">Decline</button>
-    </div>
-  </div>
-</div>
-<script>
-  (function(){
-    if(!localStorage.getItem('cookie_consent')){
-      document.getElementById('cookie-banner').style.display='block';
-    }
-  })();
-  function acceptCookies(){
-    localStorage.setItem('cookie_consent','accepted');
-    document.getElementById('cookie-banner').style.display='none';
-  }
-  function declineCookies(){
-    localStorage.setItem('cookie_consent','declined');
-    document.getElementById('cookie-banner').style.display='none';
-  }
-  function resetConsent(){
-    localStorage.removeItem('cookie_consent');
-    alert('Cookie preference reset. Refresh the page to see the consent banner.');
-  }
-</script>
-
 </body>
 </html>
