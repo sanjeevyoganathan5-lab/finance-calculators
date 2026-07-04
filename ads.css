@@ -1,0 +1,88 @@
+/* Calculators.Finance — ad slot layout.
+   Reserves space per placement up front so no ad ever causes layout shift,
+   whether or not consent has been granted or an ad has actually loaded. */
+
+.ad-slot {
+  display: block;
+  margin: 28px auto;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.ad-slot::before {
+  content: "Advertisement";
+  display: block;
+  font-family: 'JetBrains Mono', 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.ad-slot[data-placement="below-result"],
+.ad-slot[data-placement="in-content"] {
+  min-height: 250px;
+}
+
+/* Desktop sidebar: floats in the margin outside the centered content column.
+   Fixed positioning means it never affects the page's own layout/flow. */
+.ad-slot[data-placement="sidebar"] {
+  display: none;
+  min-height: 600px;
+}
+@media (min-width: 1560px) {
+  .ad-slot[data-placement="sidebar"] {
+    display: block;
+    position: fixed;
+    top: 120px;
+    left: calc(50% + 460px);
+    width: 280px;
+  }
+}
+
+/* Mobile sticky anchor: hidden until ads.js confirms consent + shows it. */
+.ad-slot[data-placement="mobile-anchor"] {
+  display: none;
+}
+@media (max-width: 760px) {
+  .ad-slot[data-placement="mobile-anchor"] {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    min-height: 50px;
+    max-height: 100px;
+    margin: 0;
+    padding: 4px 32px 4px 8px;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
+  }
+  .ad-slot[data-placement="mobile-anchor"]::before {
+    display: none;
+  }
+  .ad-slot[data-placement="mobile-anchor"].ad-anchor-visible {
+    display: block;
+  }
+  body.has-ad-anchor {
+    padding-bottom: 66px;
+  }
+}
+
+.ad-anchor-close {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: #f1f4f9;
+  border-radius: 50%;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
